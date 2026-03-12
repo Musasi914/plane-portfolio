@@ -8,19 +8,60 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-noto-sans-jp);
+  --font-sora: var(--font-sora);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html,
+  body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: none;
+    overscroll-behavior: none;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sora), var(--font-noto-sans-jp), sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* @import "tailwindcss";
+
+@theme {
+  --background: #f0e9d8;
+  --foreground: #333333;
+  --color-foreground-secondary: #c0bbb6;
+  --color-wood-dark: #3e2715;
+  --color-background: #f0e9d8;
+  --text-title: clamp(2.125rem, 1.6849rem + 1.8779vw, 3.375rem);
+  --text-title--line-height: 1.5;
 }
+
+@theme inline {
+  --font-sans: var(--font-noto-sans-jp);
+  --font-mono: var(--font-montserrat), var(--font-noto-sans-jp);
+  --font-title: var(--font-zen-kaku-gothic-new);
+}
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-width: none;
+    line-height: 2;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-noto-sans-jp), sans-serif;
+  }
+}
+
+@layer components {
+  .grid-margin {
+    padding-inline: clamp(0.5rem, -1.5714rem + 10.3571vw, 7.75rem);
+  }
+} */

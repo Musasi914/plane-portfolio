@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### 注意点
 
-## Getting Started
+遷移の時、下記のように
 
-First, run the development server:
+- setNextSceneId("");
+- setIsTransitioning(true);
+- setSceneTransitionProgress(progress);
+- setActiveSceneId("");
+- setNextSceneId(null);
+- setIsTransitioning(false);
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+    const onTransitionClick = () => {
+      if (transitionStarted.current) return;
+      transitionStarted.current = true;
+      setNextSceneId("gallery");
+      setIsTransitioning(true);
+
+      const start = performance.now();
+      const duration = 1500;
+
+      const tick = () => {
+        const elapsed = performance.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+        setSceneTransitionProgress(progress);
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          setActiveSceneId("gallery");
+          setNextSceneId(null);
+          setIsTransitioning(false);
+        }
+      };
+      requestAnimationFrame(tick);
+    };
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### デバイスの判定
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+low/ medium/ high の 3 つのレベルで判定
+low: タッチ判定または 768px 以下または dpr >= 3 (スマホ・iPad)
+medium: dpr >= 2 (MacBook)
+high: それ以外 (dpr1 の PC モニター)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 最終チェック
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Canvas 全体 の destroy を過不足ないか確認
+- Resource.ts の余計な記述を削除
+- Canvas 全体から import していないか確認
+- Environment.ts 必要か
+- gui, stats を消す
