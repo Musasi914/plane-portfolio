@@ -21,6 +21,7 @@
     height: 100%;
     scrollbar-width: none;
     overscroll-behavior: none;
+    cursor: none;
   }
   body {
     background: var(--background);

@@ -44,6 +44,7 @@ export default class Experience {
   constructor(canvasWrapper: HTMLDivElement) {
     Experience.instance = this;
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0xffffff);
     this.canvasWrapper = canvasWrapper;
 
     this.size = new Size();
@@ -98,7 +99,7 @@ export default class Experience {
           useStore.getState().setNextSceneId(null);
         } else {
           useStore.getState().setNextSceneId(null);
-          useStore.getState().setPhase("loading");
+          useStore.getState().setPhase("introReady");
         }
       });
     folder.open();

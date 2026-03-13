@@ -1,6 +1,11 @@
 ### 注意点
 
-遷移の時、下記のように
+#### z-index
+
+loading: 40
+cursor: 50
+
+#### 遷移の時、下記のように
 
 - setNextSceneId("");
 - setIsTransitioning(true);

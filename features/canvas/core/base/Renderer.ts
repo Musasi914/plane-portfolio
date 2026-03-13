@@ -69,6 +69,7 @@ export class Renderer {
     this.canvasWrapper.appendChild(renderer.domElement);
     renderer.setPixelRatio(this.config.pixelRatio);
     renderer.setSize(this.config.width, this.config.height);
+    renderer.setClearColor(0xffffff);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.5;
 

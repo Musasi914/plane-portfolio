@@ -13,7 +13,7 @@ export class GalleryScene implements SceneLike {
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x16213e);
+    this.scene.background = new THREE.Color(0xffffff);
 
     this.camera = this.setCamera();
 
