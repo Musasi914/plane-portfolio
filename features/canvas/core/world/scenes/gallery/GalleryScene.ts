@@ -1,25 +1,23 @@
 import * as THREE from "three";
 import Experience from "../../../Experience";
 import type { SceneLike } from "../../../types/sceneLike";
+import { ScrollObserver } from "./ScrollObserver";
 
 export class GalleryScene implements SceneLike {
-  experience: Experience;
+  private experience: Experience;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
+
+  private scrollObserver: ScrollObserver;
 
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x16213e);
 
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      this.experience.config.width / this.experience.config.height,
-      0.1,
-      1000
-    );
-    this.camera.position.set(0, 0, 5);
-    this.camera.lookAt(0, 0, 0);
+    this.camera = this.setCamera();
+
+    this.scrollObserver = new ScrollObserver();
 
     const geometry = new THREE.TorusGeometry(1, 0.3, 16, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0xe94560 });
@@ -27,8 +25,20 @@ export class GalleryScene implements SceneLike {
     this.scene.add(mesh);
   }
 
+  private setCamera() {
+    const camera = new THREE.PerspectiveCamera(
+      this.experience.config.width / this.experience.config.height,
+      0.1,
+      1000
+    );
+    camera.position.set(0, 0, 5);
+    camera.lookAt(0, 0, 0);
+    return camera;
+  }
+
   update() {
     // Gallery用のplane/スクロール更新は後で追加
+    this.scrollObserver.update();
   }
 
   resize() {
@@ -38,6 +48,7 @@ export class GalleryScene implements SceneLike {
   }
 
   destroy() {
+    this.scrollObserver?.destroy();
     this.scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.geometry.dispose();

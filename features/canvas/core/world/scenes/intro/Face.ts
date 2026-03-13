@@ -2,10 +2,14 @@ import Experience from "../../../Experience";
 import * as THREE from "three";
 
 export class Face {
-  experience: Experience;
-  scene: THREE.Scene;
-  config: Experience["config"];
-  resource: Experience["resource"];
+  private experience: Experience;
+  private scene: THREE.Scene;
+  private config: Experience["config"];
+  private resource: Experience["resource"];
+
+  private geometry!: THREE.PlaneGeometry;
+  private material!: THREE.MeshStandardMaterial;
+  private mesh!: THREE.Mesh;
 
   constructor(scene: THREE.Scene) {
     this.experience = Experience.getInstance();
@@ -19,21 +23,21 @@ export class Face {
   private createFace() {
     const { texture, displacementTexture } = this.getTexture();
 
-    const geometry = new THREE.PlaneGeometry(
+    this.geometry = new THREE.PlaneGeometry(
       (texture.image as HTMLImageElement).width,
       (texture.image as HTMLImageElement).height,
       1024,
       1024
     );
-    const material = new THREE.MeshStandardMaterial({
+    this.material = new THREE.MeshStandardMaterial({
       map: texture,
       displacementMap: displacementTexture,
       displacementScale: 150,
       displacementBias: 0.0,
       transparent: true,
     });
-    const mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.scene.add(this.mesh);
   }
 
   getTexture() {

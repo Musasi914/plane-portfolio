@@ -6,9 +6,6 @@ type StoreType = {
   phase: "loading" | "introReady" | "introPlaying" | "gallery" | "detail";
   setPhase: (phase: StoreType["phase"]) => void;
 
-  scrollVelocity: number;
-  setScrollVelocity: (scrollVelocity: number) => void;
-
   currentWorkId: number;
   setCurrentWorkId: (currentWorkId: number) => void;
 
@@ -43,9 +40,6 @@ type StoreType = {
 export const useStore = create<StoreType>((set) => ({
   phase: "loading",
   setPhase: (phase) => set({ phase }),
-
-  scrollVelocity: 0,
-  setScrollVelocity: (scrollVelocity) => set({ scrollVelocity }),
 
   // Works
   currentWorkId: 0,

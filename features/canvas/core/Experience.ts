@@ -91,11 +91,14 @@ export default class Experience {
         if (value > 0 && value < 1) {
           useStore.getState().setNextSceneId("gallery");
           useStore.getState().setActiveSceneId("intro");
+          useStore.getState().setPhase("introPlaying");
         } else if (value >= 1) {
           useStore.getState().setActiveSceneId("gallery");
+          useStore.getState().setPhase("gallery");
           useStore.getState().setNextSceneId(null);
         } else {
           useStore.getState().setNextSceneId(null);
+          useStore.getState().setPhase("loading");
         }
       });
     folder.open();

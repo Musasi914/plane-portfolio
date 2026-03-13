@@ -5,12 +5,12 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { Face } from "./Face";
 
 export class IntroScene implements SceneLike {
-  experience: Experience;
+  private experience: Experience;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
-  orbitControls: OrbitControls | null = null;
+  private orbitControls: OrbitControls | null = null;
 
-  face: Face;
+  private face: Face;
 
   constructor() {
     this.experience = Experience.getInstance();
@@ -58,6 +58,7 @@ export class IntroScene implements SceneLike {
   }
 
   destroy() {
+    this.face.destroy();
     this.scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.geometry.dispose();
