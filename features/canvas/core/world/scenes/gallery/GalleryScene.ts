@@ -1,6 +1,6 @@
-import Experience from "../../Experience";
 import * as THREE from "three";
-import type { SceneLike } from "../../types/sceneLike";
+import Experience from "../../../Experience";
+import type { SceneLike } from "../../../types/sceneLike";
 
 export class GalleryScene implements SceneLike {
   experience: Experience;

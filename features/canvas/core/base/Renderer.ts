@@ -53,6 +53,7 @@ export class Renderer {
         uTexActive: { value: null as THREE.Texture | null },
         uTexNext: { value: null as THREE.Texture | null },
         uProgress: { value: 0 },
+        uFluidVelocity: { value: null as THREE.Texture | null },
       },
     });
     this.compositeMesh = new THREE.Mesh(geometry, material);
@@ -88,7 +89,7 @@ export class Renderer {
     this.updateRenderTargetSizes();
   }
 
-  update(renderState: RenderState) {
+  update(renderState: RenderState, fluidVelocityTexture: THREE.Texture) {
     const { active, next, transitionProgress } = renderState;
     const state = useStore.getState();
     const activeSceneId = state.activeSceneId;
@@ -118,6 +119,8 @@ export class Renderer {
       this.compositeMesh.material.uniforms.uTexNext.value =
         this.galleryRT.texture;
       this.compositeMesh.material.uniforms.uProgress.value = progress;
+      this.compositeMesh.material.uniforms.uFluidVelocity.value =
+        fluidVelocityTexture;
     }
 
     this.instance.setRenderTarget(null);

@@ -1,30 +1,50 @@
-import Experience from "../../Experience";
+import Experience from "../../../Experience";
 import * as THREE from "three";
-import type { SceneLike } from "../../types/sceneLike";
+import type { SceneLike } from "../../../types/sceneLike";
+import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { Face } from "./Face";
 
 export class IntroScene implements SceneLike {
   experience: Experience;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
+  orbitControls: OrbitControls | null = null;
+
+  face: Face;
 
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x1a1a2e);
+    this.scene.background = new THREE.Color(0xffffff);
 
-    this.camera = new THREE.PerspectiveCamera(
+    this.camera = this.setCamera();
+
+    this.createLight();
+
+    this.face = new Face(this.scene);
+  }
+
+  private setCamera() {
+    const camera = new THREE.PerspectiveCamera(
       75,
       this.experience.config.width / this.experience.config.height,
       0.1,
       1000
     );
-    this.camera.position.set(0, 0, 5);
-    this.camera.lookAt(0, 0, 0);
+    camera.position.set(0, 0, 500);
+    camera.lookAt(0, 0, 0);
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x4a4a8a });
-    const mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
+    this.orbitControls = new OrbitControls(
+      camera,
+      this.experience.canvasWrapper
+    );
+
+    return camera;
+  }
+
+  private createLight() {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+    this.scene.add(ambientLight);
   }
 
   update() {

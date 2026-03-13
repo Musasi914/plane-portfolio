@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP, Sora } from "next/font/google";
 import "./globals.css";
 import Canvas from "@/features/canvas/Canvas";
+import InitialLoading from "@/features/loading/InitialLoading";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${sora.variable} ${notoSansJP.variable} antialiased`}>
+        <InitialLoading />
         <div className="fixed inset-0 z-0">
           <Canvas />
         </div>

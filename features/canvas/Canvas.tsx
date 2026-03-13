@@ -58,6 +58,7 @@ export default function Canvas() {
     setSceneTransitionProgress,
     setIsTransitioning,
   ]);
+
   return (
     <div ref={canvasWrapper} className="w-full h-full contain-strict"></div>
   );

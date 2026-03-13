@@ -10,6 +10,8 @@ import { Size } from "./utils/Size";
 import { Time } from "./utils/Time";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { useStore } from "@/store/store";
+import Pointer from "./utils/Pointer";
+import Fluid from "./fluid/Fluid";
 
 export default class Experience {
   static instance: Experience;
@@ -33,6 +35,8 @@ export default class Experience {
     pixelRatio: number;
   };
   enviroment: Enviroment;
+  pointer: Pointer;
+  fluid: Fluid;
   private onResize = () => this.resize();
   private onTick = () => this.update();
   private unsubscribeStore: (() => void) | null = null;
@@ -58,6 +62,9 @@ export default class Experience {
 
     this.world = new World();
     this.enviroment = new Enviroment();
+
+    this.pointer = new Pointer();
+    this.fluid = new Fluid();
 
     this.setupTransitionGUI();
 
@@ -126,9 +133,27 @@ export default class Experience {
 
   private update() {
     this.stats.update();
+    this.pointer.update();
+    this.fluid.update();
     this.world.update();
     const renderState = this.world.getRenderState();
-    this.renderer.update(renderState);
+    this.renderer.update(renderState, this.fluid.getVelocityTexture());
+  }
+
+  destroy() {
+    this.size.off("resize");
+    this.time.off("tick");
+    this.unsubscribeStore?.();
+    this.unsubscribeStore = null;
+    this.size.destroy();
+    this.time.destroy();
+    this.world.destroy();
+    this.camera.destroy();
+    this.resource.destroy();
+    this.renderer.destroy();
+    this.gui.destroy();
+    this.stats.dom.remove();
+    this.disposeScene(this.scene);
   }
 
   private disposeMaterial(material: THREE.Material | THREE.Material[]) {
@@ -158,21 +183,5 @@ export default class Experience {
     });
 
     scene.clear();
-  }
-
-  destroy() {
-    this.size.off("resize");
-    this.time.off("tick");
-    this.unsubscribeStore?.();
-    this.unsubscribeStore = null;
-    this.size.destroy();
-    this.time.destroy();
-    this.world.destroy();
-    this.camera.destroy();
-    this.resource.destroy();
-    this.renderer.destroy();
-    this.gui.destroy();
-    this.stats.dom.remove();
-    this.disposeScene(this.scene);
   }
 }
