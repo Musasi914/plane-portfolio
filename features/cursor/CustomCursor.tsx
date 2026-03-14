@@ -26,11 +26,17 @@ export default function CustomCursor() {
       xSetter(e.clientX);
       ySetter(e.clientY);
     });
-
+    const onMouseLeave = contextSafe(() => {
+      if (!el) return;
+      gsap.set(el, { opacity: 0 });
+      hasMoved = false;
+    });
     window.addEventListener("mousemove", onMouseMove);
+    document.documentElement.addEventListener("mouseleave", onMouseLeave);
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
+      document.documentElement.removeEventListener("mouseleave", onMouseLeave);
     };
   });
 
@@ -39,7 +45,7 @@ export default function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className="opacity-0 w-4 h-4 bg-black rounded-full fixed top-0 left-0 z-50 pointer-events-none"
+      className="opacity-0 w-4 h-4 bg-black border border-white/90 rounded-full fixed top-0 left-0 z-50 pointer-events-none"
     ></div>
   );
 }

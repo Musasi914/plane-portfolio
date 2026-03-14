@@ -69,7 +69,7 @@ export class Time extends EventEmitter {
     const currentTime = Date.now();
     this.delta = (currentTime - this.current) / 1000;
     this.current = currentTime;
-    this.elapsed = this.current - this.start;
+    this.elapsed = (this.current - this.start) / 1000;
 
     this.trigger("tick");
   }
@@ -82,7 +82,10 @@ export class Time extends EventEmitter {
       this.rafId = null;
     }
 
-    document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+    document.removeEventListener(
+      "visibilitychange",
+      this.handleVisibilityChange
+    );
     window.removeEventListener("blur", this.handleBlur);
     window.removeEventListener("focus", this.handleFocus);
   }
