@@ -1,66 +1,99 @@
 import Experience from "../../../Experience";
 import * as THREE from "three";
+import faceVert from "./shaders/face.vert";
+import faceFrag from "./shaders/face.frag";
 
 export class Face {
   private experience: Experience;
   private scene: THREE.Scene;
-  private config: Experience["config"];
   private resource: Experience["resource"];
 
-  private geometry!: THREE.PlaneGeometry;
-  private material!: THREE.MeshStandardMaterial;
-  private mesh!: THREE.Mesh;
+  private fluid: Experience["fluid"];
+
+  private faceMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
 
   constructor(scene: THREE.Scene) {
     this.experience = Experience.getInstance();
     this.scene = scene;
-    this.config = this.experience.config;
     this.resource = this.experience.resource;
+    this.fluid = this.experience.fluid;
 
-    this.createFace();
+    this.faceMesh = this.createFace();
   }
 
   private createFace() {
-    const { texture, displacementTexture } = this.getTexture();
+    const {
+      faceTexture,
+      faceDisplacementTexture,
+      faceSmileTexture,
+      faceSmileDisplacementTexture,
+    } = this.getTexture();
 
-    this.geometry = new THREE.PlaneGeometry(
-      (texture.image as HTMLImageElement).width,
-      (texture.image as HTMLImageElement).height,
+    const geometry = new THREE.PlaneGeometry(
+      (faceTexture.image as HTMLImageElement).width,
+      (faceTexture.image as HTMLImageElement).height,
       1024,
       1024
     );
-    this.material = new THREE.MeshStandardMaterial({
-      map: texture,
-      displacementMap: displacementTexture,
-      displacementScale: 150,
-      displacementBias: 0.0,
+    const material = new THREE.ShaderMaterial({
+      vertexShader: faceVert,
+      fragmentShader: faceFrag,
+      uniforms: {
+        uFace: { value: faceTexture },
+        uFaceDisplacement: { value: faceDisplacementTexture },
+        uFaceSmile: { value: faceSmileTexture },
+        uFaceSmileDisplacement: { value: faceSmileDisplacementTexture },
+        uFluidVelocity: { value: null },
+      },
       transparent: true,
     });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.mesh);
+    const faceMesh = new THREE.Mesh(geometry, material);
+    faceMesh.position.set(0, 0, -200);
+    this.scene.add(faceMesh);
+
+    return faceMesh;
   }
 
-  getTexture() {
-    const texture = this.resource.items.face as THREE.Texture;
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.minFilter = THREE.NearestFilter;
-    texture.magFilter = THREE.NearestFilter;
-    texture.generateMipmaps = false;
-    const displacementTexture = this.resource.items
+  private getTexture() {
+    const faceTexture = this.resource.items.face as THREE.Texture;
+    faceTexture.colorSpace = THREE.SRGBColorSpace;
+    faceTexture.minFilter = THREE.NearestFilter;
+    faceTexture.magFilter = THREE.NearestFilter;
+    faceTexture.generateMipmaps = false;
+    const faceDisplacementTexture = this.resource.items
       .faceDisplacement as THREE.Texture;
-    displacementTexture.wrapS = THREE.RepeatWrapping;
-    displacementTexture.wrapT = THREE.RepeatWrapping;
-    displacementTexture.minFilter = THREE.NearestFilter;
-    displacementTexture.magFilter = THREE.NearestFilter;
-    displacementTexture.generateMipmaps = false;
+    faceDisplacementTexture.minFilter = THREE.NearestFilter;
+    faceDisplacementTexture.magFilter = THREE.NearestFilter;
+    faceDisplacementTexture.generateMipmaps = false;
 
-    return { texture, displacementTexture };
+    const faceSmileTexture = this.resource.items.faceSmile as THREE.Texture;
+    faceSmileTexture.colorSpace = THREE.SRGBColorSpace;
+    faceSmileTexture.minFilter = THREE.NearestFilter;
+    faceSmileTexture.magFilter = THREE.NearestFilter;
+    faceSmileTexture.generateMipmaps = false;
+    const faceSmileDisplacementTexture = this.resource.items
+      .faceSmileDisplacement as THREE.Texture;
+    faceSmileDisplacementTexture.minFilter = THREE.NearestFilter;
+    faceSmileDisplacementTexture.magFilter = THREE.NearestFilter;
+
+    return {
+      faceTexture,
+      faceDisplacementTexture,
+      faceSmileTexture,
+      faceSmileDisplacementTexture,
+    };
   }
 
   resize() {}
 
-  update() {}
+  update() {
+    this.faceMesh.material.uniforms.uFluidVelocity.value =
+      this.fluid.getVelocityTexture();
+  }
 
-  destroy() {}
+  destroy() {
+    this.faceMesh.geometry.dispose();
+    (this.faceMesh.material as THREE.Material).dispose();
+    this.scene.remove(this.faceMesh);
+  }
 }

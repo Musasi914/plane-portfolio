@@ -16,6 +16,16 @@ export const sources: Source[] = [
     path: "/intro/face/face-displacement.webp",
   },
   {
+    name: "faceSmile",
+    type: "texture",
+    path: "/intro/face/face-smile.webp",
+  },
+  {
+    name: "faceSmileDisplacement",
+    type: "texture",
+    path: "/intro/face/face-smile-displacement.webp",
+  },
+  {
     name: "name",
     type: "texture",
     path: "/intro/name/name.webp",

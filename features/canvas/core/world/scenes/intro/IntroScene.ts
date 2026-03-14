@@ -3,6 +3,8 @@ import * as THREE from "three";
 import type { SceneLike } from "../../../types/sceneLike";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { Face } from "./Face";
+import NamePlane from "./NamePlane";
+import Particles from "./Particles";
 
 export class IntroScene implements SceneLike {
   private experience: Experience;
@@ -11,17 +13,23 @@ export class IntroScene implements SceneLike {
   private orbitControls: OrbitControls | null = null;
 
   private face: Face;
+  private namePlane: NamePlane;
+  private particles: Particles;
 
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background = new THREE.Color(0xeeeeee);
 
     this.camera = this.setCamera();
 
     this.createLight();
 
     this.face = new Face(this.scene);
+    this.namePlane = new NamePlane(this.scene);
+    this.face.destroy();
+    this.namePlane.destroy();
+    this.particles = new Particles(this.scene, this.camera);
   }
 
   private setCamera() {
@@ -43,22 +51,29 @@ export class IntroScene implements SceneLike {
   }
 
   private createLight() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 4);
     this.scene.add(ambientLight);
   }
 
   update() {
-    // Intro用のアニメーションは後で追加
+    this.face.update();
+    this.particles.update();
   }
 
   resize() {
     this.camera.aspect =
       this.experience.config.width / this.experience.config.height;
     this.camera.updateProjectionMatrix();
+
+    this.face.resize();
+    this.namePlane.resize();
+    this.particles.resize();
   }
 
   destroy() {
     this.face.destroy();
+    this.namePlane.destroy();
+    this.particles.destroy();
     this.scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.geometry.dispose();
