@@ -30,8 +30,8 @@ export class Face {
     } = this.getTexture();
 
     const geometry = new THREE.PlaneGeometry(
-      (faceTexture.image as HTMLImageElement).width,
-      (faceTexture.image as HTMLImageElement).height,
+      (faceTexture.image as HTMLImageElement).width * 5,
+      (faceTexture.image as HTMLImageElement).height * 5,
       1024,
       1024
     );
@@ -43,13 +43,18 @@ export class Face {
         uFaceDisplacement: { value: faceDisplacementTexture },
         uFaceSmile: { value: faceSmileTexture },
         uFaceSmileDisplacement: { value: faceSmileDisplacementTexture },
-        uFluidVelocity: { value: null },
+        uFluidVelocity: { value: this.fluid.getVelocityTexture() },
       },
       transparent: true,
     });
     const faceMesh = new THREE.Mesh(geometry, material);
-    faceMesh.position.set(0, 0, -200);
+    faceMesh.position.set(0, 1000, -200);
     this.scene.add(faceMesh);
+
+    const foder = this.experience.gui.addFolder("facePosition");
+    foder.add(faceMesh.position, "y", -2000, 2000);
+
+    foder.add(faceMesh.position, "z", -2000, 2000);
 
     return faceMesh;
   }
@@ -93,7 +98,7 @@ export class Face {
 
   destroy() {
     this.faceMesh.geometry.dispose();
-    (this.faceMesh.material as THREE.Material).dispose();
+    this.faceMesh.material.dispose();
     this.scene.remove(this.faceMesh);
   }
 }

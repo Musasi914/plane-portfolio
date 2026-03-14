@@ -1,33 +1,45 @@
 import * as THREE from "three";
 import Experience from "../../../Experience";
+import noiseGlsl from "./shaders/noise.glsl";
+import nameVert from "./shaders/name.vert";
+import nameFrag from "./shaders/name.frag";
 
 export default class NamePlane {
-  static WIDTH = 500;
   private experience: Experience;
   private resource: Experience["resource"];
   private scene: THREE.Scene;
 
-  private namePlane: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
+  private namePlane: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
 
-  constructor(scene: THREE.Scene) {
+  private WIDTH: number;
+
+  constructor(scene: THREE.Scene, width: number) {
     this.experience = Experience.getInstance();
     this.resource = this.experience.resource;
     this.scene = scene;
+    this.WIDTH = width;
 
     this.namePlane = this.createNamePlane();
   }
 
   private createNamePlane() {
     const texture = this.getTexture();
-    const geometry = new THREE.PlaneGeometry(NamePlane.WIDTH, NamePlane.WIDTH);
-    const material = new THREE.MeshBasicMaterial({
-      map: texture,
+    const geometry = new THREE.PlaneGeometry(1, 1);
+    const material = new THREE.ShaderMaterial({
+      vertexShader: nameVert,
+      fragmentShader: noiseGlsl + nameFrag,
+      uniforms: {
+        uTexture: { value: texture },
+        uTime: { value: 0 },
+        uProgress: { value: 0 },
+      },
       transparent: true,
     });
-    const mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
+    const namePlane = new THREE.Mesh(geometry, material);
+    namePlane.scale.set(this.WIDTH, this.WIDTH, 1);
+    this.scene.add(namePlane);
 
-    return mesh;
+    return namePlane;
   }
 
   private getTexture() {
@@ -39,7 +51,16 @@ export default class NamePlane {
     return texture;
   }
 
-  resize() {}
+  resize(width: number) {
+    this.WIDTH = width;
+    this.namePlane.scale.set(this.WIDTH, this.WIDTH, 1);
+  }
+
+  update(progress: number) {
+    const material = this.namePlane.material as THREE.ShaderMaterial;
+    material.uniforms.uTime.value = this.experience.time.elapsed;
+    material.uniforms.uProgress.value = progress;
+  }
 
   destroy() {
     this.namePlane.geometry.dispose();

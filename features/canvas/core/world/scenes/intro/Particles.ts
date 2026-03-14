@@ -1,29 +1,44 @@
 import * as THREE from "three";
+import noiseGlsl from "./shaders/noise.glsl";
 import particlesVert from "./shaders/particles.vert";
 import particlesFrag from "./shaders/particles.frag";
 import Experience from "../../../Experience";
 
 export default class Particles {
-  static WIDTH = 600 as const;
   static GRID_COUNT = 50 as const;
   static LAYER_COUNT = 50 as const;
   static NUM_PARTICLES =
     Particles.GRID_COUNT * Particles.GRID_COUNT * Particles.LAYER_COUNT;
-  static MAX_DEPTH = 1000 as const;
 
   private experience: Experience;
   private gui: Experience["gui"];
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
+  private WIDTH: number;
+  private MAX_DEPTH: number;
 
   private points: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial>;
+  private frameEdge: THREE.LineSegments<
+    THREE.EdgesGeometry<THREE.BoxGeometry>,
+    THREE.LineBasicMaterial
+  >;
 
-  constructor(scene: THREE.Scene, camera: THREE.PerspectiveCamera) {
+  progress = 0;
+
+  constructor(
+    scene: THREE.Scene,
+    width: number,
+    camera: THREE.PerspectiveCamera
+  ) {
     this.scene = scene;
     this.camera = camera;
     this.experience = Experience.getInstance();
 
+    this.WIDTH = width;
+    this.MAX_DEPTH = width * 10;
+
     this.points = this.createParticles();
+    this.frameEdge = this.createFrameEdge();
 
     this.gui = this.experience.gui;
     this.createGUI();
@@ -31,11 +46,8 @@ export default class Particles {
 
   private createParticles() {
     const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(Particles.NUM_PARTICLES * 3);
+    const gridOffsets = new Float32Array(Particles.NUM_PARTICLES * 3);
     const randoms = new Float32Array(Particles.NUM_PARTICLES * 3);
-
-    const gridSize = Particles.WIDTH / Particles.GRID_COUNT;
-    const depthPerLayer = Particles.MAX_DEPTH / Particles.LAYER_COUNT;
 
     let particleIndex = 0;
     for (
@@ -53,9 +65,9 @@ export default class Particles {
         ) {
           const columnCenterOffset =
             columnIndex - (Particles.GRID_COUNT - 1) / 2;
-          positions[particleIndex * 3] = gridSize * columnCenterOffset;
-          positions[particleIndex * 3 + 1] = gridSize * rowCenterOffset;
-          positions[particleIndex * 3 + 2] = depthPerLayer * depthCenterOffset;
+          gridOffsets[particleIndex * 3] = columnCenterOffset;
+          gridOffsets[particleIndex * 3 + 1] = rowCenterOffset;
+          gridOffsets[particleIndex * 3 + 2] = depthCenterOffset;
 
           randoms[particleIndex * 3] = Math.random();
           randoms[particleIndex * 3 + 1] = Math.random();
@@ -65,24 +77,36 @@ export default class Particles {
         }
       }
     }
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(gridOffsets, 3)
+    );
     geometry.setAttribute("aRandom", new THREE.BufferAttribute(randoms, 3));
+
+    const radius = Math.max(this.WIDTH, this.MAX_DEPTH) * 0.7;
+    geometry.boundingSphere = new THREE.Sphere(
+      new THREE.Vector3(0, 0, -this.MAX_DEPTH / 2),
+      radius
+    );
+    geometry.computeBoundingSphere = () => {};
 
     const pointSize =
       (0.9 *
-        (Particles.WIDTH / Particles.GRID_COUNT) *
+        (this.WIDTH / Particles.GRID_COUNT) *
         this.experience.config.height) /
-      (Particles.WIDTH * Math.tan((this.camera.fov * Math.PI) / 360));
+      (this.WIDTH * Math.tan((this.camera.fov * Math.PI) / 360));
 
     const material = new THREE.ShaderMaterial({
-      vertexShader: particlesVert,
+      vertexShader: noiseGlsl + particlesVert,
       fragmentShader: particlesFrag,
       uniforms: {
         uTime: { value: 0 },
         uResolutionY: { value: this.experience.config.height },
         uPointSize: { value: pointSize },
         uProgress: { value: 0 },
-        uMaxDepth: { value: Particles.MAX_DEPTH },
+        uMaxDepth: { value: this.MAX_DEPTH },
+        uGridSize: { value: this.WIDTH / Particles.GRID_COUNT },
+        uDepthPerLayer: { value: this.MAX_DEPTH / Particles.LAYER_COUNT },
       },
       transparent: true,
       depthWrite: false,
@@ -94,29 +118,77 @@ export default class Particles {
     return points;
   }
 
+  private updateBoundingSphere() {
+    const radius = Math.max(this.WIDTH, this.MAX_DEPTH) * 0.7;
+    this.points.geometry.boundingSphere!.set(
+      new THREE.Vector3(0, 0, -this.MAX_DEPTH / 2),
+      radius
+    );
+  }
+
+  private createFrameEdge() {
+    const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.EdgesGeometry(boxGeometry);
+    const material = new THREE.LineBasicMaterial({ color: 0x000000 });
+    const lineSegments = new THREE.LineSegments(geometry, material);
+    lineSegments.scale.set(
+      this.WIDTH,
+      this.WIDTH,
+      this.MAX_DEPTH * this.progress
+    );
+    lineSegments.position.z = (-this.MAX_DEPTH / 2) * this.progress;
+    this.scene.add(lineSegments);
+    return lineSegments;
+  }
+
   private createGUI() {
     const folder = this.gui.addFolder("Particles");
+
     const obj = {
-      progress: 0,
+      progress: this.progress,
     };
     folder.add(obj, "progress", 0, 1, 0.01).onChange((value: number) => {
-      this.points.material.uniforms.uProgress.value = value;
+      this.progress = value;
     });
     folder.open();
   }
 
-  resize() {
+  resize(width: number) {
+    this.WIDTH = width;
+    this.MAX_DEPTH = width * 1.5;
+
     const pointSize =
-      (0.9 *
-        (Particles.WIDTH / Particles.GRID_COUNT) *
-        this.experience.config.height) /
-      (Particles.WIDTH * Math.tan((this.camera.fov * Math.PI) / 360));
+      (0.9 * (width / Particles.GRID_COUNT) * this.experience.config.height) /
+      (width * Math.tan((this.camera.fov * Math.PI) / 360));
     this.points.material.uniforms.uPointSize.value = pointSize;
+    this.points.material.uniforms.uMaxDepth.value = this.MAX_DEPTH;
+    this.points.material.uniforms.uGridSize.value =
+      this.WIDTH / Particles.GRID_COUNT;
+    this.points.material.uniforms.uDepthPerLayer.value =
+      this.MAX_DEPTH / Particles.LAYER_COUNT;
+    this.points.material.uniforms.uResolutionY.value =
+      this.experience.config.height;
+
+    this.updateBoundingSphere();
   }
 
   update() {
     this.points.material.uniforms.uTime.value = this.experience.time.elapsed;
+    this.points.material.uniforms.uProgress.value = this.progress;
+    this.frameEdge.scale.set(
+      this.WIDTH,
+      this.WIDTH,
+      this.MAX_DEPTH * this.progress
+    );
+    this.frameEdge.position.z = (-this.MAX_DEPTH / 2) * this.progress;
   }
 
-  destroy() {}
+  destroy() {
+    this.scene.remove(this.points);
+    this.scene.remove(this.frameEdge);
+    this.points.geometry.dispose();
+    this.points.material.dispose();
+    this.frameEdge.geometry.dispose();
+    this.frameEdge.material.dispose();
+  }
 }
