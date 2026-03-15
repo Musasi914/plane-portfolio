@@ -1,7 +1,6 @@
 import Experience from "../../../Experience";
 import * as THREE from "three";
 import type { SceneLike } from "../../../types/sceneLike";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { Face } from "./Face";
 import NamePlane from "./NamePlane";
 import Particles from "./Particles";
@@ -10,7 +9,6 @@ export class IntroScene implements SceneLike {
   private experience: Experience;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
-  private orbitControls: OrbitControls | null = null;
 
   private face: Face;
   private namePlane: NamePlane;
@@ -18,19 +16,30 @@ export class IntroScene implements SceneLike {
 
   private planeWidth: number;
 
+  /** 縦長画面かどうか */
+  private isPortrait: boolean;
+
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xeeeeee);
-
-    this.camera = this.setCamera(75, 1, 2000);
-
-    this.createLight();
+    this.isPortrait =
+      this.experience.config.width < this.experience.config.height;
 
     this.planeWidth =
       Math.min(this.experience.config.width, this.experience.config.height) *
-      0.9;
-    this.face = new Face(this.scene);
+      0.7;
+
+    this.camera = this.setCamera(75, 1, 5000);
+
+    this.createLight();
+
+    this.face = new Face(
+      this.scene,
+      this.planeWidth,
+      this.camera,
+      this.isPortrait
+    );
     this.namePlane = new NamePlane(this.scene, this.planeWidth);
     this.particles = new Particles(this.scene, this.planeWidth, this.camera);
   }
@@ -45,19 +54,18 @@ export class IntroScene implements SceneLike {
     const distance =
       this.experience.config.height /
       (2 * Math.tan(((fov / 2) * Math.PI) / 180));
-    camera.position.set(0, 0, distance);
-    camera.lookAt(0, 0, 0);
 
-    this.orbitControls = new OrbitControls(
-      camera,
-      this.experience.canvasWrapper
-    );
+    if (this.isPortrait) {
+      camera.position.set(0, -this.planeWidth * 0.5, distance);
+    } else {
+      camera.position.set(this.planeWidth * 0.5, 0, distance);
+    }
 
     return camera;
   }
 
   private createLight() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 5);
     this.scene.add(ambientLight);
   }
 
@@ -68,15 +76,30 @@ export class IntroScene implements SceneLike {
   }
 
   resize() {
+    this.planeWidth =
+      Math.min(this.experience.config.width, this.experience.config.height) *
+      0.7;
+    this.isPortrait =
+      this.experience.config.width < this.experience.config.height;
+
     this.camera.aspect =
       this.experience.config.width / this.experience.config.height;
     this.camera.updateProjectionMatrix();
+    if (this.isPortrait) {
+      this.camera.position.set(
+        0,
+        -this.planeWidth * 0.5,
+        this.camera.position.z
+      );
+    } else {
+      this.camera.position.set(
+        this.planeWidth * 0.5,
+        0,
+        this.camera.position.z
+      );
+    }
 
-    this.planeWidth =
-      Math.min(this.experience.config.width, this.experience.config.height) *
-      0.9;
-
-    this.face.resize();
+    this.face.resize(this.planeWidth, this.isPortrait);
     this.namePlane.resize(this.planeWidth);
     this.particles.resize(this.planeWidth);
   }
@@ -85,7 +108,6 @@ export class IntroScene implements SceneLike {
     this.face.destroy();
     this.namePlane.destroy();
     this.particles.destroy();
-    this.orbitControls?.dispose();
     this.scene.clear();
   }
 }

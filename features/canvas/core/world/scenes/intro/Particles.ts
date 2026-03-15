@@ -155,7 +155,7 @@ export default class Particles {
 
   resize(width: number) {
     this.WIDTH = width;
-    this.MAX_DEPTH = width * 1.5;
+    this.MAX_DEPTH = width * 10;
 
     const pointSize =
       (0.9 * (width / Particles.GRID_COUNT) * this.experience.config.height) /

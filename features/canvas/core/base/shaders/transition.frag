@@ -32,4 +32,7 @@ void main() {
   vec4 texNext = vec4(texNextR, texNextG, texNextB, 1.0);
 
   gl_FragColor = mix(texActive, texNext, uProgress);
+
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }

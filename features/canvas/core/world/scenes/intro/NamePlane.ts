@@ -6,7 +6,6 @@ import nameFrag from "./shaders/name.frag";
 
 export default class NamePlane {
   private experience: Experience;
-  private resource: Experience["resource"];
   private scene: THREE.Scene;
 
   private namePlane: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
@@ -15,7 +14,6 @@ export default class NamePlane {
 
   constructor(scene: THREE.Scene, width: number) {
     this.experience = Experience.getInstance();
-    this.resource = this.experience.resource;
     this.scene = scene;
     this.WIDTH = width;
 
@@ -43,7 +41,7 @@ export default class NamePlane {
   }
 
   private getTexture() {
-    const texture = this.resource.items.name as THREE.Texture;
+    const texture = this.experience.resource.items.name as THREE.Texture;
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.minFilter = THREE.NearestFilter;
     texture.magFilter = THREE.NearestFilter;
