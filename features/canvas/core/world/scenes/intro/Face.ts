@@ -3,8 +3,9 @@ import * as THREE from "three";
 import faceVert from "./shaders/face.vert";
 import faceFrag from "./shaders/face.frag";
 
+/** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
-  static FACE_SCALE = 0.7;
+  static FACE_SCALE = 0.8;
   static FACE_Z_MULTIPLIER = 0.2;
 
   private experience: Experience;
@@ -16,7 +17,6 @@ export class Face {
 
   private camera: THREE.PerspectiveCamera;
 
-  /** faceMesh は frameEdge の 0.7 倍。Z軸方向に少し奥へ配置する */
   private faceMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
   private frameEdge: THREE.LineSegments<
     THREE.EdgesGeometry<THREE.BoxGeometry>,

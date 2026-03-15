@@ -26,9 +26,16 @@ export class IntroScene implements SceneLike {
     this.isPortrait =
       this.experience.config.width < this.experience.config.height;
 
-    this.planeWidth =
-      Math.min(this.experience.config.width, this.experience.config.height) *
-      0.7;
+    const baseSize = this.isPortrait
+      ? Math.min(
+          this.experience.config.width,
+          this.experience.config.height / 2
+        )
+      : Math.min(
+          this.experience.config.height,
+          this.experience.config.width / 2
+        );
+    this.planeWidth = baseSize * 0.8;
 
     this.camera = this.setCamera(75, 1, 5000);
 
@@ -69,16 +76,18 @@ export class IntroScene implements SceneLike {
     this.scene.add(ambientLight);
   }
 
-  update() {
-    this.face.update();
-    this.namePlane.update(this.particles.progress);
-    this.particles.update();
-  }
-
   resize() {
-    this.planeWidth =
-      Math.min(this.experience.config.width, this.experience.config.height) *
-      0.7;
+    const baseSize = this.isPortrait
+      ? Math.min(
+          this.experience.config.width,
+          this.experience.config.height / 2
+        )
+      : Math.min(
+          this.experience.config.height,
+          this.experience.config.width / 2
+        );
+    this.planeWidth = baseSize * 0.8;
+
     this.isPortrait =
       this.experience.config.width < this.experience.config.height;
 
@@ -102,6 +111,12 @@ export class IntroScene implements SceneLike {
     this.face.resize(this.planeWidth, this.isPortrait);
     this.namePlane.resize(this.planeWidth);
     this.particles.resize(this.planeWidth);
+  }
+
+  update() {
+    this.face.update();
+    this.namePlane.update(this.particles.progress);
+    this.particles.update();
   }
 
   destroy() {
