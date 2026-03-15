@@ -2,6 +2,7 @@ import Experience from "../../../Experience";
 import * as THREE from "three";
 import faceVert from "./shaders/face.vert";
 import faceFrag from "./shaders/face.frag";
+import gsap from "gsap";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
@@ -17,6 +18,7 @@ export class Face {
 
   private camera: THREE.PerspectiveCamera;
 
+  private faceTexture!: THREE.Texture<HTMLImageElement>;
   private faceMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
   private frameEdge: THREE.LineSegments<
     THREE.EdgesGeometry<THREE.BoxGeometry>,
@@ -26,7 +28,15 @@ export class Face {
   /** 縦長だったらnamePaneの下に、横長だったらnamePlaneの右に配置する */
   private isPortrait: boolean;
 
-  private faceTexture!: THREE.Texture<HTMLImageElement>;
+  // rotateとsmileのオンオフ切り替え
+  private faceControls = {
+    rotateButton: document.getElementById("face-rotate") as HTMLButtonElement,
+    smileButton: document.getElementById("face-smile") as HTMLButtonElement,
+    rotateWorldPosition: new THREE.Vector3(),
+    smileWorldPosition: new THREE.Vector3(),
+    rotateEnabled: true,
+    smileEnabled: false,
+  };
 
   constructor(
     scene: THREE.Scene,
@@ -41,14 +51,61 @@ export class Face {
 
     this.experience = Experience.getInstance();
     this.resource = this.experience.resource;
+
     this.fluid = this.experience.fluid;
 
     this.faceMesh = this.createFace();
     this.frameEdge = this.createFrameEdge();
+    this.createFaceControls();
 
     document.documentElement.addEventListener("mouseleave", this.onMouseLeave);
     document.documentElement.addEventListener("mouseenter", this.onMouseEnter);
+
+    this.experience.gui.add(this.faceControls, "rotateEnabled").name("Rotate");
+    this.experience.gui.add(this.faceControls, "smileEnabled").name("Smile");
   }
+
+  private createFaceControls() {
+    this.setButtonWorldPosition(this.isPortrait, this.WIDTH);
+
+    this.faceControls.rotateButton.addEventListener(
+      "click",
+      this.onRotateClick
+    );
+    this.faceControls.smileButton.addEventListener("click", this.onSmileClick);
+  }
+  private setButtonWorldPosition(isPortrait: boolean, width: number) {
+    this.faceControls.rotateWorldPosition.set(
+      isPortrait ? width * 0.45 : width * 1.45,
+      isPortrait ? -width * 0.55 : width * 0.45,
+      0
+    );
+    this.faceControls.smileWorldPosition.set(
+      isPortrait ? width * 0.45 : width * 1.45,
+      isPortrait ? -width * 1.45 : -width * 0.45,
+      0
+    );
+  }
+  private onRotateClick = () => {
+    this.faceControls.rotateEnabled = !this.faceControls.rotateEnabled;
+    this.faceControls.rotateButton.querySelector("span")!.textContent = this
+      .faceControls.rotateEnabled
+      ? "ON"
+      : "OFF";
+  };
+  private onSmileClick = () => {
+    this.faceControls.smileEnabled = !this.faceControls.smileEnabled;
+    this.faceControls.smileButton.querySelector("span")!.textContent = this
+      .faceControls.smileEnabled
+      ? "ON"
+      : "OFF";
+
+    gsap.to(this.faceMesh.material.uniforms.uSwitchProgress, {
+      value: this.faceControls.smileEnabled ? 1 : 0,
+      duration: 1.4,
+      ease: "power2.inOut",
+    });
+  };
 
   private createFace() {
     const {
@@ -71,23 +128,16 @@ export class Face {
         uFluidVelocity: { value: this.fluid.getVelocityTexture() },
         uPlaneWidth: { value: this.WIDTH },
         uFaceScale: { value: Face.FACE_SCALE },
+        uSwitchProgress: { value: 0 },
       },
       transparent: true,
     });
     const faceMesh = new THREE.Mesh(geometry, material);
-    if (this.isPortrait) {
-      faceMesh.position.set(
-        0,
-        -this.WIDTH,
-        -this.WIDTH * Face.FACE_Z_MULTIPLIER
-      );
-    } else {
-      faceMesh.position.set(
-        this.WIDTH,
-        0,
-        -this.WIDTH * Face.FACE_Z_MULTIPLIER
-      );
-    }
+    faceMesh.position.set(
+      this.isPortrait ? 0 : this.WIDTH,
+      this.isPortrait ? -this.WIDTH : 0,
+      -this.WIDTH * Face.FACE_Z_MULTIPLIER
+    );
     faceMesh.scale.set(
       (faceTexture.image.width / faceTexture.image.height) *
         this.WIDTH *
@@ -144,6 +194,7 @@ export class Face {
       lineSegments.position.set(this.WIDTH, 0, 0);
     }
     this.scene.add(lineSegments);
+    boxGeometry.dispose();
     return lineSegments;
   }
 
@@ -159,11 +210,11 @@ export class Face {
     this.WIDTH = width;
     this.isPortrait = isPortrait;
 
-    if (isPortrait) {
-      this.faceMesh.position.set(0, -width, -width * Face.FACE_Z_MULTIPLIER);
-    } else {
-      this.faceMesh.position.set(width, 0, -width * Face.FACE_Z_MULTIPLIER);
-    }
+    this.faceMesh.position.set(
+      isPortrait ? 0 : width,
+      isPortrait ? -width : 0,
+      -width * Face.FACE_Z_MULTIPLIER
+    );
     this.faceMesh.scale.set(
       (this.faceTexture.image.width / this.faceTexture.image.height) *
         width *
@@ -174,11 +225,13 @@ export class Face {
     this.faceMesh.material.uniforms.uPlaneWidth.value = width;
 
     this.frameEdge.scale.set(width, width, 0);
-    if (isPortrait) {
-      this.frameEdge.position.set(0, -width, 0);
-    } else {
-      this.frameEdge.position.set(width, 0, 0);
-    }
+    this.frameEdge.position.set(
+      isPortrait ? 0 : width,
+      isPortrait ? -width : 0,
+      0
+    );
+
+    this.setButtonWorldPosition(isPortrait, width);
   }
 
   private targetTilt = new THREE.Vector2(0, 0);
@@ -187,9 +240,14 @@ export class Face {
     this.faceMesh.material.uniforms.uFluidVelocity.value =
       this.fluid.getVelocityTexture();
 
+    this.updateFaceLooking();
+
+    this.updateControlsPosition();
+  }
+  private updateFaceLooking() {
     this.faceMesh.lookAt(this.camera.position);
     const { uv } = this.experience.pointer.state;
-    if (this.isMouseLeave) {
+    if (this.isMouseLeave || !this.faceControls.rotateEnabled) {
       this.targetTilt.lerp(new THREE.Vector2(0, 0), 0.1);
     } else {
       this.targetTilt.lerp(
@@ -201,7 +259,30 @@ export class Face {
     this.faceMesh.rotateX(this.targetTilt.y);
   }
 
+  private tmpV = new THREE.Vector3();
+  private updateControlsPosition() {
+    this.tmpV.copy(this.faceControls.rotateWorldPosition);
+    this.tmpV.project(this.camera);
+    const rx = (this.tmpV.x * 0.5 + 0.5) * this.experience.config.width;
+    const ry = (this.tmpV.y * -0.5 + 0.5) * this.experience.config.height;
+    this.faceControls.rotateButton.style.transform = `translate(${rx}px, ${ry}px)`;
+    this.tmpV.copy(this.faceControls.smileWorldPosition);
+    this.tmpV.project(this.camera);
+    const sx = (this.tmpV.x * 0.5 + 0.5) * this.experience.config.width;
+    const sy = (this.tmpV.y * -0.5 + 0.5) * this.experience.config.height;
+    this.faceControls.smileButton.style.transform = `translate(${sx}px, ${sy}px)`;
+  }
+
   destroy() {
+    this.faceControls.rotateButton?.removeEventListener(
+      "click",
+      this.onRotateClick
+    );
+    this.faceControls.smileButton?.removeEventListener(
+      "click",
+      this.onSmileClick
+    );
+
     this.faceMesh.geometry.dispose();
     this.faceMesh.material.dispose();
     this.scene.remove(this.frameEdge);

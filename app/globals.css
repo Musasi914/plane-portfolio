@@ -28,6 +28,9 @@
     color: var(--foreground);
     font-family: var(--font-sora), var(--font-noto-sans-jp), sans-serif;
   }
+  button {
+    cursor: none;
+  }
 }
 
 /* @import "tailwindcss";

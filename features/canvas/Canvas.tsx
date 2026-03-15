@@ -60,6 +60,24 @@ export default function Canvas() {
   ]);
 
   return (
-    <div ref={canvasWrapper} className="w-full h-full contain-strict"></div>
+    <div ref={canvasWrapper} className="w-full h-full contain-strict">
+      <div
+        id="labels"
+        className="absolute inset-0 pointer-events-none font-sora"
+      >
+        <button
+          id="face-rotate"
+          className="absolute -translate-x-full pointer-events-auto"
+        >
+          rotate: <span>ON</span>
+        </button>
+        <button
+          id="face-smile"
+          className="absolute -translate-y-full -translate-x-full pointer-events-auto"
+        >
+          smile: <span>OFF</span>
+        </button>
+      </div>
+    </div>
   );
 }
