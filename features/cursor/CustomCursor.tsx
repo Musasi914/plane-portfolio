@@ -5,14 +5,20 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
 
+const CURSOR_SELECTOR = "[data-cursor-hover]";
+
 export default function CustomCursor() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const isMobile = useStore((state) => state.isMobile);
+  const cursorVariant = useStore((state) => state.cursorVariant);
+  const setCursorVariant = useStore((state) => state.setCursorVariant);
+
   useGSAP(
     (_, contextSafe) => {
-      if (!contextSafe || isMobile || !cursorRef.current) return;
+      if (!contextSafe || isMobile || !wrapperRef.current) return;
 
-      const el = cursorRef.current;
+      const el = wrapperRef.current;
       gsap.set(el, { xPercent: -50, yPercent: -50 });
 
       const xSetter = gsap.quickSetter(el, "x", "px");
@@ -32,8 +38,24 @@ export default function CustomCursor() {
         gsap.set(el, { opacity: 0 });
         hasMoved = false;
       });
+
+      const onMouseOver = contextSafe((e: MouseEvent) => {
+        const target = (e.target as Element)?.closest?.(CURSOR_SELECTOR);
+        if (target) setCursorVariant("hover");
+      });
+      const onMouseOut = contextSafe((e: MouseEvent) => {
+        const relatedTarget = e.relatedTarget as Node | null;
+        const isStillHovering =
+          relatedTarget &&
+          document.contains(relatedTarget) &&
+          (relatedTarget as Element).closest?.(CURSOR_SELECTOR);
+        if (!isStillHovering) setCursorVariant("default");
+      });
+
       window.addEventListener("mousemove", onMouseMove);
       document.documentElement.addEventListener("mouseleave", onMouseLeave);
+      document.addEventListener("mouseover", onMouseOver);
+      document.addEventListener("mouseout", onMouseOut);
 
       return () => {
         window.removeEventListener("mousemove", onMouseMove);
@@ -41,17 +63,40 @@ export default function CustomCursor() {
           "mouseleave",
           onMouseLeave
         );
+        document.removeEventListener("mouseover", onMouseOver);
+        document.removeEventListener("mouseout", onMouseOut);
       };
     },
-    [isMobile]
+    [isMobile, setCursorVariant]
+  );
+
+  useGSAP(
+    () => {
+      if (isMobile || !cursorRef.current) return;
+      gsap.set(wrapperRef.current, {
+        mixBlendMode: cursorVariant === "hover" ? "difference" : "normal",
+      });
+      gsap.to(cursorRef.current, {
+        scale: cursorVariant === "hover" ? 3 : 1,
+        backgroundColor: cursorVariant === "hover" ? "#ffffff" : "#000000",
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    },
+    { dependencies: [cursorVariant] }
   );
 
   if (isMobile) return null;
 
   return (
     <div
-      ref={cursorRef}
-      className="opacity-0 w-4 h-4 bg-black border border-white/90 rounded-full fixed top-0 left-0 z-50 pointer-events-none"
-    ></div>
+      ref={wrapperRef}
+      className="opacity-0 w-8 h-8 fixed top-0 left-0 z-50 pointer-events-none flex items-center justify-center mix-blend-difference"
+    >
+      <div
+        ref={cursorRef}
+        className="w-full h-full rounded-full border origin-center bg-black border-white"
+      />
+    </div>
   );
 }

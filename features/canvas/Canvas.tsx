@@ -67,13 +67,15 @@ export default function Canvas() {
       >
         <button
           id="face-rotate"
-          className="absolute -translate-x-full pointer-events-auto"
+          data-cursor-hover
+          className="absolute -translate-x-full pointer-events-auto p-4"
         >
           rotate: <span>ON</span>
         </button>
         <button
           id="face-smile"
-          className="absolute -translate-y-full -translate-x-full pointer-events-auto"
+          data-cursor-hover
+          className="absolute -translate-y-full -translate-x-full pointer-events-auto p-4"
         >
           smile: <span>OFF</span>
         </button>

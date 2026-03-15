@@ -35,6 +35,9 @@ type StoreType = {
 
   qualityTier: "low" | "medium" | "high";
   setQualityTier: (qualityTier: StoreType["qualityTier"]) => void;
+
+  cursorVariant: "default" | "hover";
+  setCursorVariant: (cursorVariant: StoreType["cursorVariant"]) => void;
 };
 
 export const useStore = create<StoreType>((set) => ({
@@ -71,4 +74,8 @@ export const useStore = create<StoreType>((set) => ({
 
   qualityTier: "high",
   setQualityTier: (qualityTier) => set({ qualityTier }),
+
+  // cursor
+  cursorVariant: "default",
+  setCursorVariant: (cursorVariant) => set({ cursorVariant }),
 }));

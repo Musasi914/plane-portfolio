@@ -6,7 +6,7 @@ import gsap from "gsap";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
-  static FACE_SCALE = 0.8;
+  static FACE_SCALE = 0.75;
   static FACE_Z_MULTIPLIER = 0.2;
 
   private experience: Experience;
@@ -76,13 +76,13 @@ export class Face {
   }
   private setButtonWorldPosition(isPortrait: boolean, width: number) {
     this.faceControls.rotateWorldPosition.set(
-      isPortrait ? width * 0.45 : width * 1.45,
-      isPortrait ? -width * 0.55 : width * 0.45,
+      isPortrait ? width * 0.5 : width * 1.5,
+      isPortrait ? -width * 0.5 : width * 0.5,
       0
     );
     this.faceControls.smileWorldPosition.set(
-      isPortrait ? width * 0.45 : width * 1.45,
-      isPortrait ? -width * 1.45 : -width * 0.45,
+      isPortrait ? width * 0.5 : width * 1.5,
+      isPortrait ? -width * 1.5 : -width * 0.5,
       0
     );
   }
