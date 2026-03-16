@@ -8,7 +8,9 @@ export default class NamePlane {
   private experience: Experience;
   private scene: THREE.Scene;
 
-  private namePlane: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
+  mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
+  // raycasterの対象となるオブジェクト。このクラスでは使わないが、他のクラスで使うために公開する。
+  raycasteredObject: THREE.Object3D;
 
   private WIDTH: number;
 
@@ -17,7 +19,8 @@ export default class NamePlane {
     this.scene = scene;
     this.WIDTH = width;
 
-    this.namePlane = this.createNamePlane();
+    this.mesh = this.createNamePlane();
+    this.raycasteredObject = this.mesh;
   }
 
   private createNamePlane() {
@@ -51,18 +54,18 @@ export default class NamePlane {
 
   resize(width: number) {
     this.WIDTH = width;
-    this.namePlane.scale.set(this.WIDTH, this.WIDTH, 1);
+    this.mesh.scale.set(this.WIDTH, this.WIDTH, 1);
   }
 
   update(progress: number) {
-    const material = this.namePlane.material as THREE.ShaderMaterial;
+    const material = this.mesh.material as THREE.ShaderMaterial;
     material.uniforms.uTime.value = this.experience.time.elapsed;
     material.uniforms.uProgress.value = progress;
   }
 
   destroy() {
-    this.namePlane.geometry.dispose();
-    (this.namePlane.material as THREE.Material).dispose();
-    this.scene.remove(this.namePlane);
+    this.mesh.geometry.dispose();
+    (this.mesh.material as THREE.Material).dispose();
+    this.scene.remove(this.mesh);
   }
 }

@@ -28,10 +28,6 @@ void main() {
 
   // uSwitchProgressが遷移中はplaneをグニャグニャにしたい
   float transformStrength = 1.0 - abs((uSwitchProgress - 0.5) * 2.0);
-  // float wave = sin(1000.0 * uv.x + uSwitchProgress * 6.28318) * 5.0;
-  // float transformOffset = wave;
-  // displacedPosi.tion.z += 5.0;
-
   vec2 center = uv - 0.5;
   float dist = length(center);
   float pulse = sin(dist * 50.0 + pow(transformStrength, 2.0) * 100.0);

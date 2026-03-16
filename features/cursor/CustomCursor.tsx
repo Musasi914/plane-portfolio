@@ -76,11 +76,15 @@ export default function CustomCursor() {
       gsap.set(wrapperRef.current, {
         mixBlendMode: cursorVariant === "hover" ? "difference" : "normal",
       });
+
+      document.body.style.cursor =
+        cursorVariant === "hover" ? "pointer" : "default";
+
       gsap.to(cursorRef.current, {
         scale: cursorVariant === "hover" ? 3 : 1,
         backgroundColor: cursorVariant === "hover" ? "#ffffff" : "#000000",
-        duration: 0.5,
-        ease: "power2.out",
+        duration: 0.8,
+        ease: "elastic.out",
       });
     },
     { dependencies: [cursorVariant] }

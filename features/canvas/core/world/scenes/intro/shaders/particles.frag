@@ -5,5 +5,5 @@ void main() {
 
   if(alpha == 0.0) discard;
 
-  gl_FragColor = vec4(vec3(0.1), alpha);
+  gl_FragColor = vec4(vec3(0.03), alpha);
 }

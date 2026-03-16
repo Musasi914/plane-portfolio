@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export type SceneId = "intro" | "gallery";
 
-type StoreType = {
+export type StoreType = {
   phase: "loading" | "introReady" | "introPlaying" | "gallery" | "detail";
   setPhase: (phase: StoreType["phase"]) => void;
 

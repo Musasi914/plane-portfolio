@@ -15,30 +15,26 @@ export class GalleryScene implements SceneLike {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xffffff);
 
-    this.camera = this.setCamera();
+    this.camera = this.setCamera(75, 5, 1000);
 
     this.scrollObserver = new ScrollObserver();
-
-    const geometry = new THREE.TorusGeometry(1, 0.3, 16, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xe94560 });
-    const mesh = new THREE.Mesh(geometry, material);
-    this.scene.add(mesh);
   }
 
-  private setCamera() {
+  private setCamera(fov: number, near: number, far: number) {
     const camera = new THREE.PerspectiveCamera(
+      fov,
       this.experience.config.width / this.experience.config.height,
-      0.1,
-      1000
+      near,
+      far
     );
-    camera.position.set(0, 0, 5);
-    camera.lookAt(0, 0, 0);
-    return camera;
-  }
+    const distance =
+      this.experience.config.height /
+      (2 * Math.tan(((fov / 2) * Math.PI) / 180));
 
-  update() {
-    // Gallery用のplane/スクロール更新は後で追加
-    this.scrollObserver.update();
+    camera.position.set(0, 0, distance);
+    camera.lookAt(0, 0, 0);
+
+    return camera;
   }
 
   resize() {
@@ -47,14 +43,13 @@ export class GalleryScene implements SceneLike {
     this.camera.updateProjectionMatrix();
   }
 
+  update() {
+    // Gallery用のplane/スクロール更新は後で追加
+    this.scrollObserver.update();
+  }
+
   destroy() {
-    this.scrollObserver?.destroy();
-    this.scene.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.geometry.dispose();
-        (child.material as THREE.Material).dispose();
-      }
-    });
+    this.scrollObserver.destroy();
     this.scene.clear();
   }
 }

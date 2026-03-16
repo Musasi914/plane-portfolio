@@ -5,7 +5,6 @@ import * as THREE from "three";
 import { World } from "./world/World";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { sources } from "./source";
-import Enviroment from "./world/Enviroment";
 import { Size } from "./utils/Size";
 import { Time } from "./utils/Time";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
@@ -34,7 +33,6 @@ export default class Experience {
     height: number;
     pixelRatio: number;
   };
-  enviroment: Enviroment;
   pointer: Pointer;
   fluid: Fluid;
   private onResize = () => this.resize();
@@ -62,7 +60,6 @@ export default class Experience {
     this.resource = new Resource(sources);
 
     this.world = new World();
-    this.enviroment = new Enviroment();
 
     this.pointer = new Pointer();
     this.fluid = new Fluid();

@@ -15,7 +15,7 @@ export default class Particles {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private WIDTH: number;
-  private MAX_DEPTH: number;
+  MAX_DEPTH: number;
 
   private points: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial>;
   private frameEdge: THREE.LineSegments<
@@ -35,7 +35,7 @@ export default class Particles {
     this.experience = Experience.getInstance();
 
     this.WIDTH = width;
-    this.MAX_DEPTH = width * 10;
+    this.MAX_DEPTH = width * 7;
 
     this.points = this.createParticles();
     this.frameEdge = this.createFrameEdge();
@@ -109,6 +109,7 @@ export default class Particles {
         uDepthPerLayer: { value: this.MAX_DEPTH / Particles.LAYER_COUNT },
       },
       transparent: true,
+      // depthTest: true,
       depthWrite: false,
     });
 

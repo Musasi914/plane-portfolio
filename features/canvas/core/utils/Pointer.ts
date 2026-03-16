@@ -11,6 +11,8 @@ type PointerState = {
   movedSinceLastUpdate: boolean;
   /** 今フレームで move が発生したか（update() 後に参照する） */
   movedThisFrame: boolean;
+  /** -1..1 (NDC) */
+  ndc: THREE.Vector2;
 };
 
 export default class Pointer {
@@ -28,6 +30,7 @@ export default class Pointer {
       deltaUv: new THREE.Vector2(0, 0),
       movedSinceLastUpdate: false,
       movedThisFrame: false,
+      ndc: new THREE.Vector2(0, 0),
     };
 
     this.bind();
@@ -48,6 +51,7 @@ export default class Pointer {
     const y = 1.0 - (e.clientY - rect.top) / rect.height;
 
     this.state.uv.set(x, y);
+    this.state.ndc.set(x * 2 - 1, y * 2 - 1);
     this.state.movedSinceLastUpdate = true;
   }
 

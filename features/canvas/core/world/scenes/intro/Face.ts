@@ -6,7 +6,7 @@ import gsap from "gsap";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
-  static FACE_SCALE = 0.75;
+  static FACE_SCALE = 0.7;
   static FACE_Z_MULTIPLIER = 0.2;
 
   private experience: Experience;
@@ -60,9 +60,6 @@ export class Face {
 
     document.documentElement.addEventListener("mouseleave", this.onMouseLeave);
     document.documentElement.addEventListener("mouseenter", this.onMouseEnter);
-
-    this.experience.gui.add(this.faceControls, "rotateEnabled").name("Rotate");
-    this.experience.gui.add(this.faceControls, "smileEnabled").name("Smile");
   }
 
   private createFaceControls() {
@@ -77,12 +74,12 @@ export class Face {
   private setButtonWorldPosition(isPortrait: boolean, width: number) {
     this.faceControls.rotateWorldPosition.set(
       isPortrait ? width * 0.5 : width * 1.5,
-      isPortrait ? -width * 0.5 : width * 0.5,
+      isPortrait ? -width * 1.5 : -width * 0.5,
       0
     );
     this.faceControls.smileWorldPosition.set(
       isPortrait ? width * 0.5 : width * 1.5,
-      isPortrait ? -width * 1.5 : -width * 0.5,
+      isPortrait ? -width * 0.5 : width * 0.5,
       0
     );
   }
@@ -106,6 +103,22 @@ export class Face {
       ease: "power2.inOut",
     });
   };
+  deleteFaceControls() {
+    this.faceControls.rotateButton?.removeEventListener(
+      "click",
+      this.onRotateClick
+    );
+    this.faceControls.smileButton?.removeEventListener(
+      "click",
+      this.onSmileClick
+    );
+    gsap.to(this.faceControls.rotateButton, {
+      autoAlpha: 0,
+    });
+    gsap.to(this.faceControls.smileButton, {
+      autoAlpha: 0,
+    });
+  }
 
   private createFace() {
     const {
@@ -235,7 +248,6 @@ export class Face {
   }
 
   private targetTilt = new THREE.Vector2(0, 0);
-
   update() {
     this.faceMesh.material.uniforms.uFluidVelocity.value =
       this.fluid.getVelocityTexture();
