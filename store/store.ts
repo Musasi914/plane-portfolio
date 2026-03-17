@@ -12,9 +12,6 @@ export type StoreType = {
   hoveredWorkId: number | null;
   setHoveredWorkId: (hoveredWorkId: number | null) => void;
 
-  selectedWorkId: number | null;
-  setSelectedWorkId: (selectedWorkId: number | null) => void;
-
   // work から detail への遷移中かどうか
   isTransitioning: boolean;
   setIsTransitioning: (isTransitioning: boolean) => void;
@@ -38,6 +35,10 @@ export type StoreType = {
 
   cursorVariant: "default" | "hover";
   setCursorVariant: (cursorVariant: StoreType["cursorVariant"]) => void;
+
+  // video
+  videoCount: number;
+  setVideoCount: (videoCount: number) => void;
 };
 
 export const useStore = create<StoreType>((set) => ({
@@ -50,9 +51,6 @@ export const useStore = create<StoreType>((set) => ({
 
   hoveredWorkId: null,
   setHoveredWorkId: (hoveredWorkId) => set({ hoveredWorkId }),
-
-  selectedWorkId: null,
-  setSelectedWorkId: (selectedWorkId) => set({ selectedWorkId }),
 
   // シーン管理
   activeSceneId: "intro",
@@ -78,4 +76,8 @@ export const useStore = create<StoreType>((set) => ({
   // cursor
   cursorVariant: "default",
   setCursorVariant: (cursorVariant) => set({ cursorVariant }),
+
+  // video
+  videoCount: 0,
+  setVideoCount: (videoCount) => set({ videoCount }),
 }));

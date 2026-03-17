@@ -52,7 +52,10 @@ export class IntroScene implements SceneLike {
     );
     this.setTransitionFire();
 
-    this.experience.canvasWrapper.addEventListener("click", this.setTransitionFire.bind(this));
+    this.experience.canvasWrapper.addEventListener(
+      "click",
+      this.setTransitionFire.bind(this)
+    );
   }
 
   private setCamera(fov: number, near: number, far: number) {
@@ -175,10 +178,11 @@ export class IntroScene implements SceneLike {
   }
 
   private setTransitionFire() {
-      if (this.raycaster.isHovering) {
-        useStore.getState().setPhase("introPlaying");
-        this.sceneChange();
-      }
+    if (this.raycaster.isHovering) {
+      useStore.getState().setPhase("introPlaying");
+      this.sceneChange();
+      this.raycaster.isHovering = false;
+    }
   }
 
   resize() {

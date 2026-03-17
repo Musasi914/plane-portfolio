@@ -11,6 +11,7 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { useStore } from "@/store/store";
 import Pointer from "./utils/Pointer";
 import Fluid from "./fluid/Fluid";
+import GalleryVideoLoader from "./world/scenes/gallery/GalleryVideoLoader";
 
 export default class Experience {
   static instance: Experience;
@@ -27,7 +28,8 @@ export default class Experience {
   camera: Camera;
   renderer: Renderer;
   resource: Resource;
-  world: World;
+  galleryVideoLoader: GalleryVideoLoader;
+  world: World | null = null;
   config: {
     width: number;
     height: number;
@@ -58,8 +60,13 @@ export default class Experience {
     this.camera = new Camera();
     this.renderer = new Renderer();
     this.resource = new Resource(sources);
+    this.galleryVideoLoader = new GalleryVideoLoader();
 
-    this.world = new World();
+    this.resource.on("ready", () => {
+      useStore.getState().setPhase("introReady");
+      this.world = new World();
+      this.galleryVideoLoader.loadVideos();
+    });
 
     this.pointer = new Pointer();
     this.fluid = new Fluid();
@@ -126,30 +133,37 @@ export default class Experience {
   }
 
   private resize() {
-    this.config = this.setConfig();
-    this.camera.resize();
-    this.renderer.resize();
-    this.world.resize();
-    this.update();
+    requestAnimationFrame(() => {
+      this.config = this.setConfig();
+      this.camera.resize();
+      this.renderer.resize();
+      this.world?.resize();
+      this.update();
+    });
   }
 
   private update() {
     this.stats.update();
     this.pointer.update();
     this.fluid.update();
-    this.world.update();
-    const renderState = this.world.getRenderState();
-    this.renderer.update(renderState, this.fluid.getVelocityTexture());
+
+    if (useStore.getState().phase === "loading") return;
+    this.world?.update();
+    const renderState = this.world?.getRenderState();
+    if (renderState) {
+      this.renderer.update(renderState, this.fluid.getVelocityTexture());
+    }
   }
 
   destroy() {
+    this.resource.off("ready");
     this.size.off("resize");
     this.time.off("tick");
     this.unsubscribeStore?.();
     this.unsubscribeStore = null;
     this.size.destroy();
     this.time.destroy();
-    this.world.destroy();
+    this.world?.destroy();
     this.camera.destroy();
     this.resource.destroy();
     this.renderer.destroy();

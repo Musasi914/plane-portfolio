@@ -229,7 +229,7 @@ export default class Simulator {
     const mat = this.divergenceMesh.material;
     mat.uniforms.uPx.value = this.px;
     mat.uniforms.uVelocity.value = velocity;
-    mat.uniforms.uDt.value = this.params.dt;
+    mat.uniforms.uDt.value = this.experience.time.delta;
     this.renderer.setRenderTarget(this.divergenceTarget);
     this.renderer.clear(true, true, true);
     this.renderer.render(this.divergenceScene, this.divergenceCamera);
@@ -250,7 +250,7 @@ export default class Simulator {
     this.projectVar.material.uniforms.uVelocity.value = velocity;
     this.projectVar.material.uniforms.uPressure.value = pressure;
     this.projectVar.material.uniforms.uPx.value.copy(this.px);
-    this.projectVar.material.uniforms.uDt.value = this.params.dt;
+    this.projectVar.material.uniforms.uDt.value = this.experience.time.delta;
     this.projectCompute.compute();
   }
 

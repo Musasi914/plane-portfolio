@@ -1,16 +1,16 @@
-### 工夫点
+# 工夫点
 
 intro にて　
 縦長画面、横長画面で違う配置・違う動作にした。
 
-### 注意点
+# 注意点
 
-#### z-index
+## z-index
 
 loading: 40
 cursor: 50
 
-#### 遷移の時、下記のように
+## 遷移の時、下記のように
 
 - setNextSceneId("");
 - setIsTransitioning(true);
@@ -46,14 +46,14 @@ cursor: 50
     };
 ```
 
-### デバイスの判定
+# デバイスの判定
 
 low/ medium/ high の 3 つのレベルで判定
 low: タッチ判定または 768px 以下または dpr >= 3 (スマホ・iPad)
 medium: dpr >= 2 (MacBook)
 high: それ以外 (dpr1 の PC モニター)
 
-### 最終チェック
+# 最終チェック
 
 - Canvas 全体 の destroy を過不足ないか確認
 - Resource.ts の余計な記述を削除

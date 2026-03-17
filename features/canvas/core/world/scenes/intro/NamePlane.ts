@@ -35,12 +35,13 @@ export default class NamePlane {
         uProgress: { value: 0 },
       },
       transparent: true,
+      depthWrite: false,
     });
-    const namePlane = new THREE.Mesh(geometry, material);
-    namePlane.scale.set(this.WIDTH, this.WIDTH, 1);
-    this.scene.add(namePlane);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.scale.set(this.WIDTH, this.WIDTH, 1);
+    this.scene.add(mesh);
 
-    return namePlane;
+    return mesh;
   }
 
   private getTexture() {

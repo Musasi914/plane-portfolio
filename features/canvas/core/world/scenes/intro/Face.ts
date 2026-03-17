@@ -3,6 +3,7 @@ import * as THREE from "three";
 import faceVert from "./shaders/face.vert";
 import faceFrag from "./shaders/face.frag";
 import gsap from "gsap";
+import lerpFactor from "../../../utils/lerpFactor";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
@@ -260,11 +261,14 @@ export class Face {
     this.faceMesh.lookAt(this.camera.position);
     const { uv } = this.experience.pointer.state;
     if (this.isMouseLeave || !this.faceControls.rotateEnabled) {
-      this.targetTilt.lerp(new THREE.Vector2(0, 0), 0.1);
+      this.targetTilt.lerp(
+        new THREE.Vector2(0, 0),
+        lerpFactor(0.1, this.experience.time.delta)
+      );
     } else {
       this.targetTilt.lerp(
         new THREE.Vector2(uv.x - 0.5, -(uv.y - 0.5) * 0.5),
-        0.1
+        lerpFactor(0.1, this.experience.time.delta)
       );
     }
     this.faceMesh.rotateY(this.targetTilt.x);

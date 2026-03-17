@@ -15,12 +15,8 @@ export class World {
     this.experience = Experience.getInstance();
     this.resource = this.experience.resource;
 
-    this.resource.on("ready", this.onResourceReady.bind(this));
-  }
-  private onResourceReady() {
     this.introScene = new IntroScene();
     this.galleryScene = new GalleryScene();
-    useStore.getState().setPhase("introReady");
   }
 
   getRenderState(): RenderState {
@@ -75,7 +71,6 @@ export class World {
   }
 
   destroy() {
-    this.resource.off("ready");
     this.introScene?.destroy();
     this.galleryScene?.destroy();
     this.introScene = null;

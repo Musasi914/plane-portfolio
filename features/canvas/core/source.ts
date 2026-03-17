@@ -31,3 +31,36 @@ export const sources: Source[] = [
     path: "/intro/name/name.webp",
   },
 ];
+
+
+export type GalleryVideoSource = {
+  name: string;
+  path: string;
+};
+
+export const galleryVideoSources = [
+  {
+    name: "portfolio",
+    path: "/gallery/video/portfolio.webm",
+  },
+  {
+    name: "kgrit",
+    path: "/gallery/video/kgrit.webm",
+  },
+  {
+    name: "cafe-moku",
+    path: "/gallery/video/cafe.webm",
+  },
+  {
+    name: "3d練習サイト",
+    path: "/gallery/video/3d-practice.webm",
+  },
+  {
+    name: "日記帳",
+    path: "/gallery/video/diary.webm",
+  },
+  {
+    name: "このサイト",
+    path: "/gallery/video/diary.webm",
+  },
+];

@@ -2,22 +2,29 @@ import * as THREE from "three";
 import Experience from "../../../Experience";
 import type { SceneLike } from "../../../types/sceneLike";
 import { ScrollObserver } from "./ScrollObserver";
+import GalleryPlanes from "./GalleryPlanes";
+import GalleryVideoLoader from "./GalleryVideoLoader";
 
 export class GalleryScene implements SceneLike {
   private experience: Experience;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
 
-  private scrollObserver: ScrollObserver;
+  private scrollObserver: ScrollObserver | null = null;
+  private planes: GalleryPlanes | null = null;
+  private videoLoader: GalleryVideoLoader;
 
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xffffff);
 
-    this.camera = this.setCamera(75, 5, 1000);
+    this.camera = this.setCamera(75, 5, 5000);
 
-    this.scrollObserver = new ScrollObserver();
+    this.videoLoader = this.experience.galleryVideoLoader;
+    this.videoLoader.on("videoLoaded", () => {
+      this.prepare();
+    });
   }
 
   private setCamera(fov: number, near: number, far: number) {
@@ -37,19 +44,26 @@ export class GalleryScene implements SceneLike {
     return camera;
   }
 
+  prepare() {
+    if (this.planes) return;
+    this.scrollObserver = new ScrollObserver();
+    this.planes = new GalleryPlanes(this.scene, this.scrollObserver);
+  }
+
   resize() {
     this.camera.aspect =
       this.experience.config.width / this.experience.config.height;
     this.camera.updateProjectionMatrix();
+    this.planes?.resize();
   }
 
   update() {
-    // Gallery用のplane/スクロール更新は後で追加
-    this.scrollObserver.update();
+    this.scrollObserver?.update(this.experience.time.delta);
+    this.planes?.update();
   }
 
   destroy() {
-    this.scrollObserver.destroy();
+    this.scrollObserver?.destroy();
     this.scene.clear();
   }
 }
