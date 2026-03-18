@@ -1,3 +1,18 @@
+# やること
+
+- plane をクリックできるようにする
+-
+- ホバー中にカーソルの下にポップアップ
+- pointer 位置でカメラ移動（gallery）
+- plane クリックで遷移
+- 背景真っ白どうしよう
+- loading 画面
+- introPlaying 挙動
+- introPlaying plane を追加
+- 音声再生
+- 動画の画質問題
+- シーンと見てる plane によってタイトルを変える
+
 # 工夫点
 
 intro にて　

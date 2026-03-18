@@ -68,6 +68,7 @@ export class Time extends EventEmitter {
 
     const currentTime = Date.now();
     this.delta = (currentTime - this.current) / 1000;
+    this.delta = Math.min(this.delta, 0.1);
     this.current = currentTime;
     this.elapsed = (this.current - this.start) / 1000;
 

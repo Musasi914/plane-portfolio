@@ -4,6 +4,7 @@ import PlaneItem from "./PlaneItem";
 import LastPlane from "./LastPlane";
 import { ScrollObserver } from "./ScrollObserver";
 import lerpFactor from "../../../utils/lerpFactor";
+import { useStore } from "@/store/store";
 
 export default class GalleryPlanes {
   static PLANE_ASPECT = 8 / 5;
@@ -22,6 +23,8 @@ export default class GalleryPlanes {
   private planesGroup: THREE.Group;
   private planeItems: (PlaneItem | LastPlane)[] = [];
   private lastPlane: LastPlane | null = null;
+
+  raycasterTargets: THREE.Object3D[] = [];
 
   constructor(scene: THREE.Scene, scrollObserver: ScrollObserver) {
     this.scene = scene;
@@ -68,6 +71,7 @@ export default class GalleryPlanes {
       planeItem.mesh.position.set(0, 0, -GalleryPlanes.PLANE_DISTANCE * i);
       this.planesGroup.add(planeItem.mesh);
       this.planeItems.push(planeItem);
+      this.raycasterTargets.push(planeItem.mesh);
     }
 
     this.lastPlane = new LastPlane(geometry, this.planeSize);
@@ -99,7 +103,7 @@ export default class GalleryPlanes {
 
       const offset = i - index;
 
-      // Compute y based on offset: if abs(offset) <= 0.2, interpolate from 1 at 0 offset to 0 at |offset|=0.2,
+      // position
       let y = 1;
       if (Math.abs(offset) <= 0.5) {
         y = Math.abs(offset) / 0.5;
@@ -115,6 +119,7 @@ export default class GalleryPlanes {
         lerpFactor(0.05, this.experience.time.delta)
       );
 
+      // rotation
       item.mesh.rotation.x = THREE.MathUtils.lerp(
         item.mesh.rotation.x,
         -targetRotation * 2,
@@ -126,11 +131,21 @@ export default class GalleryPlanes {
         lerpFactor(0.05, this.experience.time.delta)
       );
 
+      // play/pause
       if (item instanceof PlaneItem) {
         if (i === workId) {
           item.play();
         } else {
           item.pause();
+        }
+      }
+
+      // hover
+      if (item instanceof PlaneItem) {
+        if (useStore.getState().hoveredWorkId === i) {
+          item.hover();
+        } else {
+          item.unhover();
         }
       }
     }

@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import * as THREE from "three";
 
 export default class PlaneItem {
@@ -35,6 +36,32 @@ export default class PlaneItem {
 
   pause() {
     this.texture.image.pause();
+  }
+
+  hover() {
+    gsap.to(this.texture.repeat, {
+      x: 0.9,
+      y: 0.9,
+      duration: 0.3,
+    });
+    gsap.to(this.texture.offset, {
+      x: 0.05,
+      y: 0.05,
+      duration: 0.3,
+    });
+  }
+
+  unhover() {
+    gsap.to(this.texture.repeat, {
+      x: 1,
+      y: 1,
+      duration: 0.3,
+    });
+    gsap.to(this.texture.offset, {
+      x: 0,
+      y: 0,
+      duration: 0.3,
+    });
   }
 
   resize({ width, height }: { width: number; height: number }) {

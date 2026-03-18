@@ -4,6 +4,7 @@ import type { SceneLike } from "../../../types/sceneLike";
 import { ScrollObserver } from "./ScrollObserver";
 import GalleryPlanes from "./GalleryPlanes";
 import GalleryVideoLoader from "./GalleryVideoLoader";
+import PlaneRaycaster from "./PlaneRaycaster";
 
 export class GalleryScene implements SceneLike {
   private experience: Experience;
@@ -13,6 +14,8 @@ export class GalleryScene implements SceneLike {
   private scrollObserver: ScrollObserver | null = null;
   private planes: GalleryPlanes | null = null;
   private videoLoader: GalleryVideoLoader;
+
+  private planeRaycaster: PlaneRaycaster | null = null;
 
   constructor() {
     this.experience = Experience.getInstance();
@@ -48,6 +51,10 @@ export class GalleryScene implements SceneLike {
     if (this.planes) return;
     this.scrollObserver = new ScrollObserver();
     this.planes = new GalleryPlanes(this.scene, this.scrollObserver);
+    this.planeRaycaster = new PlaneRaycaster(
+      this.camera,
+      this.planes.raycasterTargets
+    );
   }
 
   resize() {
@@ -60,6 +67,7 @@ export class GalleryScene implements SceneLike {
   update() {
     this.scrollObserver?.update(this.experience.time.delta);
     this.planes?.update();
+    this.planeRaycaster?.update();
   }
 
   destroy() {
