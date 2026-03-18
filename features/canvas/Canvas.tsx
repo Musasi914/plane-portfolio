@@ -11,10 +11,7 @@ export default function Canvas() {
   const setQualityTier = useStore((state) => state.setQualityTier);
   const setNextSceneId = useStore((state) => state.setNextSceneId);
   const setActiveSceneId = useStore((state) => state.setActiveSceneId);
-  const setSceneTransitionProgress = useStore(
-    (state) => state.setSceneTransitionProgress
-  );
-  const setIsTransitioning = useStore((state) => state.setIsTransitioning);
+  const phase = useStore((state) => state.phase);
 
   useEffect(() => {
     const updateDeviceState = () => {
@@ -50,14 +47,7 @@ export default function Canvas() {
       window.removeEventListener("resize", updateDeviceState);
       experience.current?.destroy();
     };
-  }, [
-    setIsMobile,
-    setQualityTier,
-    setNextSceneId,
-    setActiveSceneId,
-    setSceneTransitionProgress,
-    setIsTransitioning,
-  ]);
+  }, [setIsMobile, setQualityTier, setNextSceneId, setActiveSceneId]);
 
   return (
     <div ref={canvasWrapper} className="w-full h-full contain-strict">
@@ -68,14 +58,22 @@ export default function Canvas() {
         <button
           id="face-rotate"
           data-cursor-hover
-          className="absolute -translate-x-full -translate-y-full pointer-events-auto p-4 cursor-pointer"
+          className={`absolute -translate-x-full -translate-y-full pointer-events-auto p-4 transition-opacity ${
+            phase === "introReady"
+              ? "opacity-100 cursor-pointer"
+              : "opacity-0 pointer-events-none"
+          } `}
         >
           rotate: <span>ON</span>
         </button>
         <button
           id="face-smile"
           data-cursor-hover
-          className="absolute -translate-x-full pointer-events-auto p-4 cursor-pointer"
+          className={`absolute -translate-x-full pointer-events-auto p-4 transition-opacity ${
+            phase === "introReady"
+              ? "opacity-100 cursor-pointer"
+              : "opacity-0 pointer-events-none"
+          } `}
         >
           smile: <span>OFF</span>
         </button>

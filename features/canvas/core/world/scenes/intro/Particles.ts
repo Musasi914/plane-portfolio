@@ -192,4 +192,11 @@ export default class Particles {
     this.frameEdge.geometry.dispose();
     this.frameEdge.material.dispose();
   }
+
+  reset() {
+    this.progress = 0;
+    this.points.material.uniforms.uProgress.value = 0;
+    this.frameEdge.scale.set(this.WIDTH, this.WIDTH, this.MAX_DEPTH * 0);
+    this.frameEdge.position.z = 0;
+  }
 }

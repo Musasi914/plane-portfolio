@@ -25,11 +25,22 @@ export default class Fluid {
     return this.sim.velocityTexture;
   }
 
+  resize() {
+    this.sim.resize(
+      this.experience.config.width / 2,
+      this.experience.config.height / 2
+    );
+  }
+
   update() {
     this.sim.update({
       pointerUv: this.pointer.state.uv,
       pointerDeltaUv: this.pointer.state.deltaUv,
       pointerMovedThisFrame: this.pointer.state.movedThisFrame,
     });
+  }
+
+  destroy() {
+    this.sim.destroy();
   }
 }

@@ -4,6 +4,7 @@ import "./globals.css";
 import Canvas from "@/features/canvas/Canvas";
 import InitialLoading from "@/features/loading/InitialLoading";
 import CustomCursor from "@/features/cursor/CustomCursor";
+import RouterSync from "@/routing/RouterSync";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${sora.variable} ${notoSansJP.variable} antialiased`}>
+        <RouterSync />
         <CustomCursor />
         <InitialLoading />
         <div className="fixed inset-0 z-0 bg-background">

@@ -160,4 +160,9 @@ export default class GalleryPlanes {
       item.resize(this.planeSize);
     });
   }
+
+  reset() {
+    this.planesGroup.rotation.x = 0;
+    this.scrollObserver.setInitial();
+  }
 }

@@ -33,19 +33,12 @@ export default class Pointer {
       ndc: new THREE.Vector2(0, 0),
     };
 
-    this.bind();
+    this.el.style.touchAction = "none";
+
+    this.el.addEventListener("pointermove", this.updateFromEvent);
   }
 
-  private bind() {
-    const el = this.el;
-    el.style.touchAction = "none";
-
-    el.addEventListener("pointermove", (e) => {
-      this.updateFromEvent(e);
-    });
-  }
-
-  private updateFromEvent(e: PointerEvent) {
+  private updateFromEvent = (e: PointerEvent) => {
     const rect = this.el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = 1.0 - (e.clientY - rect.top) / rect.height;
@@ -53,12 +46,16 @@ export default class Pointer {
     this.state.uv.set(x, y);
     this.state.ndc.set(x * 2 - 1, y * 2 - 1);
     this.state.movedSinceLastUpdate = true;
-  }
+  };
 
   update() {
     this.state.movedThisFrame = this.state.movedSinceLastUpdate;
     this.state.deltaUv.subVectors(this.state.uv, this.state.previousUv);
     this.state.previousUv.copy(this.state.uv);
     this.state.movedSinceLastUpdate = false;
+  }
+
+  destroy() {
+    this.el.removeEventListener("pointermove", this.updateFromEvent);
   }
 }

@@ -74,4 +74,9 @@ export class GalleryScene implements SceneLike {
     this.scrollObserver?.destroy();
     this.scene.clear();
   }
+
+  reset() {
+    this.resize();
+    this.planes?.reset();
+  }
 }

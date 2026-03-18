@@ -8,7 +8,7 @@ import { sources } from "./source";
 import { Size } from "./utils/Size";
 import { Time } from "./utils/Time";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
-import { useStore } from "@/store/store";
+import { useRouterStore, useStore } from "@/store/store";
 import Pointer from "./utils/Pointer";
 import Fluid from "./fluid/Fluid";
 import GalleryVideoLoader from "./world/scenes/gallery/GalleryVideoLoader";
@@ -63,7 +63,16 @@ export default class Experience {
     this.galleryVideoLoader = new GalleryVideoLoader();
 
     this.resource.on("ready", () => {
-      useStore.getState().setPhase("introReady");
+      const initialPathname = useRouterStore.getState().initialPathname;
+      if (initialPathname === "/") {
+        useStore.getState().setPhase("introReady");
+        useStore.getState().setActiveSceneId("intro");
+        useStore.getState().setNextSceneId(null);
+      } else if (initialPathname === "/gallery") {
+        useStore.getState().setPhase("gallery");
+        useStore.getState().setActiveSceneId("gallery");
+        useStore.getState().setNextSceneId(null);
+      }
       this.world = new World();
       this.galleryVideoLoader.loadVideos();
     });
@@ -132,7 +141,16 @@ export default class Experience {
     };
   }
 
+  // fluidだけデバウンス
+  private resizeTimeout: ReturnType<typeof setTimeout> | null = null;
   private resize() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = setTimeout(() => {
+      this.fluid.resize();
+    }, 150);
+
     requestAnimationFrame(() => {
       this.config = this.setConfig();
       this.camera.resize();
@@ -163,6 +181,8 @@ export default class Experience {
     this.unsubscribeStore = null;
     this.size.destroy();
     this.time.destroy();
+    this.fluid.destroy();
+    this.pointer.destroy();
     this.world?.destroy();
     this.camera.destroy();
     this.resource.destroy();

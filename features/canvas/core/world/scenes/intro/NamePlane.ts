@@ -69,4 +69,8 @@ export default class NamePlane {
     (this.mesh.material as THREE.Material).dispose();
     this.scene.remove(this.mesh);
   }
+
+  reset() {
+    this.mesh.position.z = 0;
+  }
 }

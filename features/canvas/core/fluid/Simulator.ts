@@ -268,4 +268,117 @@ export default class Simulator {
     const tex = this.getCurrentTexture(this.projectVar, this.projectCompute);
     return tex ?? new THREE.Texture();
   }
+
+  resize(width: number, height: number) {
+    if (this.width === width && this.height === height) return;
+
+    this.disposeComputeRenderer(this.velocityCompute, this.velocityVar);
+    this.disposeComputeRenderer(this.pressureCompute, this.pressureVar);
+    this.disposeComputeRenderer(this.projectCompute, this.projectVar);
+
+    this.velocityCompute = null;
+    this.pressureCompute = null;
+    this.projectCompute = null;
+    this.velocityVar = null;
+    this.pressureVar = null;
+    this.projectVar = null;
+
+    if (this.divergenceTarget) {
+      this.divergenceTarget.dispose();
+      this.divergenceTarget = null;
+    }
+
+    this.width = width;
+    this.height = height;
+    this.px.set(1 / this.width, 1 / this.height);
+
+    this.velocityCompute = this.createComputeRenderer();
+    this.pressureCompute = this.createComputeRenderer();
+    this.projectCompute = this.createComputeRenderer();
+
+    this.velocityVar = this.velocityCompute.addVariable(
+      "textureVelocity",
+      computeVelocityFrag,
+      this.velocityCompute.createTexture()
+    );
+
+    this.pressureVar = this.pressureCompute.addVariable(
+      "texturePressure",
+      computePressureFrag,
+      this.pressureCompute.createTexture()
+    );
+    this.pressureCompute.setVariableDependencies(this.pressureVar, [
+      this.pressureVar,
+    ]);
+
+    this.projectVar = this.projectCompute.addVariable(
+      "textureVelocityProj",
+      computeProjectFrag,
+      this.projectCompute.createTexture()
+    );
+
+    this.divergenceTarget = new THREE.WebGLRenderTarget(
+      this.width,
+      this.height,
+      {
+        type: THREE.HalfFloatType,
+        minFilter: THREE.NearestFilter,
+        magFilter: THREE.NearestFilter,
+        depthBuffer: false,
+        stencilBuffer: false,
+        generateMipmaps: false,
+      }
+    );
+
+    if (this.divergenceMesh) {
+      this.divergenceMesh.material.uniforms.uPx.value.copy(this.px);
+    }
+
+    this.setUniforms();
+
+    const error =
+      this.velocityCompute.init() ??
+      this.pressureCompute.init() ??
+      this.projectCompute.init();
+    if (error !== null) {
+      console.error(error);
+    }
+  }
+
+  destroy() {
+    this.disposeComputeRenderer(this.velocityCompute, this.velocityVar);
+    this.disposeComputeRenderer(this.pressureCompute, this.pressureVar);
+    this.disposeComputeRenderer(this.projectCompute, this.projectVar);
+
+    this.velocityCompute = null;
+    this.pressureCompute = null;
+    this.projectCompute = null;
+    this.velocityVar = null;
+    this.pressureVar = null;
+    this.projectVar = null;
+
+    if (this.divergenceTarget) {
+      this.divergenceTarget.dispose();
+      this.divergenceTarget = null;
+    }
+
+    if (this.divergenceMesh) {
+      this.divergenceMesh.geometry.dispose();
+      this.divergenceMesh.material.dispose();
+      this.divergenceScene?.remove(this.divergenceMesh);
+      this.divergenceMesh = null;
+    }
+
+    this.divergenceScene = null;
+    this.divergenceCamera = null;
+  }
+
+  private disposeComputeRenderer(
+    compute: GPUComputationRenderer | null,
+    variable: Variable | null
+  ): void {
+    if (!compute) return;
+    variable?.material.dispose();
+    compute.dispose();
+  }
 }

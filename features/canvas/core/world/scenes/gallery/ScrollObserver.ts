@@ -23,11 +23,11 @@ export class ScrollObserver {
   targetScroll = 0;
   currentScroll = 0;
 
-  unsbscribeStore: (() => void) | null = null;
+  unsubscribeStore: (() => void) | null = null;
 
   constructor() {
     this.phase = useStore.getState().phase;
-    this.unsbscribeStore = useStore.subscribe((state) => {
+    this.unsubscribeStore = useStore.subscribe((state) => {
       this.phase = state.phase;
     });
 
@@ -65,6 +65,12 @@ export class ScrollObserver {
     return this.targetScroll - this.currentScroll;
   }
 
+  setInitial() {
+    this.targetScroll = 0;
+    this.currentScroll = 0;
+    useStore.getState().setCurrentWorkId(0);
+  }
+
   update(delta: number) {
     this.currentScroll = THREE.MathUtils.lerp(
       this.currentScroll,
@@ -76,7 +82,7 @@ export class ScrollObserver {
   destroy() {
     this.observer?.kill();
     this.observer = null;
-    this.unsbscribeStore?.();
-    this.unsbscribeStore = null;
+    this.unsubscribeStore?.();
+    this.unsubscribeStore = null;
   }
 }

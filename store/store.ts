@@ -78,6 +78,22 @@ export const useStore = create<StoreType>((set) => ({
   setCursorVariant: (cursorVariant) => set({ cursorVariant }),
 
   // video
-  videoCount: 0,
+  videoCount: 1,
   setVideoCount: (videoCount) => set({ videoCount }),
+}));
+
+type RouterStoreType = {
+  initialPathname: string;
+  setInitialPathname: (initialPathname: string) => void;
+
+  onNavigate: ((path: string) => void) | null;
+  setOnNavigate: (onNavigate: RouterStoreType["onNavigate"]) => void;
+};
+
+export const useRouterStore = create<RouterStoreType>((set) => ({
+  initialPathname: "/",
+  setInitialPathname: (initialPathname) => set({ initialPathname }),
+
+  onNavigate: null,
+  setOnNavigate: (onNavigate) => set({ onNavigate }),
 }));

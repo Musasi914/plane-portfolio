@@ -3,17 +3,14 @@ import { useStore, type SceneId } from "@/store/store";
 import { IntroScene } from "./scenes/intro/IntroScene";
 import { GalleryScene } from "./scenes/gallery/GalleryScene";
 import type { RenderState } from "../types/renderState";
-import { Resource } from "../base/Resource";
 import * as THREE from "three";
 export class World {
   experience: Experience;
-  resource: Resource;
   introScene: IntroScene | null = null;
   galleryScene: GalleryScene | null = null;
 
   constructor() {
     this.experience = Experience.getInstance();
-    this.resource = this.experience.resource;
 
     this.introScene = new IntroScene();
     this.galleryScene = new GalleryScene();
@@ -75,5 +72,10 @@ export class World {
     this.galleryScene?.destroy();
     this.introScene = null;
     this.galleryScene = null;
+  }
+
+  reset() {
+    this.introScene?.reset();
+    this.galleryScene?.reset();
   }
 }

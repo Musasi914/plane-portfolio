@@ -314,4 +314,12 @@ export class Face {
       this.onMouseEnter
     );
   }
+
+  reset() {
+    this.faceControls.rotateEnabled = true;
+    this.faceControls.smileEnabled = false;
+    this.faceControls.rotateButton.querySelector("span")!.textContent = "ON";
+    this.faceControls.smileButton.querySelector("span")!.textContent = "OFF";
+    this.faceMesh.material.uniforms.uSwitchProgress.value = 0;
+  }
 }

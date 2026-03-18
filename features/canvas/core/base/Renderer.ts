@@ -70,8 +70,6 @@ export class Renderer {
     renderer.setPixelRatio(this.config.pixelRatio);
     renderer.setSize(this.config.width, this.config.height);
     renderer.setClearColor(0xffffff);
-    // renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    // renderer.toneMappingExposure = 0.8;
 
     return renderer;
   }
@@ -96,6 +94,21 @@ export class Renderer {
     const activeSceneId = state.activeSceneId;
     const nextSceneId = state.nextSceneId;
 
+    const progress = nextSceneId
+      ? transitionProgress
+      : activeSceneId === "gallery"
+      ? 1
+      : 0;
+    if (this.compositeMesh) {
+      this.compositeMesh.material.uniforms.uTexActive.value =
+        this.introRT.texture;
+      this.compositeMesh.material.uniforms.uTexNext.value =
+        this.galleryRT.texture;
+      this.compositeMesh.material.uniforms.uProgress.value = progress;
+      this.compositeMesh.material.uniforms.uFluidVelocity.value =
+        fluidVelocityTexture;
+    }
+
     const renderIntro = activeSceneId === "intro" || nextSceneId === "intro";
     const renderGallery =
       activeSceneId === "gallery" || nextSceneId === "gallery";
@@ -110,18 +123,6 @@ export class Renderer {
       const galleryPair = activeSceneId === "gallery" ? active : next!;
       this.instance.setRenderTarget(this.galleryRT);
       this.instance.render(galleryPair.scene, galleryPair.camera);
-    }
-
-    const progress = activeSceneId === "gallery" ? 1 : transitionProgress;
-
-    if (this.compositeMesh) {
-      this.compositeMesh.material.uniforms.uTexActive.value =
-        this.introRT.texture;
-      this.compositeMesh.material.uniforms.uTexNext.value =
-        this.galleryRT.texture;
-      this.compositeMesh.material.uniforms.uProgress.value = progress;
-      this.compositeMesh.material.uniforms.uFluidVelocity.value =
-        fluidVelocityTexture;
     }
 
     this.instance.setRenderTarget(null);

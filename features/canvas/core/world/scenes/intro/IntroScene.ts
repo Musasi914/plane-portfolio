@@ -6,11 +6,15 @@ import NamePlane from "./NamePlane";
 import Particles from "./Particles";
 import IntroRaycaster from "./IntroRaycaster";
 import gsap from "gsap";
-import { useStore } from "@/store/store";
+import { useRouterStore, useStore } from "@/store/store";
 import { CustomEase } from "gsap/CustomEase";
 gsap.registerPlugin(CustomEase);
 
 export class IntroScene implements SceneLike {
+  static CAMERA_FOV = 75;
+  static CAMERA_NEAR = 5;
+  static CAMERA_FAR = 5000;
+
   private experience: Experience;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
@@ -34,7 +38,7 @@ export class IntroScene implements SceneLike {
 
     this.planeWidth = this.calcPlaneWidth();
 
-    this.camera = this.setCamera(75, 5, 5000);
+    this.camera = this.setCamera();
 
     this.createLight();
 
@@ -54,28 +58,32 @@ export class IntroScene implements SceneLike {
 
     this.experience.canvasWrapper.addEventListener(
       "click",
-      this.setTransitionFire.bind(this)
+      this.setTransitionFire
     );
   }
 
-  private setCamera(fov: number, near: number, far: number) {
+  private setCamera() {
     const camera = new THREE.PerspectiveCamera(
-      fov,
+      IntroScene.CAMERA_FOV,
       this.experience.config.width / this.experience.config.height,
-      near,
-      far
+      IntroScene.CAMERA_NEAR,
+      IntroScene.CAMERA_FAR
     );
+
+    this.setCameraPosition(camera);
+
+    return camera;
+  }
+  private setCameraPosition(camera: THREE.PerspectiveCamera) {
     const distance =
       this.experience.config.height /
-      (2 * Math.tan(((fov / 2) * Math.PI) / 180));
+      (2 * Math.tan(((IntroScene.CAMERA_FOV / 2) * Math.PI) / 180));
 
     if (this.isPortrait) {
       camera.position.set(0, -this.planeWidth * 0.5, distance);
     } else {
       camera.position.set(this.planeWidth * 0.5, 0, distance);
     }
-
-    return camera;
   }
 
   private createLight() {
@@ -98,7 +106,7 @@ export class IntroScene implements SceneLike {
 
   private sceneChange() {
     if (useStore.getState().isTransitioning) return;
-    this.face.deleteFaceControls();
+    // this.face.deleteFaceControls();
 
     // カメラが0,0,0に
     const tl = gsap.timeline({
@@ -112,6 +120,7 @@ export class IntroScene implements SceneLike {
         useStore.getState().setNextSceneId(null);
         useStore.getState().setPhase("gallery");
         useStore.getState().setIsTransitioning(false);
+        useRouterStore.getState().onNavigate?.("/gallery");
       },
     });
     tl.to(this.camera.position, {
@@ -177,13 +186,13 @@ export class IntroScene implements SceneLike {
     );
   }
 
-  private setTransitionFire() {
+  private setTransitionFire = () => {
     if (this.raycaster.isHovering) {
       useStore.getState().setPhase("introPlaying");
       this.sceneChange();
       this.raycaster.isHovering = false;
     }
-  }
+  };
 
   resize() {
     this.planeWidth = this.calcPlaneWidth();
@@ -219,6 +228,19 @@ export class IntroScene implements SceneLike {
     this.namePlane.destroy();
     this.particles.destroy();
     this.scene.clear();
-    window.removeEventListener("click", this.setTransitionFire.bind(this));
+    this.experience.canvasWrapper.removeEventListener(
+      "click",
+      this.setTransitionFire
+    );
+  }
+
+  // ページ遷移用
+  reset() {
+    this.resize();
+    this.face.reset();
+    this.namePlane.reset();
+    this.particles.reset();
+
+    this.setCameraPosition(this.camera);
   }
 }
