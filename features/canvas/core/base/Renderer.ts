@@ -70,6 +70,7 @@ export class Renderer {
     renderer.setPixelRatio(this.config.pixelRatio);
     renderer.setSize(this.config.width, this.config.height);
     renderer.setClearColor(0xffffff);
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
     return renderer;
   }

@@ -5,6 +5,8 @@ import { ScrollObserver } from "./ScrollObserver";
 import GalleryPlanes from "./GalleryPlanes";
 import GalleryVideoLoader from "./GalleryVideoLoader";
 import PlaneRaycaster from "./PlaneRaycaster";
+import { useRouterStore, useStore } from "@/store/store";
+import { getSlugByIndex } from "../../../utils/gallery";
 
 export class GalleryScene implements SceneLike {
   private experience: Experience;
@@ -20,7 +22,7 @@ export class GalleryScene implements SceneLike {
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background = new THREE.Color(0xdddddd);
 
     this.camera = this.setCamera(75, 5, 5000);
 
@@ -55,9 +57,64 @@ export class GalleryScene implements SceneLike {
       this.camera,
       this.planes.raycasterTargets
     );
+
+    this.experience.canvasWrapper.addEventListener(
+      "click",
+      this.transitionToDetailClickHandler
+    );
+
+    useRouterStore.getState().setOnBackToGallery(() => {
+      this.backToGallery();
+    });
+    useRouterStore.getState().setOnBackToDetail(() => {
+      const prevWorkId = useRouterStore.getState().prevWorkId;
+      this.transitionToDetail(prevWorkId ?? undefined);
+    });
+  }
+
+  private transitionToDetailClickHandler = () => {
+    this.transitionToDetail();
+  };
+
+  private transitionToDetail = (workId?: number) => {
+    if (!this.canTransitionToDetail()) return;
+
+    useStore.getState().setIsTransitioning(true);
+    useStore.getState().setPhase("galleryDetail");
+    useStore.getState().setCursorVariant("default");
+    this.scrollObserver?.saveGalleryScroll();
+    const currentWorkId = useStore.getState().currentWorkId;
+    this.planes?.moveToDetail(workId ?? currentWorkId);
+    useRouterStore.getState().setPrevWorkId(currentWorkId);
+  };
+  private canTransitionToDetail() {
+    const currentWorkId = useStore.getState().currentWorkId;
+    if (useStore.getState().phase !== "gallery" || currentWorkId === null)
+      return false;
+
+    const slug = getSlugByIndex(currentWorkId);
+    if (slug === null) return false;
+
+    return true;
+  }
+
+  backToGallery() {
+    useStore.getState().setIsTransitioning(true);
+    useStore.getState().setPhase("galleryDetail");
+    useStore.getState().setCursorVariant("default");
+    this.scrollObserver?.restoreGalleryScroll();
+    this.planes?.backToGallery();
   }
 
   resize() {
+    if (
+      !(
+        useStore.getState().phase === "gallery" ||
+        useStore.getState().phase === "detail" ||
+        useStore.getState().phase === "galleryDetail"
+      )
+    )
+      return;
     this.camera.aspect =
       this.experience.config.width / this.experience.config.height;
     this.camera.updateProjectionMatrix();
@@ -73,6 +130,10 @@ export class GalleryScene implements SceneLike {
   destroy() {
     this.scrollObserver?.destroy();
     this.scene.clear();
+    this.experience.canvasWrapper.removeEventListener(
+      "click",
+      this.transitionToDetailClickHandler
+    );
   }
 
   reset() {

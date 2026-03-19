@@ -4,8 +4,9 @@ import PlaneItem from "./PlaneItem";
 import LastPlane from "./LastPlane";
 import { ScrollObserver } from "./ScrollObserver";
 import lerpFactor from "../../../utils/lerpFactor";
-import { useStore } from "@/store/store";
-
+import { useRouterStore, useStore } from "@/store/store";
+import gsap from "gsap";
+import { getSlugByIndex } from "../../../utils/gallery";
 export default class GalleryPlanes {
   static PLANE_ASPECT = 8 / 5;
   static PLANE_DISTANCE = 600;
@@ -38,21 +39,22 @@ export default class GalleryPlanes {
     this.scene.add(this.planesWrapper);
     this.planesWrapper.add(this.planesGroup);
 
-    this.planeSize = this.calcPlaneSize();
+    this.planeSize = this.calcPlaneSize(GalleryPlanes.PLANE_SIZE);
 
     this.createPlanes();
   }
 
   private calcPlaneSize(
+    size: number,
     containerWidth: number = this.experience.config.width,
     containerHeight: number = this.experience.config.height
   ) {
     if (containerWidth / GalleryPlanes.PLANE_ASPECT > containerHeight) {
-      const height = containerHeight * GalleryPlanes.PLANE_SIZE;
+      const height = containerHeight * size;
       const width = height * GalleryPlanes.PLANE_ASPECT;
       return { width, height };
     } else {
-      const width = containerWidth * GalleryPlanes.PLANE_SIZE;
+      const width = containerWidth * size;
       const height = width / GalleryPlanes.PLANE_ASPECT;
       return { width, height };
     }
@@ -84,7 +86,216 @@ export default class GalleryPlanes {
     this.planeItems.push(this.lastPlane);
   }
 
+  private offsetY = 0;
+  moveToDetail(workId: number) {
+    const target = this.planeItems[workId];
+    const others = this.planeItems.filter((item) => item !== target);
+
+    const tl = gsap.timeline({
+      defaults: {
+        ease: "power2.out",
+        duration: 1,
+      },
+      onComplete: () => {
+        useStore.getState().setIsTransitioning(false);
+        useRouterStore
+          .getState()
+          .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
+        this.scrollObserver?.reset();
+      },
+    });
+
+    tl.to(this.planesGroup.rotation, {
+      x: 0,
+    });
+    others.forEach((item, i) => {
+      tl.to(
+        item.mesh.rotation,
+        {
+          x: 0,
+          y: 0,
+        },
+        0
+      );
+
+      tl.to(
+        item.mesh.position,
+        {
+          x: 0,
+          y: -this.planeSize.height * (i + 3),
+          z: -GalleryPlanes.PLANE_DISTANCE * (i - workId + 1) * 2,
+          duration: 1.5,
+          ease: "power4.in",
+        },
+        i * 0.1
+      );
+
+      tl.to(
+        item.mesh.material.uniforms.uOpacity,
+        {
+          value: 0,
+        },
+        1 + i * 0.1
+      );
+    });
+
+    tl.to(
+      target.mesh.rotation,
+      {
+        x: 0,
+        y: 0,
+      },
+      0
+    );
+    tl.to(
+      target.mesh.position,
+      {
+        z: 0,
+      },
+      0
+    );
+
+    const { width, height } = this.getDetailCanvasSize();
+    const { x, y } = this.getTargetPosition(width, height);
+    this.offsetY = y;
+    tl.to(target.mesh.position, {
+      x,
+      y,
+      z: 0,
+    });
+
+    tl.to(target.mesh.scale, {
+      x: width,
+      y: height,
+    });
+  }
+
+  backToGallery() {
+    const workId = useStore.getState().currentWorkId;
+    const target = this.planeItems[workId];
+    const others = this.planeItems.filter((item) => item !== target);
+
+    const index =
+      this.scrollObserver.targetScroll / GalleryPlanes.PLANE_DISTANCE;
+
+    const tl = gsap.timeline({
+      onStart: () => {
+        this.detailScrollContentEl = null;
+        useRouterStore.getState().onNavigate?.("/gallery");
+      },
+      onComplete: () => {
+        useStore.getState().setIsTransitioning(false);
+        useStore.getState().setPhase("gallery");
+      },
+    });
+
+    const getTargetY = (offset: number) => {
+      let y = 1;
+      if (Math.abs(offset) <= 0.5) {
+        y = Math.abs(offset) / 0.5;
+      }
+      return y * this.planeSize.height;
+    };
+
+    others.forEach((item, othersIndex) => {
+      const planeIndex = this.planeItems.indexOf(item);
+      const offset = planeIndex - index;
+      const targetZ = -offset * GalleryPlanes.PLANE_DISTANCE;
+      const targetY = getTargetY(offset);
+
+      tl.to(
+        item.mesh.position,
+        {
+          x: 0,
+          y: targetY,
+          z: targetZ,
+          duration: 1.5,
+          ease: "power4.out",
+        },
+        othersIndex * 0.1
+      );
+
+      tl.to(
+        item.mesh.material.uniforms.uOpacity,
+        {
+          value: 1,
+        },
+        0
+      );
+    });
+
+    const targetOffset = workId - index;
+    const targetZ = -targetOffset * GalleryPlanes.PLANE_DISTANCE;
+    const targetY = getTargetY(targetOffset);
+
+    tl.to(
+      target.mesh.position,
+      {
+        x: 0,
+        y: targetY,
+        z: targetZ,
+      },
+      0
+    );
+
+    tl.to(target.mesh.scale, {
+      x: this.planeSize.width,
+      y: this.planeSize.height,
+    });
+  }
+
+  private getDetailCanvasSize() {
+    const screenWidth = this.experience.config.width;
+    const padding = this.getPadding(screenWidth);
+    const gap = 32;
+    const contentWidth = screenWidth - padding * 2 - gap;
+    const width = contentWidth * (2 / 3);
+    return {
+      width,
+      height: width / GalleryPlanes.PLANE_ASPECT,
+    };
+  }
+
+  private getTargetPosition(canvasWidth: number, canvasHeight: number) {
+    const screenWidth = this.experience.config.width;
+    const screenHeight = this.experience.config.height;
+    const padding = this.getPadding(screenWidth);
+    return {
+      x: screenWidth / 2 - padding - canvasWidth / 2,
+      y: screenHeight / 2 - padding - canvasHeight / 2,
+    };
+  }
+
+  private getPadding(screenWidth: number) {
+    const padding = screenWidth >= 768 ? 32 : 16;
+    return padding;
+  }
+
+  private detailScrollContentEl: HTMLElement | null = null;
+
   update() {
+    if (useStore.getState().isTransitioning) return;
+
+    const phase = useStore.getState().phase;
+
+    if (phase === "gallery") {
+      this.updateGallery();
+    } else if (phase === "detail") {
+      // キャッシュがなければ取得を試みる（毎フレーム試行、見つかったらキャッシュ）
+      if (!this.detailScrollContentEl) {
+        this.detailScrollContentEl = document.getElementById("detail-canvas");
+        if (this.detailScrollContentEl) {
+          this.scrollObserver.setTargetScrollMax(
+            (this.detailScrollContentEl.children[0] as HTMLElement)
+              .scrollHeight - this.experience.config.height
+          );
+        } else return; // まだ DOM にない → 次フレームで再試行
+      }
+      this.updateDetail();
+    }
+  }
+
+  private updateGallery() {
     const index = this.scrollObserver.getIndex();
     const workId = this.scrollObserver.getWorkId();
 
@@ -151,14 +362,35 @@ export default class GalleryPlanes {
     }
   }
 
+  private updateDetail() {
+    const workId = useStore.getState().currentWorkId;
+    const target = this.planeItems[workId];
+    if (!target || !this.detailScrollContentEl) return;
+
+    target.mesh.position.y = this.offsetY + this.scrollObserver.currentScroll;
+    this.detailScrollContentEl.style.transform = `translateY(-${this.scrollObserver.currentScroll}px)`;
+  }
+
   resize() {
-    this.planeSize = this.calcPlaneSize(
-      this.experience.config.width,
-      this.experience.config.height
-    );
-    this.planeItems.forEach((item) => {
-      item.resize(this.planeSize);
-    });
+    if (useStore.getState().phase === "gallery") {
+      this.planeSize = this.calcPlaneSize(
+        GalleryPlanes.PLANE_SIZE,
+        this.experience.config.width,
+        this.experience.config.height
+      );
+      this.planeItems.forEach((item) => {
+        item.resize(this.planeSize);
+      });
+    } else if (useStore.getState().phase === "detail") {
+      const { width, height } = this.getDetailCanvasSize();
+      const { x, y } = this.getTargetPosition(width, height);
+      this.planeSize = { width, height };
+      const target = this.planeItems[useStore.getState().currentWorkId!];
+      if (target) {
+        target.resize(this.planeSize);
+        target.mesh.position.set(x, y, 0);
+      }
+    }
   }
 
   reset() {

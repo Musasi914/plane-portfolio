@@ -1,12 +1,14 @@
 import gsap from "gsap";
 import * as THREE from "three";
+import planeVert from "./shaders/plane.vert";
+import planeFrag from "./shaders/plane.frag";
 
 export default class PlaneItem {
   private geometry: THREE.PlaneGeometry;
   private planeSize: { width: number; height: number };
   private texture: THREE.VideoTexture<HTMLVideoElement>;
 
-  mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
+  mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
 
   constructor(
     geometry: THREE.PlaneGeometry,
@@ -21,8 +23,15 @@ export default class PlaneItem {
   }
 
   private createPlane() {
-    const material = new THREE.MeshBasicMaterial({
-      map: this.texture,
+    const material = new THREE.ShaderMaterial({
+      vertexShader: planeVert,
+      fragmentShader: planeFrag,
+      uniforms: {
+        uTexture: { value: this.texture },
+        uProgress: { value: 0 },
+        uOpacity: { value: 1 },
+      },
+      transparent: true,
     });
     const mesh = new THREE.Mesh(this.geometry, material);
     mesh.scale.set(this.planeSize.width, this.planeSize.height, 1);

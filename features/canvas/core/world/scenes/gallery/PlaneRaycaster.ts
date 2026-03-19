@@ -10,6 +10,8 @@ export default class PlaneRaycaster {
   private camera: THREE.PerspectiveCamera;
   private targetObjects: THREE.Object3D[];
 
+  isIntersecting = false;
+
   constructor(
     camera: THREE.PerspectiveCamera,
     targetObjects: THREE.Object3D[]
@@ -31,12 +33,23 @@ export default class PlaneRaycaster {
     this.raycaster.setFromCamera(this.pointer.state.ndc, this.camera);
     const intersects = this.raycaster.intersectObject(target);
     if (intersects.length > 0) {
-      useStore.getState().setHoveredWorkId(currentWorkId);
-      useStore.getState().setCursorVariant("hover");
+      this.isIntersecting = true;
+      const { hoveredWorkId, cursorVariant, currentWorkId } =
+        useStore.getState();
+      if (hoveredWorkId !== currentWorkId) {
+        useStore.getState().setHoveredWorkId(currentWorkId);
+      }
+      if (cursorVariant !== "hover") {
+        useStore.getState().setCursorVariant("hover");
+      }
     } else {
+      this.isIntersecting = false;
+      const { cursorVariant } = useStore.getState();
+      if (cursorVariant !== "default") {
+        useStore.getState().setCursorVariant("default");
+      }
       if (useStore.getState().hoveredWorkId !== null) {
         useStore.getState().setHoveredWorkId(null);
-        useStore.getState().setCursorVariant("default");
       }
     }
   }

@@ -80,7 +80,7 @@ export default class Experience {
     this.pointer = new Pointer();
     this.fluid = new Fluid();
 
-    this.setupTransitionGUI();
+    // this.setupTransitionGUI();
 
     this.size.on("resize", this.onResize);
     this.time.on("tick", this.onTick);
@@ -91,32 +91,32 @@ export default class Experience {
     });
   }
 
-  private setupTransitionGUI() {
-    const folder = this.gui.addFolder("Transition");
-    const obj = {
-      progress: useStore.getState().sceneTransitionProgress,
-    };
-    folder
-      .add(obj, "progress", 0, 1, 0.01)
-      .name("sceneTransitionProgress")
-      .onChange((value: number) => {
-        obj.progress = value;
-        useStore.getState().setSceneTransitionProgress(value);
-        if (value > 0 && value < 1) {
-          useStore.getState().setNextSceneId("gallery");
-          useStore.getState().setActiveSceneId("intro");
-          useStore.getState().setPhase("introPlaying");
-        } else if (value >= 1) {
-          useStore.getState().setActiveSceneId("gallery");
-          useStore.getState().setPhase("gallery");
-          useStore.getState().setNextSceneId(null);
-        } else {
-          useStore.getState().setNextSceneId(null);
-          useStore.getState().setPhase("introReady");
-        }
-      });
-    folder.open();
-  }
+  // private setupTransitionGUI() {
+  //   const folder = this.gui.addFolder("Transition");
+  //   const obj = {
+  //     progress: useStore.getState().sceneTransitionProgress,
+  //   };
+  //   folder
+  //     .add(obj, "progress", 0, 1, 0.01)
+  //     .name("sceneTransitionProgress")
+  //     .onChange((value: number) => {
+  //       obj.progress = value;
+  //       useStore.getState().setSceneTransitionProgress(value);
+  //       if (value > 0 && value < 1) {
+  //         useStore.getState().setNextSceneId("gallery");
+  //         useStore.getState().setActiveSceneId("intro");
+  //         useStore.getState().setPhase("introPlaying");
+  //       } else if (value >= 1) {
+  //         useStore.getState().setActiveSceneId("gallery");
+  //         useStore.getState().setPhase("gallery");
+  //         useStore.getState().setNextSceneId(null);
+  //       } else {
+  //         useStore.getState().setNextSceneId(null);
+  //         useStore.getState().setPhase("introReady");
+  //       }
+  //     });
+  //   folder.open();
+  // }
 
   private getMaxPixelRatio() {
     const qualityTier = useStore.getState().qualityTier;

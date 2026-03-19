@@ -3,7 +3,13 @@ import { create } from "zustand";
 export type SceneId = "intro" | "gallery";
 
 export type StoreType = {
-  phase: "loading" | "introReady" | "introPlaying" | "gallery" | "detail";
+  phase:
+    | "loading"
+    | "introReady"
+    | "introPlaying"
+    | "gallery"
+    | "galleryDetail"
+    | "detail";
   setPhase: (phase: StoreType["phase"]) => void;
 
   currentWorkId: number;
@@ -88,6 +94,22 @@ type RouterStoreType = {
 
   onNavigate: ((path: string) => void) | null;
   setOnNavigate: (onNavigate: RouterStoreType["onNavigate"]) => void;
+
+  isAppNavigation: boolean;
+  setIsAppNavigation: (isAppNavigation: boolean) => void;
+
+  onBackToGallery: (() => void) | null;
+  setOnBackToGallery: (
+    onBackToGallery: RouterStoreType["onBackToGallery"]
+  ) => void;
+
+  onBackToDetail: (() => void) | null;
+  setOnBackToDetail: (
+    onBackToDetail: RouterStoreType["onBackToDetail"]
+  ) => void;
+
+  prevWorkId: number | null;
+  setPrevWorkId: (prevWorkId: number | null) => void;
 };
 
 export const useRouterStore = create<RouterStoreType>((set) => ({
@@ -96,4 +118,16 @@ export const useRouterStore = create<RouterStoreType>((set) => ({
 
   onNavigate: null,
   setOnNavigate: (onNavigate) => set({ onNavigate }),
+
+  isAppNavigation: false,
+  setIsAppNavigation: (isAppNavigation) => set({ isAppNavigation }),
+
+  onBackToGallery: null,
+  setOnBackToGallery: (onBackToGallery) => set({ onBackToGallery }),
+
+  onBackToDetail: null,
+  setOnBackToDetail: (onBackToDetail) => set({ onBackToDetail }),
+
+  prevWorkId: null,
+  setPrevWorkId: (prevWorkId) => set({ prevWorkId }),
 }));

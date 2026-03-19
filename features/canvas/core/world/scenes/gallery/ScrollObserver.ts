@@ -1,7 +1,7 @@
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
-import { useStore } from "@/store/store";
+import { StoreType, useStore } from "@/store/store";
 import * as THREE from "three";
 import GalleryPlanes from "./GalleryPlanes";
 import lerpFactor from "../../../utils/lerpFactor";
@@ -13,12 +13,7 @@ export class ScrollObserver {
   private SCROLL_SNAP;
 
   private observer: Observer | null = null;
-  private phase:
-    | "loading"
-    | "introReady"
-    | "introPlaying"
-    | "gallery"
-    | "detail";
+  private phase: StoreType["phase"];
 
   targetScroll = 0;
   currentScroll = 0;
@@ -42,33 +37,60 @@ export class ScrollObserver {
     });
   }
 
+  targetScrollMax = 1000;
+  setTargetScrollMax(max: number) {
+    this.targetScrollMax = max;
+  }
   private onScrollChange(self: Observer) {
-    if (this.phase !== "gallery") return;
-    this.targetScroll += self.deltaY / 2;
-    this.targetScroll = Math.max(
-      this.SCROLL_MIN,
-      Math.min(this.SCROLL_MAX, this.targetScroll)
-    );
-    gsap.delayedCall(0.5, () => {
-      this.targetScroll = gsap.utils.snap(this.SCROLL_SNAP, this.targetScroll);
-      useStore.getState().setCurrentWorkId(this.getWorkId());
-    });
+    if (this.phase === "gallery") {
+      this.targetScroll += self.deltaY / 2;
+      this.targetScroll = Math.max(
+        this.SCROLL_MIN,
+        Math.min(this.SCROLL_MAX, this.targetScroll)
+      );
+      gsap.delayedCall(0.5, () => {
+        this.targetScroll = gsap.utils.snap(
+          this.SCROLL_SNAP,
+          this.targetScroll
+        );
+        useStore.getState().setCurrentWorkId(this.getWorkId());
+      });
+    } else if (this.phase === "detail") {
+      this.targetScroll += self.deltaY / 3;
+      this.targetScroll = Math.min(
+        Math.max(0, this.targetScroll),
+        this.targetScrollMax
+      );
+    }
   }
 
   getIndex(scroll = this.currentScroll): number {
     return scroll / GalleryPlanes.PLANE_DISTANCE;
   }
-  getWorkId(scroll = this.currentScroll): number {
+  getWorkId(scroll = this.targetScroll): number {
     return Math.round(scroll / GalleryPlanes.PLANE_DISTANCE);
   }
   getDiff() {
     return this.targetScroll - this.currentScroll;
   }
 
+  private prevTargetScroll = 0;
+  saveGalleryScroll() {
+    this.prevTargetScroll = this.targetScroll;
+  }
+  restoreGalleryScroll() {
+    this.targetScroll = this.prevTargetScroll;
+  }
+
   setInitial() {
     this.targetScroll = 0;
     this.currentScroll = 0;
     useStore.getState().setCurrentWorkId(0);
+  }
+
+  reset() {
+    this.targetScroll = 0;
+    this.currentScroll = 0;
   }
 
   update(delta: number) {

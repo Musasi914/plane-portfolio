@@ -22,7 +22,7 @@ vec2 calcRandomOffset(float strength) {
 }
 
 const float fogNear = 10.0;
-const float fogFar = 1500.0;
+const float fogFar = 500.0;
 
 void main() {
   vec3 worldPosition = position * vec3(uGridSize, uGridSize, uDepthPerLayer);

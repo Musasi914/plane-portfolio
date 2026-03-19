@@ -23,7 +23,6 @@ export default class GalleryVideoLoader extends EventEmitter {
       const texture = new THREE.VideoTexture(video);
       texture.minFilter = THREE.NearestFilter;
       texture.magFilter = THREE.NearestFilter;
-      texture.colorSpace = THREE.SRGBColorSpace;
 
       this.textures[source.name] = texture;
 

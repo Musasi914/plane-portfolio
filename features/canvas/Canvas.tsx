@@ -58,7 +58,7 @@ export default function Canvas() {
         <button
           id="face-rotate"
           data-cursor-hover
-          className={`absolute -translate-x-full -translate-y-full pointer-events-auto p-4 transition-opacity ${
+          className={`absolute -translate-x-full -translate-y-full pointer-events-auto p-4 transition-opacity tracking-widest ${
             phase === "introReady"
               ? "opacity-100 cursor-pointer"
               : "opacity-0 pointer-events-none"
@@ -69,7 +69,7 @@ export default function Canvas() {
         <button
           id="face-smile"
           data-cursor-hover
-          className={`absolute -translate-x-full pointer-events-auto p-4 transition-opacity ${
+          className={`absolute -translate-x-full pointer-events-auto p-4 transition-opacity tracking-widest ${
             phase === "introReady"
               ? "opacity-100 cursor-pointer"
               : "opacity-0 pointer-events-none"
@@ -77,6 +77,14 @@ export default function Canvas() {
         >
           smile: <span>OFF</span>
         </button>
+
+        <p
+          className={`absolute bottom-4 left-1/2 -translate-x-1/2 text-sm transition-opacity tracking-widest ${
+            phase === "gallery" ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          Scroll to Explore
+        </p>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export class IntroScene implements SceneLike {
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background = new THREE.Color(0xdddddd);
     this.isPortrait =
       this.experience.config.width < this.experience.config.height;
 
@@ -111,14 +111,12 @@ export class IntroScene implements SceneLike {
     // カメラが0,0,0に
     const tl = gsap.timeline({
       onStart: () => {
-        useStore.getState().setPhase("introPlaying");
         useStore.getState().setIsTransitioning(true);
         useStore.getState().setCursorVariant("default");
       },
       onComplete: () => {
         useStore.getState().setActiveSceneId("gallery");
         useStore.getState().setNextSceneId(null);
-        useStore.getState().setPhase("gallery");
         useStore.getState().setIsTransitioning(false);
         useRouterStore.getState().onNavigate?.("/gallery");
       },
@@ -195,6 +193,7 @@ export class IntroScene implements SceneLike {
   };
 
   resize() {
+    if (useStore.getState().phase !== "introReady") return;
     this.planeWidth = this.calcPlaneWidth();
 
     this.isPortrait =
