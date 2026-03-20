@@ -70,6 +70,15 @@ export class GalleryScene implements SceneLike {
       const prevWorkId = useRouterStore.getState().prevWorkId;
       this.transitionToDetail(prevWorkId ?? undefined);
     });
+
+    // 直接 /gallery/[slug] でアクセスした場合
+    if (useStore.getState().phase === "detail") {
+      const workId = useStore.getState().currentWorkId;
+      useStore.getState().setIsTransitioning(true);
+      this.scrollObserver.targetScroll = workId * GalleryPlanes.PLANE_DISTANCE;
+      this.scrollObserver?.saveGalleryScroll();
+      this.planes.moveToDetail(workId);
+    }
   }
 
   // 引数のため、こういう形に

@@ -12,6 +12,7 @@ import { useRouterStore, useStore } from "@/store/store";
 import Pointer from "./utils/Pointer";
 import Fluid from "./fluid/Fluid";
 import GalleryVideoLoader from "./world/scenes/gallery/GalleryVideoLoader";
+import { getIndexBySlug } from "./utils/gallery";
 
 export default class Experience {
   static instance: Experience;
@@ -72,6 +73,12 @@ export default class Experience {
         useStore.getState().setPhase("gallery");
         useStore.getState().setActiveSceneId("gallery");
         useStore.getState().setNextSceneId(null);
+      } else if (initialPathname.startsWith("/gallery")) {
+        useStore.getState().setPhase("detail");
+        useStore.getState().setActiveSceneId("gallery");
+        useStore.getState().setNextSceneId(null);
+        const visitIndex = getIndexBySlug(initialPathname.split("/")[2]);
+        useStore.getState().setCurrentWorkId(visitIndex);
       }
       this.world = new World();
       this.galleryVideoLoader.loadVideos();
@@ -90,33 +97,6 @@ export default class Experience {
       }
     });
   }
-
-  // private setupTransitionGUI() {
-  //   const folder = this.gui.addFolder("Transition");
-  //   const obj = {
-  //     progress: useStore.getState().sceneTransitionProgress,
-  //   };
-  //   folder
-  //     .add(obj, "progress", 0, 1, 0.01)
-  //     .name("sceneTransitionProgress")
-  //     .onChange((value: number) => {
-  //       obj.progress = value;
-  //       useStore.getState().setSceneTransitionProgress(value);
-  //       if (value > 0 && value < 1) {
-  //         useStore.getState().setNextSceneId("gallery");
-  //         useStore.getState().setActiveSceneId("intro");
-  //         useStore.getState().setPhase("introPlaying");
-  //       } else if (value >= 1) {
-  //         useStore.getState().setActiveSceneId("gallery");
-  //         useStore.getState().setPhase("gallery");
-  //         useStore.getState().setNextSceneId(null);
-  //       } else {
-  //         useStore.getState().setNextSceneId(null);
-  //         useStore.getState().setPhase("introReady");
-  //       }
-  //     });
-  //   folder.open();
-  // }
 
   private getMaxPixelRatio() {
     const qualityTier = useStore.getState().qualityTier;

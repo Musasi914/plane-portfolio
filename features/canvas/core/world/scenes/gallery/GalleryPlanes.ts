@@ -96,6 +96,17 @@ export default class GalleryPlanes {
     const target = this.planeItems[workId];
     const others = this.planeItems.filter((item) => item !== target);
 
+    const index =
+      this.scrollObserver.targetScroll / GalleryPlanes.PLANE_DISTANCE;
+
+    const getTargetY = (offset: number) => {
+      let y = 1;
+      if (Math.abs(offset) <= 0.5) {
+        y = Math.abs(offset) / 0.5;
+      }
+      return y * this.planeSize.height;
+    };
+
     const tl = gsap.timeline({
       defaults: {
         ease: "power2.out",
@@ -142,6 +153,22 @@ export default class GalleryPlanes {
         {
           value: 0,
           duration: 0.3,
+        },
+        0
+      );
+
+      const planeIndex = this.planeItems.indexOf(item);
+      const offset = planeIndex - index;
+
+      const targetZ = -offset * GalleryPlanes.PLANE_DISTANCE;
+      const targetY = getTargetY(offset);
+
+      tl.to(
+        item.mesh.position,
+        {
+          x: 0,
+          y: targetY,
+          z: targetZ,
         },
         0
       );
