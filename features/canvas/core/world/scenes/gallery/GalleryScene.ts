@@ -72,6 +72,7 @@ export class GalleryScene implements SceneLike {
     });
   }
 
+  // 引数のため、こういう形に
   private transitionToDetailClickHandler = () => {
     this.transitionToDetail();
   };
@@ -80,12 +81,20 @@ export class GalleryScene implements SceneLike {
     if (!this.canTransitionToDetail()) return;
 
     useStore.getState().setIsTransitioning(true);
-    useStore.getState().setPhase("galleryDetail");
     useStore.getState().setCursorVariant("default");
-    this.scrollObserver?.saveGalleryScroll();
-    const currentWorkId = useStore.getState().currentWorkId;
-    this.planes?.moveToDetail(workId ?? currentWorkId);
-    useRouterStore.getState().setPrevWorkId(currentWorkId);
+    if (!workId) {
+      //サイト遷移
+      this.scrollObserver?.saveGalleryScroll();
+      useStore.getState().setPhase("galleryDetail");
+      const currentWorkId = useStore.getState().currentWorkId;
+      this.planes?.moveToDetail(currentWorkId);
+      useRouterStore.getState().setPrevWorkId(currentWorkId);
+    } else {
+      // 戻るボタンから遷移
+      useStore.getState().setPhase("detail");
+      this.planes?.moveToDetail(workId);
+      useStore.getState().setCurrentWorkId(workId);
+    }
   };
   private canTransitionToDetail() {
     const currentWorkId = useStore.getState().currentWorkId;

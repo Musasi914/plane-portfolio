@@ -94,20 +94,31 @@ export default class GalleryPlanes {
     const tl = gsap.timeline({
       defaults: {
         ease: "power2.out",
-        duration: 1,
+        duration: 0.3,
+      },
+      onStart: () => {
+        if (
+          typeof window !== "undefined" &&
+          window.location.pathname !== `/gallery/${getSlugByIndex(workId)}`
+        ) {
+          useRouterStore
+            .getState()
+            .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
+        }
       },
       onComplete: () => {
         useStore.getState().setIsTransitioning(false);
-        useRouterStore
-          .getState()
-          .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
         this.scrollObserver?.reset();
       },
     });
 
-    tl.to(this.planesGroup.rotation, {
-      x: 0,
-    });
+    tl.to(
+      this.planesGroup.rotation,
+      {
+        x: 0,
+      },
+      0
+    );
     others.forEach((item, i) => {
       tl.to(
         item.mesh.rotation,
@@ -124,7 +135,6 @@ export default class GalleryPlanes {
           x: 0,
           y: -this.planeSize.height * (i + 3),
           z: -GalleryPlanes.PLANE_DISTANCE * (i - workId + 1) * 2,
-          duration: 1.5,
           ease: "power4.in",
         },
         i * 0.1
@@ -135,7 +145,7 @@ export default class GalleryPlanes {
         {
           value: 0,
         },
-        1 + i * 0.1
+        i * 0.1
       );
     });
 
@@ -158,16 +168,24 @@ export default class GalleryPlanes {
     const { width, height } = this.getDetailCanvasSize();
     const { x, y } = this.getTargetPosition(width, height);
     this.offsetY = y;
-    tl.to(target.mesh.position, {
-      x,
-      y,
-      z: 0,
-    });
+    tl.to(
+      target.mesh.position,
+      {
+        x,
+        y,
+        z: 0,
+      },
+      0
+    );
 
-    tl.to(target.mesh.scale, {
-      x: width,
-      y: height,
-    });
+    tl.to(
+      target.mesh.scale,
+      {
+        x: width,
+        y: height,
+      },
+      0
+    );
   }
 
   backToGallery() {
@@ -181,7 +199,13 @@ export default class GalleryPlanes {
     const tl = gsap.timeline({
       onStart: () => {
         this.detailScrollContentEl = null;
-        useRouterStore.getState().onNavigate?.("/gallery");
+        if (
+          typeof window !== "undefined" &&
+          window.location.pathname !== "/gallery"
+        ) {
+          useRouterStore.getState().onNavigate?.("/gallery");
+        }
+        // useRouterStore.getState().onNavigate?.("/gallery");
       },
       onComplete: () => {
         useStore.getState().setIsTransitioning(false);
@@ -209,7 +233,7 @@ export default class GalleryPlanes {
           x: 0,
           y: targetY,
           z: targetZ,
-          duration: 1.5,
+          duration: 0.3,
           ease: "power4.out",
         },
         othersIndex * 0.1
@@ -218,9 +242,10 @@ export default class GalleryPlanes {
       tl.to(
         item.mesh.material.uniforms.uOpacity,
         {
+          duration: 0.3,
           value: 1,
         },
-        0
+        othersIndex * 0.1
       );
     });
 
@@ -238,10 +263,14 @@ export default class GalleryPlanes {
       0
     );
 
-    tl.to(target.mesh.scale, {
-      x: this.planeSize.width,
-      y: this.planeSize.height,
-    });
+    tl.to(
+      target.mesh.scale,
+      {
+        x: this.planeSize.width,
+        y: this.planeSize.height,
+      },
+      0
+    );
   }
 
   private getDetailCanvasSize() {
@@ -393,8 +422,12 @@ export default class GalleryPlanes {
     }
   }
 
+  // 戻る進むでのサイト遷移で使われる
   reset() {
     this.planesGroup.rotation.x = 0;
     this.scrollObserver.setInitial();
+    this.planeItems.forEach((item, i) => {
+      item.mesh.position.set(0, 0, -GalleryPlanes.PLANE_DISTANCE * i);
+    });
   }
 }

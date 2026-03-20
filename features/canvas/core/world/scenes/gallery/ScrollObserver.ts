@@ -80,6 +80,7 @@ export class ScrollObserver {
   }
   restoreGalleryScroll() {
     this.targetScroll = this.prevTargetScroll;
+    this.currentScroll = this.prevTargetScroll;
   }
 
   setInitial() {
