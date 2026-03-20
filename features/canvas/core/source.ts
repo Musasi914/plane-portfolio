@@ -40,7 +40,7 @@ export type GalleryVideoSource = {
 
 export const galleryVideoSources: GalleryVideoSource[] = [
   {
-    name: "portfolio",
+    name: "旧ポートフォリオ",
     path: "/gallery/video/portfolio.webm",
     slug: "portfolio",
   },
@@ -50,7 +50,7 @@ export const galleryVideoSources: GalleryVideoSource[] = [
     slug: "kgrit",
   },
   {
-    name: "cafe-moku",
+    name: "cafe",
     path: "/gallery/video/cafe.webm",
     slug: "cafe-moku",
   },
@@ -65,7 +65,7 @@ export const galleryVideoSources: GalleryVideoSource[] = [
     slug: "diary",
   },
   {
-    name: "このサイト",
+    name: "当サイト",
     path: "/gallery/video/diary.webm",
     slug: "this-site",
   },

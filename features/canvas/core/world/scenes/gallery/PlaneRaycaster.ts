@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Experience from "../../../Experience";
 import { useStore } from "@/store/store";
+import { galleryVideoSources } from "../../../source";
 
 export default class PlaneRaycaster {
   private experience: Experience;
@@ -41,12 +42,16 @@ export default class PlaneRaycaster {
       }
       if (cursorVariant !== "hover") {
         useStore.getState().setCursorVariant("hover");
+        useStore
+          .getState()
+          .setCursorText(`${galleryVideoSources[currentWorkId].name} >`);
       }
     } else {
       this.isIntersecting = false;
       const { cursorVariant } = useStore.getState();
       if (cursorVariant !== "default") {
         useStore.getState().setCursorVariant("default");
+        useStore.getState().setCursorText("");
       }
       if (useStore.getState().hoveredWorkId !== null) {
         useStore.getState().setHoveredWorkId(null);

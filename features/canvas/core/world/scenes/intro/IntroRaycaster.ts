@@ -26,10 +26,12 @@ export default class IntroRaycaster {
     const intersects = this.raycaster.intersectObject(this.targetObject);
     if (intersects.length > 0) {
       useStore.getState().setCursorVariant("hover");
+      useStore.getState().setCursorText("gallery >");
       this.isHovering = true;
     } else {
       if (this.isHovering) {
         useStore.getState().setCursorVariant("default");
+        useStore.getState().setCursorText("");
       }
       this.isHovering = false;
     }

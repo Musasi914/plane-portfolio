@@ -10,6 +10,7 @@ export default function DetailToGalleryButton() {
   return (
     <button
       data-cursor-hover
+      data-cursor-text="< back"
       onClick={onClick}
       className="fixed bottom-4 right-0 left-0 mx-auto grid grid-cols-1 grid-rows-1 place-items-center rounded-full w-16 h-16 bg-background cursor-pointer pointer-events-auto"
     >

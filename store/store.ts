@@ -42,6 +42,9 @@ export type StoreType = {
   cursorVariant: "default" | "hover";
   setCursorVariant: (cursorVariant: StoreType["cursorVariant"]) => void;
 
+  cursorText: string;
+  setCursorText: (cursorText: StoreType["cursorText"]) => void;
+
   // video
   videoCount: number;
   setVideoCount: (videoCount: number) => void;
@@ -82,6 +85,9 @@ export const useStore = create<StoreType>((set) => ({
   // cursor
   cursorVariant: "default",
   setCursorVariant: (cursorVariant) => set({ cursorVariant }),
+
+  cursorText: "",
+  setCursorText: (cursorText) => set({ cursorText }),
 
   // video
   videoCount: 1,

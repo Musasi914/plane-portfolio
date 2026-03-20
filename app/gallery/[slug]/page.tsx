@@ -27,22 +27,30 @@ export default function page() {
               animi ad!
             </p>
             <div className="grid grid-cols-2 gap-2">
-              <button
-                className="border p-2 cursor-pointer pointer-events-auto"
+              <a
+                href=""
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border p-2 cursor-pointer text-center pointer-events-auto"
                 data-cursor-hover
+                data-cursor-text="open tab"
               >
                 visit site
-              </button>
-              <button
-                className="border p-2 cursor-pointer pointer-events-auto"
+              </a>
+              <a
+                href=""
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border p-2 cursor-pointer text-center pointer-events-auto"
                 data-cursor-hover
+                data-cursor-text="open tab"
               >
                 view github
-              </button>
+              </a>
             </div>
           </div>
           <div id="detail-canvas" className="relative min-h-full col-2">
-            <div className="pt-8 pb-24">
+            <div className="pt-8 pb-48">
               <div className="aspect-8/5"></div>
               <article>
                 <p>

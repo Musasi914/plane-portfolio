@@ -58,6 +58,7 @@ export default function Canvas() {
         <button
           id="face-rotate"
           data-cursor-hover
+          data-cursor-text="click"
           className={`absolute -translate-x-full -translate-y-full pointer-events-auto p-4 transition-opacity tracking-widest ${
             phase === "introReady"
               ? "opacity-100 cursor-pointer"
@@ -69,6 +70,7 @@ export default function Canvas() {
         <button
           id="face-smile"
           data-cursor-hover
+          data-cursor-text="click"
           className={`absolute -translate-x-full pointer-events-auto p-4 transition-opacity tracking-widest ${
             phase === "introReady"
               ? "opacity-100 cursor-pointer"
