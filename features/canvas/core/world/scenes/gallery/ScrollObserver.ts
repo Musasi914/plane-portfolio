@@ -28,7 +28,8 @@ export class ScrollObserver {
 
     this.SCROLL_MAX =
       useStore.getState().videoCount * GalleryPlanes.PLANE_DISTANCE;
-    this.SCROLL_SNAP = this.SCROLL_MAX / useStore.getState().videoCount;
+    this.SCROLL_SNAP =
+      this.SCROLL_MAX / Math.max(useStore.getState().videoCount, 1);
 
     this.observer = ScrollTrigger.observe({
       target: window,

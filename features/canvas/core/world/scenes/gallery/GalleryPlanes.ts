@@ -61,7 +61,7 @@ export default class GalleryPlanes {
   }
 
   private createPlanes() {
-    const geometry = new THREE.PlaneGeometry(1, 1);
+    const geometry = new THREE.PlaneGeometry(1, 1, 20, 20);
 
     for (let i = 0; i < this.PLANE_COUNT; i++) {
       const key = Object.keys(this.textures)[i];
@@ -87,14 +87,19 @@ export default class GalleryPlanes {
   }
 
   private offsetY = 0;
+
+  private moveToDetailTl: gsap.core.Timeline | null = null;
   moveToDetail(workId: number) {
+    this.moveToDetailTl?.kill();
+    this.backToGalleryTl?.kill();
+
     const target = this.planeItems[workId];
     const others = this.planeItems.filter((item) => item !== target);
 
     const tl = gsap.timeline({
       defaults: {
         ease: "power2.out",
-        duration: 0.3,
+        duration: 1,
       },
       onStart: () => {
         if (
@@ -105,6 +110,8 @@ export default class GalleryPlanes {
             .getState()
             .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
         }
+
+        target.mesh.material.uniforms.uToDetail.value = 1;
       },
       onComplete: () => {
         useStore.getState().setIsTransitioning(false);
@@ -119,7 +126,8 @@ export default class GalleryPlanes {
       },
       0
     );
-    others.forEach((item, i) => {
+
+    others.forEach((item) => {
       tl.to(
         item.mesh.rotation,
         {
@@ -130,22 +138,12 @@ export default class GalleryPlanes {
       );
 
       tl.to(
-        item.mesh.position,
-        {
-          x: 0,
-          y: -this.planeSize.height * (i + 3),
-          z: -GalleryPlanes.PLANE_DISTANCE * (i - workId + 1) * 2,
-          ease: "power4.in",
-        },
-        i * 0.1
-      );
-
-      tl.to(
         item.mesh.material.uniforms.uOpacity,
         {
           value: 0,
+          duration: 0.3,
         },
-        i * 0.1
+        0
       );
     });
 
@@ -173,7 +171,6 @@ export default class GalleryPlanes {
       {
         x,
         y,
-        z: 0,
       },
       0
     );
@@ -186,9 +183,23 @@ export default class GalleryPlanes {
       },
       0
     );
+    tl.fromTo(
+      target.mesh.material.uniforms.uProgress,
+      { value: 0 },
+      {
+        value: 1,
+      },
+      0
+    );
+
+    this.moveToDetailTl = tl;
   }
 
+  private backToGalleryTl: gsap.core.Timeline | null = null;
   backToGallery() {
+    this.backToGalleryTl?.kill();
+    this.moveToDetailTl?.kill();
+
     const workId = useStore.getState().currentWorkId;
     const target = this.planeItems[workId];
     const others = this.planeItems.filter((item) => item !== target);
@@ -197,6 +208,10 @@ export default class GalleryPlanes {
       this.scrollObserver.targetScroll / GalleryPlanes.PLANE_DISTANCE;
 
     const tl = gsap.timeline({
+      defaults: {
+        ease: "power2.out",
+        duration: 0.5,
+      },
       onStart: () => {
         this.detailScrollContentEl = null;
         if (
@@ -205,7 +220,8 @@ export default class GalleryPlanes {
         ) {
           useRouterStore.getState().onNavigate?.("/gallery");
         }
-        // useRouterStore.getState().onNavigate?.("/gallery");
+
+        target.mesh.material.uniforms.uToDetail.value = 0;
       },
       onComplete: () => {
         useStore.getState().setIsTransitioning(false);
@@ -221,7 +237,7 @@ export default class GalleryPlanes {
       return y * this.planeSize.height;
     };
 
-    others.forEach((item, othersIndex) => {
+    others.forEach((item) => {
       const planeIndex = this.planeItems.indexOf(item);
       const offset = planeIndex - index;
       const targetZ = -offset * GalleryPlanes.PLANE_DISTANCE;
@@ -233,19 +249,16 @@ export default class GalleryPlanes {
           x: 0,
           y: targetY,
           z: targetZ,
-          duration: 0.3,
-          ease: "power4.out",
         },
-        othersIndex * 0.1
+        0
       );
 
       tl.to(
         item.mesh.material.uniforms.uOpacity,
         {
-          duration: 0.3,
           value: 1,
         },
-        othersIndex * 0.1
+        0
       );
     });
 
@@ -271,6 +284,17 @@ export default class GalleryPlanes {
       },
       0
     );
+
+    tl.fromTo(
+      target.mesh.material.uniforms.uProgress,
+      { value: 0 },
+      {
+        value: 1,
+      },
+      0
+    );
+
+    this.backToGalleryTl = tl;
   }
 
   private getDetailCanvasSize() {

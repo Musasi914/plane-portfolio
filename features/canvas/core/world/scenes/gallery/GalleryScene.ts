@@ -78,6 +78,7 @@ export class GalleryScene implements SceneLike {
   };
 
   private transitionToDetail = (workId?: number) => {
+    if (!workId && useStore.getState().hoveredWorkId === null) return;
     if (!this.canTransitionToDetail()) return;
 
     useStore.getState().setIsTransitioning(true);
@@ -98,8 +99,7 @@ export class GalleryScene implements SceneLike {
   };
   private canTransitionToDetail() {
     const currentWorkId = useStore.getState().currentWorkId;
-    if (useStore.getState().phase !== "gallery" || currentWorkId === null)
-      return false;
+    if (useStore.getState().phase !== "gallery") return false;
 
     const slug = getSlugByIndex(currentWorkId);
     if (slug === null) return false;
@@ -143,6 +143,8 @@ export class GalleryScene implements SceneLike {
       "click",
       this.transitionToDetailClickHandler
     );
+    useRouterStore.getState().setOnBackToDetail(null);
+    useRouterStore.getState().setOnBackToGallery(null);
   }
 
   reset() {

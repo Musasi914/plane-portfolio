@@ -30,6 +30,7 @@ export default class PlaneItem {
         uTexture: { value: this.texture },
         uProgress: { value: 0 },
         uOpacity: { value: 1 },
+        uToDetail: { value: 1 },
       },
       transparent: true,
     });

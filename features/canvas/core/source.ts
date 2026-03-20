@@ -35,9 +35,10 @@ export const sources: Source[] = [
 export type GalleryVideoSource = {
   name: string;
   path: string;
+  slug: string;
 };
 
-export const galleryVideoSources = [
+export const galleryVideoSources: GalleryVideoSource[] = [
   {
     name: "portfolio",
     path: "/gallery/video/portfolio.webm",
