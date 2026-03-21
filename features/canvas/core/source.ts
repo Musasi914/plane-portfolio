@@ -52,7 +52,7 @@ export const galleryVideoSources: GalleryVideoSource[] = [
   {
     name: "cafe",
     path: "/gallery/video/cafe.webm",
-    slug: "cafe-moku",
+    slug: "cafe",
   },
   {
     name: "3d練習サイト",

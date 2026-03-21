@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     },
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "freeportfolio.page.gd",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

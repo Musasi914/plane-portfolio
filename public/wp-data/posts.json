@@ -1,0 +1,630 @@
+[
+  {
+    "id": 42,
+    "date": "2026-03-21T10:55:26",
+    "date_gmt": "2026-03-21T01:55:26",
+    "guid": {
+      "rendered": "https://freeportfolio.page.gd/?page_id=42"
+    },
+    "modified": "2026-03-21T15:07:08",
+    "modified_gmt": "2026-03-21T06:07:08",
+    "slug": "this-site",
+    "status": "publish",
+    "type": "page",
+    "link": "https://freeportfolio.page.gd/this-site/",
+    "title": {
+      "rendered": "当サイト"
+    },
+    "content": {
+      "rendered": "\n<h2 class=\"wp-block-heading\">背景</h2>\n\n\n\n<p>旧ポートフォリオの続きとして、技術的にいくつか挑戦したいことがあり、このサイトを制作しました。その中心にあるのが、R3F に頼らない生の Three.js での実装、URL と 3D シーンの共存、そして RenderTarget と流体表現の活用です。</p>\n\n\n\n<h2 class=\"wp-block-heading\">実装方針：生の Three.js</h2>\n\n\n\n<p>Next.js はページ部分に使いつつ、3D 描画には React Three Fiber（R3F）を使わず、生の Three.js で実装しました。抽象化されたライブラリに頼らず、挙動を丁寧に理解することを目標にしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">URL ルーティングとシーンの維持</h2>\n\n\n\n<p>作品ごとに URL を切り替えつつ、3D シーンは破棄せずにそのまま使い続ける構成にしました。遷移時は Canvas を再生成せず、ページ部分だけをロードして差し替えることで、シーンが途切れないようにしています。ブラウザ履歴や直接 URLでのアクセスも想定し、Next.js のルーティングと Three.js のライフサイクルをどう組み合わせるかを意識しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">表現の工夫</h2>\n\n\n\n<p>RenderTarget の切り替えで、描画先を切り替えてレイヤーを分離しています。</p>\n\n\n\n<p>流体シェーダーで、色をずらしたりテクスチャの見え方を変えたりする表現を試しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">レイアウトとレスポンシブ</h2>\n\n\n\n<p>intro シーンでは、縦長と横長でオブジェクトの配置や動きを変えています。デバイス性能に応じて low / medium / high の 3 段階で描画負荷を調整し、スマホでも動作するようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">コンテンツ管理</h2>\n\n\n\n<p>作品の詳細テキストは WordPress で管理しています。ACF でカスタムフィールドを追加し、作品番号・カテゴリ・制作期間・説明文・URL などを REST API 経由で取得する構成にしています。</p>\n\n\n\n<p></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>背景 旧ポートフォリオの続きとして、技術的にいくつか挑戦したいことがあり、このサイトを制作しました。その中心にあるのが、R3F に頼らない生の Three.js での実装、URL と 3D シーンの共存、そして Rend [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 0,
+    "parent": 0,
+    "menu_order": 0,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "footnotes": ""
+    },
+    "class_list": ["post-42", "page", "type-page", "status-publish", "hentry"],
+    "acf": {
+      "work-number": 6,
+      "work-type": "personal",
+      "work_period": "2026/3/11 ~",
+      "summary": "Next.jsにてR3Fを使わず生のThree.jsで実装。\r\nURL遷移で3Dシーンはそのままに、ページだけロードする構成にし、RenderTargetの切り替えや流体による色・テクスチャ表現に挑戦しました。",
+      "site_url": "",
+      "github_url": "",
+      "tec": [
+        "Next.js",
+        "React",
+        "Three.js",
+        "Tailwind",
+        "GSAP",
+        "TypeScript",
+        "WordPress(Headless)"
+      ]
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42",
+          "targetHints": {
+            "allow": ["GET"]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/types/page"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/comments?post=42"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 5,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 70,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/70"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/media?parent=42"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 40,
+    "date": "2026-03-21T10:53:55",
+    "date_gmt": "2026-03-21T01:53:55",
+    "guid": {
+      "rendered": "https://freeportfolio.page.gd/?page_id=40"
+    },
+    "modified": "2026-03-21T17:00:26",
+    "modified_gmt": "2026-03-21T08:00:26",
+    "slug": "diary",
+    "status": "publish",
+    "type": "page",
+    "link": "https://freeportfolio.page.gd/diary/",
+    "title": {
+      "rendered": "日記帳"
+    },
+    "content": {
+      "rendered": "\n<p>最初はSSGサイトでしたが、無限スクロールを一度自分で実装してみたかったため、途中で体験として取り入れました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">無限スクロール</h2>\n\n\n\n<p>記事一覧は初回をサーバー側で描画し、<code class=\"\">Observer</code>で一覧末尾の監視要素がビューポートに入ったら Server Action 経由で microCMS から次のページ（limit/offset）を取得して結合。重複を防ぐため ID でユニーク化し、読み込み中はスピナー を表示しています。</p>\n\n\n\n<p>記事に遷移して一覧に戻ると初期表示（10件）に戻ってしまうので、sessionStorage&nbsp;に一覧とスクロール位置を一定時間保持し、戻ってきたときの体験を補助しています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">ISR</h2>\n\n\n\n<p>データ取得については、<code class=\"\">revalidate</code>&nbsp;による ISR（Incremental Static Regeneration）を指定し、ビルドごとのフル再デプロイなしに、一定間隔でキャッシュを再検証して記事更新を反映できるようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">PWA(簡易)</h2>\n\n\n\n<p>Manifest で&nbsp;standalone&nbsp;指定し、アプリのような見た目にしてスマホで復習しやすいようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"228\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-1024x228.png\" alt=\"\" class=\"wp-image-60\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-1024x228.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-300x67.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-768x171.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2.png 1076w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"244\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-1024x244.png\" alt=\"\" class=\"wp-image-62\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-1024x244.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-300x71.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-768x183.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4.png 1050w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">モバイル</figcaption></figure>\n\n\n\n<p>記事詳細は&nbsp;<code>generateStaticParams</code>&nbsp;で全 ID を事前生成&nbsp;しており、ビルド時にルートを広げつつ、更新は ISR で吸収する形なので高速。</p>\n\n\n\n<p>自分が見返す際にストレスがないよう、何度か作り直ししました。</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>最初はSSGサイトでしたが、無限スクロールを一度自分で実装してみたかったため、途中で体験として取り入れました。 無限スクロール 記事一覧は初回をサーバー側で描画し、Observerで一覧末尾の監視要素がビューポートに入っ [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 0,
+    "parent": 0,
+    "menu_order": 0,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "footnotes": ""
+    },
+    "class_list": ["post-40", "page", "type-page", "status-publish", "hentry"],
+    "acf": {
+      "work-number": 3,
+      "work-type": "personal",
+      "work_period": "2024/11/30 ~",
+      "summary": "ヘッドレスCMS（microCMS）とNext.jsで構築した、学習内容と備忘録をまとめるブログです。\r\n調べたことや覚えておきたいことを記事化し、日記にも学びを書き留める習慣を続けています。\r\n毎週土曜 に一週間分を見返し、理解の定着と振り返りを行っています。",
+      "site_url": "https://www.koh-fukuzawa.jp/",
+      "github_url": "https://github.com/Musasi914/blog2",
+      "tec": ["Next.js", "React", "Tailwind", "TypeScript", "microCMS"]
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40",
+          "targetHints": {
+            "allow": ["GET"]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/types/page"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/comments?post=40"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 5,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 81,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/81"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/media?parent=40"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 38,
+    "date": "2026-03-21T10:53:28",
+    "date_gmt": "2026-03-21T01:53:28",
+    "guid": {
+      "rendered": "https://freeportfolio.page.gd/?page_id=38"
+    },
+    "modified": "2026-03-21T13:57:53",
+    "modified_gmt": "2026-03-21T04:57:53",
+    "slug": "3d-practice",
+    "status": "publish",
+    "type": "page",
+    "link": "https://freeportfolio.page.gd/3d-practice/",
+    "title": {
+      "rendered": "3D practice"
+    },
+    "content": {
+      "rendered": "\n<p>最初は復習目的で、Three.js の学んだ内容を実装し直していました。</p>\n\n\n\n<p>アニメーション・流体・GPGPU・GLSL シェーダー・ポストプロセスなど、毎日学習してGitHubにpushしていたら、気づいたら例が60個になっていました。</p>\n\n\n\n<p>各サンプルは独立したモジュールとして構成されており、Experience パターンでカメラ・レンダラ・ワールドを分離し、共通ユーティリティで再利用できるようにしています。</p>\n\n\n\n<p></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>最初は復習目的で、Three.js の学んだ内容を実装し直していました。 アニメーション・流体・GPGPU・GLSL シェーダー・ポストプロセスなど、毎日学習してGitHubにpushしていたら、気づいたら例が60個にな [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 0,
+    "parent": 0,
+    "menu_order": 0,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "footnotes": ""
+    },
+    "class_list": ["post-38", "page", "type-page", "status-publish", "hentry"],
+    "acf": {
+      "work-number": 4,
+      "work-type": "personal",
+      "work_period": "2025/12/01 ~",
+      "summary": "2025年12月01日からほぼ毎日続けている、Three.jsの学習サンプルをまとめたポートフォリオサイトです。",
+      "site_url": "https://three-training2.vercel.app/",
+      "github_url": "https://github.com/Musasi914/three-training2",
+      "tec": ["Three.js", "GSAP", "TypeScript", "Vite"]
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/38",
+          "targetHints": {
+            "allow": ["GET"]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/types/page"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/comments?post=38"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 2,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/38/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 56,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/38/revisions/56"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/media?parent=38"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 36,
+    "date": "2026-03-21T10:52:40",
+    "date_gmt": "2026-03-21T01:52:40",
+    "guid": {
+      "rendered": "https://freeportfolio.page.gd/?page_id=36"
+    },
+    "modified": "2026-03-21T16:57:04",
+    "modified_gmt": "2026-03-21T07:57:04",
+    "slug": "cafe",
+    "status": "publish",
+    "type": "page",
+    "link": "https://freeportfolio.page.gd/cafe/",
+    "title": {
+      "rendered": "CAFE"
+    },
+    "content": {
+      "rendered": "\n<p>これまで学んできた GSAP によるアニメーションや 3D を使った表現を、近所のカフェのようなサイトにそのまま当てはめると、どこかしら違和感があると感じました。</p>\n\n\n\n<p><strong>「表示が速く、情報にすぐたどり着け、余計な動きのないサイトこそがよいサイトではないだろうか？」</strong></p>\n\n\n\n<p>この考えを単純に否定するのではなく、「動きのないサイトでは伝えきれない空気感」を体験として表現できるかを検証するために本作を制作しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">世界観</h2>\n\n\n\n<p>スクロールで店内画像が全画面にスケールさせることで入店時の「世界に入っていく」感じを表現しました。</p>\n\n\n\n<p>内装は、まずテラス席1枚で空間全体の印象を見せ、スクロールに合わせて&nbsp;<code class=\"\">clip-path</code>&nbsp;とスケールで中心に寄せます。クリップの終点は固定値ではなく、レイアウト上の2点の座標差から算出し、リサイズにも対応しています。左右4枚の内装カットは CSS 変数&nbsp;<code class=\"\">--progress</code>&nbsp;と&nbsp;<code>translate3d</code>&nbsp;でインデックスごとにタイミングをずらし、店内を順に見せる動きにしています。</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>これまで学んできた GSAP によるアニメーションや 3D を使った表現を、近所のカフェのようなサイトにそのまま当てはめると、どこかしら違和感があると感じました。 「表示が速く、情報にすぐたどり着け、余計な動きのないサイ [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 0,
+    "parent": 0,
+    "menu_order": 0,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "footnotes": ""
+    },
+    "class_list": ["post-36", "page", "type-page", "status-publish", "hentry"],
+    "acf": {
+      "work-number": 3,
+      "work-type": "personal",
+      "work_period": "2026/02/18 ~ 2026/03/11",
+      "summary": "近所のカフェの公式サイトを想定し、「素敵な店内の雰囲気を、画面越しでも体験として伝えるには？」ということを考えデザインから検討しました。スクロールに連動した写真の変化や、オープニングのロゴアニメーションなどのアニメーションを、世界観の補強に使うために実装しています。",
+      "site_url": "https://cafe-moku.vercel.app/",
+      "github_url": "https://github.com/Musasi914/cafe-moku",
+      "tec": ["Next.js", "React", "Tailwind", "GSAP", "TypeScript"]
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36",
+          "targetHints": {
+            "allow": ["GET"]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/types/page"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/comments?post=36"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 3,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 79,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/79"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/media?parent=36"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 34,
+    "date": "2026-03-21T10:50:10",
+    "date_gmt": "2026-03-21T01:50:10",
+    "guid": {
+      "rendered": "https://freeportfolio.page.gd/?page_id=34"
+    },
+    "modified": "2026-03-21T16:56:09",
+    "modified_gmt": "2026-03-21T07:56:09",
+    "slug": "kgrit",
+    "status": "publish",
+    "type": "page",
+    "link": "https://freeportfolio.page.gd/kgrit/",
+    "title": {
+      "rendered": "K GRIT"
+    },
+    "content": {
+      "rendered": "\n<p>TOPはスクロールを区切った演出で情報を順に伝える構成。<br>100記念周年ページでは「歩んできた歴史」をスクロール同期で右へ左へと表示し、「グループ家系図」を木の成長アニメーションにより企業の歩みをメタファー化。<br>要望の多いアニメーションに取り組み、実装を通じて大きく学びました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">100周年記念ページ</h2>\n\n\n\n<figure class=\"wp-block-video\"><video height=\"728\" style=\"aspect-ratio: 1364 / 728;\" width=\"1364\" controls src=\"/detail/anniversary.webm\"></video></figure>\n\n\n\n<p>PC では二本の SVG パス長を基準に線描画と年次コンテンツを&nbsp;1 本のタイムラインで同期し、scrubをtrueにしつつも<code>maxProgress</code>&nbsp;で&nbsp;スクロール戻し時の巻き戻しを防いでいます。<br>SP では&nbsp;<code class=\"\">IntersectionObserver</code>&nbsp;と横&nbsp;<code>scrollLeft</code>&nbsp;のトゥイーンで&nbsp;見えたら線が引かれ、横に流れて読める体験にし、操作時は自動スクロールを止める&nbsp;UX 優先の切り替えを入れています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">沿革ページ</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"546\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/history-1-1024x546.png\" alt=\"\" class=\"wp-image-75\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/history-1-1024x546.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/history-1-300x160.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/history-1-768x409.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/history-1.png 1366w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /></figure>\n\n\n\n<p>沿革ページでは、年号をカメラ正面固定＋深度に応じたシェーダブラーで奥行きを出しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">タブロイズページ</h2>\n\n\n\n<figure class=\"wp-block-video\"><video height=\"728\" style=\"aspect-ratio: 1364 / 728;\" width=\"1364\" controls src=\"/detail/tabloids.webm\"></video></figure>\n\n\n\n<p>タブロイズページでは、CSS2D&nbsp;でタイトルを3Dに追従させつつ、Raycasterで本を選択。Lenis とホイール／タッチの競合を「棚操作中は停止・端では縦スクロールに譲る」で整理し、読書時は&nbsp;全画面化＋OrbitControls＋シェーダ付きページめくりで体験を切り替えています。<br>また、キャンバス上にカーソルがあるときはスクロールをする位置によって上の棚・下の棚を左右に移動させています。</p>\n\n\n\n<p></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>TOPはスクロールを区切った演出で情報を順に伝える構成。100記念周年ページでは「歩んできた歴史」をスクロール同期で右へ左へと表示し、「グループ家系図」を木の成長アニメーションにより企業の歩みをメタファー化。要望の多いア [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 0,
+    "parent": 0,
+    "menu_order": 0,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "footnotes": ""
+    },
+    "class_list": ["post-34", "page", "type-page", "status-publish", "hentry"],
+    "acf": {
+      "work-number": 2,
+      "work-type": "client",
+      "work_period": "2025/10/15 ~ 12/15",
+      "summary": "提供される静的アセットに沿って、全ページのアニメーション、3D実装を担当。\r\nThree.jsで年表のスクロールと3DCanvas同期実装や、本のめくりなど、企画段階でイメージしていたインタラクションをWeb上で再現しました。",
+      "site_url": "",
+      "github_url": "",
+      "tec": ["Three.js", "GSAP", "JavaScript", "HTML/CSS", "WordPress"]
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/34",
+          "targetHints": {
+            "allow": ["GET"]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/types/page"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/comments?post=34"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 6,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/34/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 78,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/34/revisions/78"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/media?parent=34"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "date": "2026-03-21T09:08:27",
+    "date_gmt": "2026-03-21T00:08:27",
+    "guid": {
+      "rendered": "https://freeportfolio.page.gd/?page_id=9"
+    },
+    "modified": "2026-03-21T15:10:51",
+    "modified_gmt": "2026-03-21T06:10:51",
+    "slug": "portfolio",
+    "status": "publish",
+    "type": "page",
+    "link": "https://freeportfolio.page.gd/portfolio/",
+    "title": {
+      "rendered": "福沢コウ Portfolio"
+    },
+    "content": {
+      "rendered": "\n<h2 class=\"wp-block-heading\">工夫点</h2>\n\n\n\n<p>複数のシーンをRenderTextureを用いて、各シーンをテクスチャとしてレンダリングしています。<br>条件をつけてアクティブなシーン（テクスチャ）だけ描画し、非アクティブシーンは完全に停止させているのでメモリ効率が良いです。</p>\n\n\n\n<p>アクセシビリティを徹底してみました。VoiceOver読み上げでのスクリーンリーダー対応チェックや、Tabフォーカストラップを実装し、キーボード操作でも問題ないようにしました。</p>\n\n\n\n<p>コードを通して、モダンなWeb開発のベストプラクティスを追求したつもりです。</p>\n\n\n\n<h2 class=\"wp-block-heading\">モデル部分</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"649\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png\" alt=\"\" class=\"wp-image-27\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-300x190.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-768x487.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image.png 1257w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /></figure>\n\n\n\n<p>コード全体を触っている時間と同じくらい、blenderでこの3dシーンを手作り・手直しする時間がありました。<br>軽量化のためベイクを用い、モデル自体の容量は54kbに抑えました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-full\"><img loading=\"lazy\" decoding=\"async\" width=\"465\" height=\"121\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png\" alt=\"\" class=\"wp-image-28\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png 465w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1-300x78.png 300w\" sizes=\"auto, (max-width: 465px) 100vw, 465px\" /></figure>\n\n\n\n<p>様々なパフォーマンス対策を講じました。特にGPU・メモリ負荷の抑制、読み込みの段階化、およびスマートフォンでのモデル読み込みとアニメーションの抑制に重点を置いています。</p>\n\n\n\n<p>GLB やテクスチャの数が多いセクションでは、SPでは3Dを読み込まず、軽量な画像で内容を説明しています。</p>\n\n\n\n<p>また、シーンの進行度を状態管理で保持し、スクロールに応じてオフスクリーンシーンの更新と重い3Dのマウントを段階的に行うことで、初期表示から前半までの負荷を抑えています。</p>\n\n\n\n<p></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>工夫点 複数のシーンをRenderTextureを用いて、各シーンをテクスチャとしてレンダリングしています。条件をつけてアクティブなシーン（テクスチャ）だけ描画し、非アクティブシーンは完全に停止させているのでメモリ効率が [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 0,
+    "parent": 0,
+    "menu_order": 0,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "footnotes": ""
+    },
+    "class_list": ["post-9", "page", "type-page", "status-publish", "hentry"],
+    "acf": {
+      "work-number": 1,
+      "work-type": "personal",
+      "work_period": "2025/08/15 ~ 10/01",
+      "summary": "Three.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\nCSS Design Awards で Special Kudos・Best UI Design・Best UX Design・Best Innovation を、CSS Winner で Site Of The Day を受賞しました。",
+      "site_url": "https://koh-fukuzawa.com/",
+      "github_url": "https://github.com/Musasi914/koh-fukuzawa-portfolio",
+      "tec": [
+        "Next.js",
+        "React",
+        "Three.js",
+        "R3F",
+        "Tailwind",
+        "GSAP",
+        "TypeScript"
+      ]
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9",
+          "targetHints": {
+            "allow": ["GET"]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/types/page"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/comments?post=9"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 7,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 72,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/72"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/media?parent=9"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  }
+]

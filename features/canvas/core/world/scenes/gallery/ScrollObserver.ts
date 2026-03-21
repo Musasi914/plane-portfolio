@@ -33,7 +33,7 @@ export class ScrollObserver {
 
     this.observer = ScrollTrigger.observe({
       target: window,
-      type: "wheel,touch,scroll,pointer",
+      type: "wheel,touch,scroll",
       onChange: this.onScrollChange.bind(this),
     });
   }
@@ -57,7 +57,7 @@ export class ScrollObserver {
         useStore.getState().setCurrentWorkId(this.getWorkId());
       });
     } else if (this.phase === "detail") {
-      this.targetScroll += self.deltaY / 3;
+      this.targetScroll += self.deltaY / 2;
       this.targetScroll = Math.min(
         Math.max(0, this.targetScroll),
         this.targetScrollMax
