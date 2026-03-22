@@ -5,8 +5,8 @@ import particlesFrag from "./shaders/particles.frag";
 import Experience from "../../../Experience";
 
 export default class Particles {
-  static GRID_COUNT = 50 as const;
-  static LAYER_COUNT = 50 as const;
+  static GRID_COUNT = 40 as const;
+  static LAYER_COUNT = 40 as const;
   static NUM_PARTICLES =
     Particles.GRID_COUNT * Particles.GRID_COUNT * Particles.LAYER_COUNT;
 

@@ -33,6 +33,7 @@ export class IntroScene implements SceneLike {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xeeeeee);
+    this.scene.fog = new THREE.Fog(0xeeeeee, 100, 2000);
     this.isPortrait =
       this.experience.config.width < this.experience.config.height;
 
@@ -108,7 +109,6 @@ export class IntroScene implements SceneLike {
 
   private sceneChange() {
     if (useStore.getState().isTransitioning) return;
-    // this.face.deleteFaceControls();
 
     // カメラが0,0,0に
     const tl = gsap.timeline({
@@ -131,8 +131,6 @@ export class IntroScene implements SceneLike {
     });
 
     // particlesのprogressを1に
-    // カメラを0,0,particlesのMAX_DEPTHに
-    // progressによってnamePlaneをMax_DEPTH/2くらいまで後退
     tl.to(
       this.particles,
       {
@@ -140,8 +138,10 @@ export class IntroScene implements SceneLike {
         duration: 2,
         ease: "power4.in",
       },
-      ">-0.1"
+      ">-0.5"
     );
+
+    // progressによってnamePlaneをMax_DEPTH/2くらいまで後退
     tl.to(
       this.namePlane.mesh.position,
       {
@@ -149,8 +149,10 @@ export class IntroScene implements SceneLike {
         duration: 2,
         ease: "power2.inOut",
       },
-      "<0.2"
+      "<0.4"
     );
+
+    // カメラを0,0,particlesのMAX_DEPTHに
     tl.to(
       this.camera.position,
       {
