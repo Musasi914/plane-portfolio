@@ -7,6 +7,7 @@ import GalleryVideoLoader from "./GalleryVideoLoader";
 import PlaneRaycaster from "./PlaneRaycaster";
 import { useRouterStore, useStore } from "@/store/store";
 import { getSlugByIndex } from "../../../utils/gallery";
+import lerpFactor from "../../../utils/lerpFactor";
 
 export class GalleryScene implements SceneLike {
   private experience: Experience;
@@ -147,6 +148,21 @@ export class GalleryScene implements SceneLike {
     this.scrollObserver?.update(this.experience.time.delta);
     this.planes?.update();
     this.planeRaycaster?.update();
+    this.cameraMove();
+  }
+
+  private cameraMove() {
+    const pointer = this.experience.pointer;
+    this.camera.position.x = THREE.MathUtils.lerp(
+      this.camera.position.x,
+      pointer.state.ndc.x * 10.0,
+      lerpFactor(0.1, this.experience.time.delta)
+    );
+    this.camera.position.y = THREE.MathUtils.lerp(
+      this.camera.position.y,
+      pointer.state.ndc.y * 10.0,
+      lerpFactor(0.1, this.experience.time.delta)
+    );
   }
 
   destroy() {

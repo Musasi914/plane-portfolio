@@ -1,11 +1,11 @@
 # やること
 
--
 - pointer 位置でカメラ移動（gallery）
 - 背景真っ白どうしよう
 - loading 画面
 - introPlaying 挙動
 - introPlaying plane を追加
+- three-monorepo の例を使えないかな
 - 音声再生
 - シーンと見てる plane によってタイトルを変える
 - face 画像マシなものに

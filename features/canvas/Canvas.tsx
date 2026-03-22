@@ -81,7 +81,7 @@ export default function Canvas() {
         </button>
 
         <p
-          className={`absolute bottom-4 left-1/2 -translate-x-1/2 text-sm transition-opacity tracking-widest ${
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 text-sm transition-opacity tracking-widest ${
             phase === "gallery" ? "opacity-100" : "opacity-0"
           }`}
         >
