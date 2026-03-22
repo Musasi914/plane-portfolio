@@ -60,6 +60,8 @@ export class IntroScene implements SceneLike {
       "click",
       this.setTransitionFire
     );
+
+    this.setMoveToDetailButton();
   }
 
   private setCamera() {
@@ -186,11 +188,36 @@ export class IntroScene implements SceneLike {
 
   private setTransitionFire = () => {
     if (this.raycaster.isHovering) {
-      useStore.getState().setPhase("introPlaying");
-      this.sceneChange();
-      this.raycaster.isHovering = false;
+      this.transitionFire();
     }
   };
+  private transitionFire() {
+    useStore.getState().setPhase("introPlaying");
+    this.sceneChange();
+    this.raycaster.isHovering = false;
+  }
+
+  private moveToDetailButton: HTMLButtonElement | null = null;
+  private moveToDetailWorldPosition = new THREE.Vector3();
+  private setMoveToDetailButton() {
+    this.moveToDetailButton = document.getElementById(
+      "move-to-detail"
+    ) as HTMLButtonElement;
+    this.setButtonWorldPosition(this.isPortrait, this.planeWidth);
+    this.moveToDetailButton.addEventListener("click", () => {
+      this.transitionFire();
+    });
+  }
+  private setButtonWorldPosition(isPortrait: boolean, width: number) {
+    this.moveToDetailWorldPosition.set(
+      isPortrait ? 0 : 0,
+      isPortrait ? width * 0.5 : -width * 0.5,
+      0
+    );
+  }
+  private removeMoveToDetailButton() {
+    this.moveToDetailButton?.removeEventListener("click", this.transitionFire);
+  }
 
   resize() {
     if (useStore.getState().phase !== "introReady") return;
@@ -211,6 +238,8 @@ export class IntroScene implements SceneLike {
     this.face.resize(this.planeWidth, this.isPortrait);
     this.namePlane.resize(this.planeWidth);
     this.particles.resize(this.planeWidth);
+
+    this.setButtonWorldPosition(this.isPortrait, this.planeWidth);
   }
 
   update() {
@@ -220,6 +249,18 @@ export class IntroScene implements SceneLike {
     }
     this.namePlane.update(this.particles.progress);
     this.particles.update();
+    this.updateMoveToDetailButton();
+  }
+
+  private tmpV = new THREE.Vector3();
+  private updateMoveToDetailButton() {
+    if (!this.moveToDetailButton || useStore.getState().phase !== "introReady")
+      return;
+    this.tmpV.copy(this.moveToDetailWorldPosition);
+    this.tmpV.project(this.camera);
+    const x = (this.tmpV.x * 0.5 + 0.5) * this.experience.config.width;
+    const y = (this.tmpV.y * -0.5 + 0.5) * this.experience.config.height;
+    this.moveToDetailButton.style.transform = `translate(${x}px, ${y}px)`;
   }
 
   destroy() {
@@ -231,6 +272,7 @@ export class IntroScene implements SceneLike {
       "click",
       this.setTransitionFire
     );
+    this.removeMoveToDetailButton();
   }
 
   // ページ遷移用

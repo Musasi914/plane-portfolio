@@ -4,6 +4,7 @@ import faceVert from "./shaders/face.vert";
 import faceFrag from "./shaders/face.frag";
 import gsap from "gsap";
 import lerpFactor from "../../../utils/lerpFactor";
+import { useStore } from "@/store/store";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
@@ -248,7 +249,6 @@ export class Face {
     this.setButtonWorldPosition(isPortrait, width);
   }
 
-  private targetTilt = new THREE.Vector2(0, 0);
   update() {
     this.faceMesh.material.uniforms.uFluidVelocity.value =
       this.fluid.getVelocityTexture();
@@ -257,6 +257,8 @@ export class Face {
 
     this.updateControlsPosition();
   }
+
+  private targetTilt = new THREE.Vector2(0, 0);
   private updateFaceLooking() {
     this.faceMesh.lookAt(this.camera.position);
     const { uv } = this.experience.pointer.state;

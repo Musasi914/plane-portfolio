@@ -8,6 +8,7 @@ import PlaneRaycaster from "./PlaneRaycaster";
 import { useRouterStore, useStore } from "@/store/store";
 import { getSlugByIndex } from "../../../utils/gallery";
 import lerpFactor from "../../../utils/lerpFactor";
+import gsap from "gsap";
 
 export class GalleryScene implements SceneLike {
   private experience: Experience;
@@ -31,6 +32,8 @@ export class GalleryScene implements SceneLike {
     this.videoLoader.on("videoLoaded", () => {
       this.prepare();
     });
+
+    this.registerOnGoToIntro();
   }
 
   private setCamera(fov: number, near: number, far: number) {
@@ -179,5 +182,32 @@ export class GalleryScene implements SceneLike {
   reset() {
     this.resize();
     this.planes?.reset();
+  }
+
+  private registerOnGoToIntro() {
+    useRouterStore.getState().setOnGoToIntro(() => {
+      useStore.getState().setActiveSceneId("gallery");
+      useStore.getState().setNextSceneId("intro");
+      useStore.getState().setCursorVariant("default");
+      useStore.getState().setIsTransitioning(true);
+      Experience.getInstance().world?.reset();
+
+      const tmp = { value: 1 };
+      gsap.to(tmp, {
+        value: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: () => {
+          useStore.getState().setPhase("introReady");
+          useStore.getState().setActiveSceneId("intro");
+          useStore.getState().setNextSceneId(null);
+          useStore.getState().setIsTransitioning(false);
+          useRouterStore.getState().onNavigate?.("/");
+        },
+        onUpdate: () => {
+          useStore.getState().setSceneTransitionProgress(tmp.value);
+        },
+      });
+    });
   }
 }

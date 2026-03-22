@@ -114,6 +114,9 @@ type RouterStoreType = {
     onBackToDetail: RouterStoreType["onBackToDetail"]
   ) => void;
 
+  onGoToIntro: (() => void) | null;
+  setOnGoToIntro: (onGoToIntro: RouterStoreType["onGoToIntro"]) => void;
+
   prevWorkId: number | null;
   setPrevWorkId: (prevWorkId: number | null) => void;
 };
@@ -133,6 +136,9 @@ export const useRouterStore = create<RouterStoreType>((set) => ({
 
   onBackToDetail: null,
   setOnBackToDetail: (onBackToDetail) => set({ onBackToDetail }),
+
+  onGoToIntro: null,
+  setOnGoToIntro: (onGoToIntro) => set({ onGoToIntro }),
 
   prevWorkId: null,
   setPrevWorkId: (prevWorkId) => set({ prevWorkId }),

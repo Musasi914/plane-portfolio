@@ -48,12 +48,9 @@ export default class PlaneRaycaster {
       }
     } else {
       this.isIntersecting = false;
-      const { cursorVariant } = useStore.getState();
-      if (cursorVariant !== "default") {
+      if (useStore.getState().hoveredWorkId !== null) {
         useStore.getState().setCursorVariant("default");
         useStore.getState().setCursorText("");
-      }
-      if (useStore.getState().hoveredWorkId !== null) {
         useStore.getState().setHoveredWorkId(null);
       }
     }

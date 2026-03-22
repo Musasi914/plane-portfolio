@@ -1,6 +1,5 @@
 # やること
 
-- pointer 位置でカメラ移動（gallery）
 - 背景真っ白どうしよう
 - loading 画面
 - introPlaying 挙動
@@ -17,6 +16,7 @@ intro にて　
 縦長画面、横長画面で違う配置・違う動作にした。
 
 ページ遷移で url 叩いても自然なように
+URL 遷移一番苦労している
 
 WordPress を headless として使う。
 「なぜ WordPress を API として使うのか」
