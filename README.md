@@ -1,8 +1,6 @@
 # やること
 
-- [slug]ページテキストアニメーション
-- [slug]で wordpressApi からとる
-- [slug]ページから始めた時 plane の位置問題、plane の動画再生問題
+-
 - pointer 位置でカメラ移動（gallery）
 - 背景真っ白どうしよう
 - loading 画面

@@ -53,10 +53,6 @@ export class GalleryScene implements SceneLike {
     if (this.planes) return;
     this.scrollObserver = new ScrollObserver();
     this.planes = new GalleryPlanes(this.scene, this.scrollObserver);
-    this.planeRaycaster = new PlaneRaycaster(
-      this.camera,
-      this.planes.raycasterTargets
-    );
 
     this.experience.canvasWrapper.addEventListener(
       "click",
@@ -77,8 +73,16 @@ export class GalleryScene implements SceneLike {
       useStore.getState().setIsTransitioning(true);
       this.scrollObserver.targetScroll = workId * GalleryPlanes.PLANE_DISTANCE;
       this.scrollObserver?.saveGalleryScroll();
+      this.planes.createPlanes(workId);
       this.planes.moveToDetail(workId);
+    } else {
+      this.planes.createPlanes();
     }
+
+    this.planeRaycaster = new PlaneRaycaster(
+      this.camera,
+      this.planes.raycasterTargets
+    );
   }
 
   // 引数のため、こういう形に

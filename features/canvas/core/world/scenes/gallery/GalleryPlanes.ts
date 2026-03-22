@@ -40,8 +40,6 @@ export default class GalleryPlanes {
     this.planesWrapper.add(this.planesGroup);
 
     this.planeSize = this.calcPlaneSize(GalleryPlanes.PLANE_SIZE);
-
-    this.createPlanes();
   }
 
   private calcPlaneSize(
@@ -60,7 +58,7 @@ export default class GalleryPlanes {
     }
   }
 
-  private createPlanes() {
+  createPlanes(workId?: number) {
     const geometry = new THREE.PlaneGeometry(1, 1, 20, 20);
 
     for (let i = 0; i < this.PLANE_COUNT; i++) {
@@ -70,7 +68,13 @@ export default class GalleryPlanes {
         this.planeSize,
         this.textures[key]
       );
-      planeItem.mesh.position.set(0, 0, -GalleryPlanes.PLANE_DISTANCE * i);
+      planeItem.mesh.position.set(
+        0,
+        0,
+        workId
+          ? -GalleryPlanes.PLANE_DISTANCE * (workId - 1 - i)
+          : -GalleryPlanes.PLANE_DISTANCE * i
+      );
       this.planesGroup.add(planeItem.mesh);
       this.planeItems.push(planeItem);
       this.raycasterTargets.push(planeItem.mesh);
@@ -80,7 +84,9 @@ export default class GalleryPlanes {
     this.lastPlane.mesh.position.set(
       0,
       this.planeSize.height / 2,
-      -GalleryPlanes.PLANE_DISTANCE * this.PLANE_COUNT
+      workId
+        ? -GalleryPlanes.PLANE_DISTANCE * (workId - 1 - this.PLANE_COUNT)
+        : -GalleryPlanes.PLANE_DISTANCE * this.PLANE_COUNT
     );
     this.planesGroup.add(this.lastPlane.mesh);
     this.planeItems.push(this.lastPlane);
@@ -95,6 +101,10 @@ export default class GalleryPlanes {
 
     const target = this.planeItems[workId];
     const others = this.planeItems.filter((item) => item !== target);
+
+    if (target instanceof PlaneItem) {
+      target.play();
+    }
 
     const index =
       this.scrollObserver.targetScroll / GalleryPlanes.PLANE_DISTANCE;
