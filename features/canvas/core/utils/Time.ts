@@ -28,10 +28,6 @@ export class Time extends EventEmitter {
   private setupVisibilityListeners() {
     // Page Visibility APIを使用してウィンドウの表示状態を監視
     document.addEventListener("visibilitychange", this.handleVisibilityChange);
-
-    // フォールバック: windowのblur/focusイベントも監視
-    window.addEventListener("blur", this.handleBlur);
-    window.addEventListener("focus", this.handleFocus);
   }
 
   private handleVisibilityChange = () => {
@@ -42,16 +38,6 @@ export class Time extends EventEmitter {
       // 再開時に現在時刻を更新して、大きなdeltaを防ぐ
       this.current = Date.now();
     }
-  };
-
-  private handleBlur = () => {
-    this.isActive = false;
-  };
-
-  private handleFocus = () => {
-    this.isActive = true;
-    // 再開時に現在時刻を更新して、大きなdeltaを防ぐ
-    this.current = Date.now();
   };
 
   private tick() {
@@ -87,7 +73,5 @@ export class Time extends EventEmitter {
       "visibilitychange",
       this.handleVisibilityChange
     );
-    window.removeEventListener("blur", this.handleBlur);
-    window.removeEventListener("focus", this.handleFocus);
   }
 }

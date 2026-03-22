@@ -1,7 +1,6 @@
 import DetailToGalleryButton from "@/features/navigation/DetailToGalleryButton";
 import { getPostBySlug } from "@/lib/wp";
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
 
 export default async function page({ params }: { params: { slug: string } }) {
   const { slug } = await params;

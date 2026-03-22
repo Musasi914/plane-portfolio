@@ -56,7 +56,6 @@ export class IntroScene implements SceneLike {
       this.camera,
       this.namePlane.raycasteredObject
     );
-    this.setTransitionFire();
 
     this.experience.canvasWrapper.addEventListener(
       "click",
@@ -111,9 +110,9 @@ export class IntroScene implements SceneLike {
   private sceneChange() {
     if (useStore.getState().isTransitioning) return;
 
-    // カメラが0,0,0に
     const tl = gsap.timeline({
       onStart: () => {
+        useStore.getState().setPhase("introPlaying");
         useStore.getState().setIsTransitioning(true);
         useStore.getState().setCursorVariant("default");
       },
@@ -124,6 +123,8 @@ export class IntroScene implements SceneLike {
         useRouterStore.getState().onNavigate?.("/gallery");
       },
     });
+
+    // カメラが0,0,0に
     tl.to(this.camera.position, {
       x: 0,
       y: 0,
@@ -158,7 +159,7 @@ export class IntroScene implements SceneLike {
       this.camera.position,
       {
         z: -this.particles.MAX_DEPTH * 0.9,
-        duration: 4.8,
+        duration: 4,
         ease: CustomEase.create(
           "custom",
           "M0,0 C0.108,0 0.2,0.131 0.2,0.3 0.2,0.585 0.8,0.434 0.8,0.71 0.8,0.911 0.875,1.015 1,1.015 "
@@ -190,12 +191,14 @@ export class IntroScene implements SceneLike {
   }
 
   private setTransitionFire = () => {
-    if (this.raycaster.isHovering) {
+    if (
+      this.raycaster.isHovering &&
+      useStore.getState().phase === "introReady"
+    ) {
       this.transitionFire();
     }
   };
   private transitionFire() {
-    useStore.getState().setPhase("introPlaying");
     this.sceneChange();
     this.raycaster.isHovering = false;
   }
@@ -208,7 +211,7 @@ export class IntroScene implements SceneLike {
     ) as HTMLButtonElement;
     this.setButtonWorldPosition(this.isPortrait, this.planeWidth);
     this.moveToDetailButton.addEventListener("click", () => {
-      this.transitionFire();
+      this.setTransitionFire();
     });
   }
   private setButtonWorldPosition(isPortrait: boolean, width: number) {
@@ -247,7 +250,6 @@ export class IntroScene implements SceneLike {
 
   update() {
     if (!useStore.getState().isTransitioning) {
-      console.log("object");
       this.face.update();
       this.raycaster.update();
     }
@@ -258,7 +260,11 @@ export class IntroScene implements SceneLike {
 
   private tmpV = new THREE.Vector3();
   private updateMoveToDetailButton() {
-    if (!this.moveToDetailButton || useStore.getState().phase !== "introReady")
+    if (
+      !this.moveToDetailButton ||
+      useStore.getState().phase !== "introReady" ||
+      useStore.getState().isTransitioning
+    )
       return;
     this.tmpV.copy(this.moveToDetailWorldPosition);
     this.tmpV.project(this.camera);

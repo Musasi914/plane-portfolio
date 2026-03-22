@@ -25,7 +25,11 @@ export default class PlaneRaycaster {
   }
 
   update() {
-    if (useStore.getState().phase !== "gallery") return;
+    if (
+      useStore.getState().phase !== "gallery" ||
+      useStore.getState().isTransitioning
+    )
+      return;
 
     const currentWorkId = useStore.getState().currentWorkId;
     const target = this.targetObjects[currentWorkId];

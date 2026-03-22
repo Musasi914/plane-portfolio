@@ -1,12 +1,9 @@
 # やること
 
-- introPlaying で他 window に blur した時とまる
 - loading 画面
-- face 画像マシなものに
 - three-monorepo の例を使えないかな
 - 音声再生
-- シーンと見てる plane によってタイトルを変える
-- sp 実装
+- sp 実装 -アクセシビリティ対応
 
 # 工夫点
 

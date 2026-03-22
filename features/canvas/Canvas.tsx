@@ -13,7 +13,7 @@ export default function Canvas() {
   const setNextSceneId = useStore((state) => state.setNextSceneId);
   const setActiveSceneId = useStore((state) => state.setActiveSceneId);
   const phase = useStore((state) => state.phase);
-
+  const isTransitioning = useStore((state) => state.isTransitioning);
   useEffect(() => {
     const updateDeviceState = () => {
       const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
@@ -67,7 +67,7 @@ export default function Canvas() {
           data-cursor-hover
           data-cursor-text="click"
           className={`absolute -translate-x-full -translate-y-full pointer-events-auto p-4 transition-opacity tracking-widest ${
-            phase === "introReady"
+            phase === "introReady" && !isTransitioning
               ? "opacity-100 cursor-pointer"
               : "opacity-0 pointer-events-none"
           } `}
@@ -79,7 +79,7 @@ export default function Canvas() {
           data-cursor-hover
           data-cursor-text="click"
           className={`absolute -translate-x-full pointer-events-auto p-4 transition-opacity tracking-widest ${
-            phase === "introReady"
+            phase === "introReady" && !isTransitioning
               ? "opacity-100 cursor-pointer"
               : "opacity-0 pointer-events-none"
           } `}
@@ -91,7 +91,7 @@ export default function Canvas() {
           data-cursor-hover
           data-cursor-text="gallery >"
           className={`absolute pointer-events-auto p-1 -translate-x-1/2 -translate-y-[110%] [@media(min-aspect-ratio:1/1)]:translate-y-full transition-opacity tracking-widest ${
-            phase === "introReady"
+            phase === "introReady" && !isTransitioning
               ? "opacity-100 cursor-pointer"
               : "opacity-0 pointer-events-none"
           } `}
@@ -111,7 +111,7 @@ export default function Canvas() {
           data-cursor-hover
           data-cursor-text="< top"
           onClick={onClickToTop}
-          className={`absolute z-10 bottom-8 left-16 pointer-events-auto text-sm transition-opacity tracking-widest ${
+          className={`absolute z-10 bottom-4 left-12 p-4 pointer-events-auto text-sm transition-opacity tracking-widest ${
             phase === "gallery" ? "opacity-100" : "opacity-0"
           }`}
         >

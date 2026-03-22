@@ -95,7 +95,7 @@ export default function Home() {
           duration: 0.4,
           ease: "power4.in",
         },
-        index * 0.1 + 0.2
+        index * 0.08 + 0.2
       );
 
       tl.to(
@@ -105,7 +105,7 @@ export default function Home() {
           ease: "power4.in",
           duration: 0.7,
         },
-        index * 0.1
+        index * 0.08
       );
     }
 
@@ -117,7 +117,7 @@ export default function Home() {
       if (state.phase === "introPlaying") {
         setTimeout(() => {
           tlRef.current?.play();
-        }, 5000);
+        }, 4400);
       }
     });
     return unsub;
