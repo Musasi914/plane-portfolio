@@ -14,5 +14,5 @@ void main() {
   // uSwitchProgressによって常に表示しているテクスチャとfluidで表示するテクスチャを変える。
   vec4 color = mix(mix(faceColor, faceSmileColor, uSwitchProgress), mix(faceSmileColor, faceColor, uSwitchProgress), step(0.05, length(fluidVelocity)));
   
-  gl_FragColor = color;
+  gl_FragColor = vec4(color.rgb + 0.1 * (1.0 - color.rgb), color.a);
 }

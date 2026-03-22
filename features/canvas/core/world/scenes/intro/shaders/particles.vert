@@ -38,8 +38,8 @@ void main() {
 
   // 進行度が進むとノイズではなく時間でアニメーション　中くらいのパーティクルが、たまにサイズが0になるような 
   float size = mix(1.0, 0.9, uProgress);
-  size = mix(1.0, 0.1, uProgress);
-  size = mix(size, 0.0, smoothstep(0.5, 1.0, cos(aRandom.z * 2.0 * PI + uTime) * progressTwice));
+  size = mix(0.7, 0.1, uProgress);
+  size = mix(size, 0.0, smoothstep(0.7, 1.0, cos(aRandom.z * 2.0 * PI + uTime) * progressTwice));
 
   // 進行度が進むとxy方向にランダムに移動
   newPosition.xy += calcRandomOffset(smoothstep(0.2, 1.0, progressTwice) * uPointSize);

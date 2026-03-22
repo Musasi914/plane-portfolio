@@ -1,9 +1,7 @@
 # やること
 
-- 背景真っ白どうしよう
+- introPlaying で他 window に blur した時とまる
 - loading 画面
-- introPlaying 挙動
-- introPlaying plane を追加
 - face 画像マシなものに
 - three-monorepo の例を使えないかな
 - 音声再生

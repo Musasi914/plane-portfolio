@@ -5,6 +5,7 @@ import Canvas from "@/features/canvas/Canvas";
 import InitialLoading from "@/features/loading/InitialLoading";
 import CustomCursor from "@/features/cursor/CustomCursor";
 import RouterSync from "@/routing/RouterSync";
+import TitleSync from "@/features/title/TitleSync";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -17,7 +18,6 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "ようこそ",
   description: "松田秀隆のポートフォリオサイト",
 };
 
@@ -30,6 +30,7 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${sora.variable} ${notoSansJP.variable} antialiased`}>
         <RouterSync />
+        <TitleSync />
         <CustomCursor />
         <InitialLoading />
         <div className="fixed inset-0 z-0 bg-background">

@@ -14,6 +14,7 @@ export class IntroScene implements SceneLike {
   static CAMERA_FOV = 75;
   static CAMERA_NEAR = 5;
   static CAMERA_FAR = 5000;
+  static MAX_PLANE_WIDTH = 500;
 
   private experience: Experience;
   scene: THREE.Scene;
@@ -104,7 +105,7 @@ export class IntroScene implements SceneLike {
           this.experience.config.height,
           this.experience.config.width / 2
         );
-    return baseSize * 0.8;
+    return Math.min(baseSize * 0.8, IntroScene.MAX_PLANE_WIDTH);
   }
 
   private sceneChange() {
@@ -246,6 +247,7 @@ export class IntroScene implements SceneLike {
 
   update() {
     if (!useStore.getState().isTransitioning) {
+      console.log("object");
       this.face.update();
       this.raycaster.update();
     }

@@ -1,6 +1,7 @@
 import DetailToGalleryButton from "@/features/navigation/DetailToGalleryButton";
 import { getPostBySlug } from "@/lib/wp";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 export default async function page({ params }: { params: { slug: string } }) {
   const { slug } = await params;
@@ -72,7 +73,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             <div className="pt-8 pb-48">
               <div className="aspect-8/5"></div>
               <article
-                className="prose text-foreground"
+                className="prose text-foreground max-w-none"
                 dangerouslySetInnerHTML={{ __html: post.content.rendered }}
               />
             </div>
