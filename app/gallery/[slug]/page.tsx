@@ -32,16 +32,16 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
             <div className="flex gap-x-2 gap-y-1 flex-wrap max-w-full text-xs tracking-wide">
               {post.acf.tec.map((tec) => (
-                <span
-                  key={tec}
-                  className="text-background bg-foreground px-2 py-1"
-                >
+                <span key={tec} className="text-background bg-foreground p-1">
                   {tec}
                 </span>
               ))}
             </div>
-            <p className="text-sm">{post.acf.summary}</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div
+              className="text-xs"
+              dangerouslySetInnerHTML={{ __html: post.acf.summary }}
+            />
+            <div className="grid grid-cols-2 gap-2 text-sm">
               {post.acf.site_url && (
                 <a
                   href={post.acf.site_url}

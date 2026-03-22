@@ -366,8 +366,11 @@ export default class GalleryPlanes {
         this.detailScrollContentEl = document.getElementById("detail-canvas");
         if (this.detailScrollContentEl) {
           this.scrollObserver.setTargetScrollMax(
-            (this.detailScrollContentEl.children[0] as HTMLElement)
-              .scrollHeight - this.experience.config.height
+            Math.max(
+              0,
+              (this.detailScrollContentEl.children[0] as HTMLElement)
+                .scrollHeight - this.experience.config.height
+            )
           );
         } else return; // まだ DOM にない → 次フレームで再試行
       }
@@ -452,23 +455,24 @@ export default class GalleryPlanes {
   }
 
   resize() {
-    if (useStore.getState().phase === "gallery") {
-      this.planeSize = this.calcPlaneSize(
-        GalleryPlanes.PLANE_SIZE,
-        this.experience.config.width,
-        this.experience.config.height
-      );
-      this.planeItems.forEach((item) => {
-        item.resize(this.planeSize);
-      });
-    } else if (useStore.getState().phase === "detail") {
+    this.planeSize = this.calcPlaneSize(
+      GalleryPlanes.PLANE_SIZE,
+      this.experience.config.width,
+      this.experience.config.height
+    );
+    this.planeItems.forEach((item) => {
+      item.resize(this.planeSize);
+    });
+
+    if (useStore.getState().phase === "detail") {
       const { width, height } = this.getDetailCanvasSize();
       const { x, y } = this.getTargetPosition(width, height);
       this.planeSize = { width, height };
+      this.offsetY = y;
       const target = this.planeItems[useStore.getState().currentWorkId!];
       if (target) {
         target.resize(this.planeSize);
-        target.mesh.position.set(x, y, 0);
+        target.mesh.position.set(x, y + this.scrollObserver.currentScroll, 0);
       }
     }
   }

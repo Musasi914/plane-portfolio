@@ -6,8 +6,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=42"
     },
-    "modified": "2026-03-21T15:07:08",
-    "modified_gmt": "2026-03-21T06:07:08",
+    "modified": "2026-03-21T21:04:21",
+    "modified_gmt": "2026-03-21T12:04:21",
     "slug": "this-site",
     "status": "publish",
     "type": "page",
@@ -39,7 +39,7 @@
       "work-number": 6,
       "work-type": "personal",
       "work_period": "2026/3/11 ~",
-      "summary": "Next.jsにてR3Fを使わず生のThree.jsで実装。\r\nURL遷移で3Dシーンはそのままに、ページだけロードする構成にし、RenderTargetの切り替えや流体による色・テクスチャ表現に挑戦しました。",
+      "summary": "これまで実装できずにいた要素をまとめて形にしたく、就職活動用ポートフォリオとして制作しました。\r\n\r\n3D シーンを維持したまま URL 遷移する構成、流体による表現など、高度な表現と Next.js・生の Three.js の連携に挑戦しています。",
       "site_url": "",
       "github_url": "",
       "tec": [
@@ -91,8 +91,8 @@
       ],
       "predecessor-version": [
         {
-          "id": 70,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/70"
+          "id": 86,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/86"
         }
       ],
       "wp:attachment": [
@@ -116,8 +116,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=40"
     },
-    "modified": "2026-03-21T17:00:26",
-    "modified_gmt": "2026-03-21T08:00:26",
+    "modified": "2026-03-21T20:56:14",
+    "modified_gmt": "2026-03-21T11:56:14",
     "slug": "diary",
     "status": "publish",
     "type": "page",
@@ -149,7 +149,7 @@
       "work-number": 3,
       "work-type": "personal",
       "work_period": "2024/11/30 ~",
-      "summary": "ヘッドレスCMS（microCMS）とNext.jsで構築した、学習内容と備忘録をまとめるブログです。\r\n調べたことや覚えておきたいことを記事化し、日記にも学びを書き留める習慣を続けています。\r\n毎週土曜 に一週間分を見返し、理解の定着と振り返りを行っています。",
+      "summary": "学習内容と備忘録をまとめ、見返すためのブログです。\r\n覚えておきたいことを記事化し、日記にも学びを書き留める習慣を続けています。\r\n\r\n毎週土曜に一週間分を見返し、理解の定着と振り返りを行っています。",
       "site_url": "https://www.koh-fukuzawa.jp/",
       "github_url": "https://github.com/Musasi914/blog2",
       "tec": ["Next.js", "React", "Tailwind", "TypeScript", "microCMS"]
@@ -187,14 +187,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 81,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/81"
+          "id": 84,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/84"
         }
       ],
       "wp:attachment": [
@@ -218,8 +218,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=38"
     },
-    "modified": "2026-03-21T13:57:53",
-    "modified_gmt": "2026-03-21T04:57:53",
+    "modified": "2026-03-21T21:14:01",
+    "modified_gmt": "2026-03-21T12:14:01",
     "slug": "3d-practice",
     "status": "publish",
     "type": "page",
@@ -251,7 +251,7 @@
       "work-number": 4,
       "work-type": "personal",
       "work_period": "2025/12/01 ~",
-      "summary": "2025年12月01日からほぼ毎日続けている、Three.jsの学習サンプルをまとめたポートフォリオサイトです。",
+      "summary": "2025年12月からほぼ毎日続けている、Three.jsの学習サンプルをまとめたポートフォリオサイトです。\r\n\r\n毎朝ここから勉強を始めるのがルーティンです。",
       "site_url": "https://three-training2.vercel.app/",
       "github_url": "https://github.com/Musasi914/three-training2",
       "tec": ["Three.js", "GSAP", "TypeScript", "Vite"]
@@ -289,14 +289,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 3,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/38/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 56,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/38/revisions/56"
+          "id": 91,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/38/revisions/91"
         }
       ],
       "wp:attachment": [
@@ -320,8 +320,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=36"
     },
-    "modified": "2026-03-21T16:57:04",
-    "modified_gmt": "2026-03-21T07:57:04",
+    "modified": "2026-03-21T21:11:40",
+    "modified_gmt": "2026-03-21T12:11:40",
     "slug": "cafe",
     "status": "publish",
     "type": "page",
@@ -353,7 +353,7 @@
       "work-number": 3,
       "work-type": "personal",
       "work_period": "2026/02/18 ~ 2026/03/11",
-      "summary": "近所のカフェの公式サイトを想定し、「素敵な店内の雰囲気を、画面越しでも体験として伝えるには？」ということを考えデザインから検討しました。スクロールに連動した写真の変化や、オープニングのロゴアニメーションなどのアニメーションを、世界観の補強に使うために実装しています。",
+      "summary": "近所のカフェの公式サイトを想定し、「素敵な店内の雰囲気を、画面越しでも体験として伝えるには？」ということを考えデザインから検討したデモサイトです。",
       "site_url": "https://cafe-moku.vercel.app/",
       "github_url": "https://github.com/Musasi914/cafe-moku",
       "tec": ["Next.js", "React", "Tailwind", "GSAP", "TypeScript"]
@@ -391,14 +391,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 79,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/79"
+          "id": 89,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/89"
         }
       ],
       "wp:attachment": [
@@ -422,8 +422,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=34"
     },
-    "modified": "2026-03-21T16:56:09",
-    "modified_gmt": "2026-03-21T07:56:09",
+    "modified": "2026-03-21T21:07:11",
+    "modified_gmt": "2026-03-21T12:07:11",
     "slug": "kgrit",
     "status": "publish",
     "type": "page",
@@ -455,7 +455,7 @@
       "work-number": 2,
       "work-type": "client",
       "work_period": "2025/10/15 ~ 12/15",
-      "summary": "提供される静的アセットに沿って、全ページのアニメーション、3D実装を担当。\r\nThree.jsで年表のスクロールと3DCanvas同期実装や、本のめくりなど、企画段階でイメージしていたインタラクションをWeb上で再現しました。",
+      "summary": "提供される静的アセットに沿って、全ページのアニメーション、3D実装を担当。\r\n\r\nThree.jsで年表のスクロールや、本のめくりなど、企画段階でイメージしていたインタラクションをWeb上で再現しました。",
       "site_url": "",
       "github_url": "",
       "tec": ["Three.js", "GSAP", "JavaScript", "HTML/CSS", "WordPress"]
@@ -493,14 +493,14 @@
       ],
       "version-history": [
         {
-          "count": 6,
+          "count": 7,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/34/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 78,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/34/revisions/78"
+          "id": 87,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/34/revisions/87"
         }
       ],
       "wp:attachment": [
@@ -524,8 +524,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=9"
     },
-    "modified": "2026-03-21T15:10:51",
-    "modified_gmt": "2026-03-21T06:10:51",
+    "modified": "2026-03-21T20:53:48",
+    "modified_gmt": "2026-03-21T11:53:48",
     "slug": "portfolio",
     "status": "publish",
     "type": "page",
@@ -557,7 +557,7 @@
       "work-number": 1,
       "work-type": "personal",
       "work_period": "2025/08/15 ~ 10/01",
-      "summary": "Three.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\nCSS Design Awards で Special Kudos・Best UI Design・Best UX Design・Best Innovation を、CSS Winner で Site Of The Day を受賞しました。",
+      "summary": "Three.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\n\r\nCSS Design Awards で <strong>Special Kudos・Best UI Design・Best UX Design・Best Innovation</strong> を、\r\nCSS Winner で <strong>Site Of The Day</strong> を受賞しました。",
       "site_url": "https://koh-fukuzawa.com/",
       "github_url": "https://github.com/Musasi914/koh-fukuzawa-portfolio",
       "tec": [
@@ -603,14 +603,14 @@
       ],
       "version-history": [
         {
-          "count": 7,
+          "count": 8,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 72,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/72"
+          "id": 82,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/82"
         }
       ],
       "wp:attachment": [

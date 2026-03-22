@@ -4,7 +4,6 @@
 - [slug]で wordpressApi からとる
 - [slug]ページから始めた時 plane の位置問題、plane の動画再生問題
 - pointer 位置でカメラ移動（gallery）
-- detail でリサイズして gallery に行くと大きさおかしい
 - 背景真っ白どうしよう
 - loading 画面
 - introPlaying 挙動

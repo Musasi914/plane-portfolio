@@ -99,7 +99,7 @@ export class ScrollObserver {
     this.currentScroll = THREE.MathUtils.lerp(
       this.currentScroll,
       this.targetScroll,
-      lerpFactor(0.05, delta)
+      lerpFactor(useStore.getState().phase === "detail" ? 0.3 : 0.05, delta)
     );
   }
 
