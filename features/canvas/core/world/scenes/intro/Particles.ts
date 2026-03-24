@@ -11,7 +11,6 @@ export default class Particles {
     Particles.GRID_COUNT * Particles.GRID_COUNT * Particles.LAYER_COUNT;
 
   private experience: Experience;
-  private gui: Experience["gui"];
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private WIDTH: number;
@@ -39,9 +38,6 @@ export default class Particles {
 
     this.points = this.createParticles();
     this.frameEdge = this.createFrameEdge();
-
-    this.gui = this.experience.gui;
-    this.createGUI();
   }
 
   private createParticles() {
@@ -140,18 +136,6 @@ export default class Particles {
     lineSegments.position.z = (-this.MAX_DEPTH / 2) * this.progress;
     this.scene.add(lineSegments);
     return lineSegments;
-  }
-
-  private createGUI() {
-    const folder = this.gui.addFolder("Particles");
-
-    const obj = {
-      progress: this.progress,
-    };
-    folder.add(obj, "progress", 0, 1, 0.01).onChange((value: number) => {
-      this.progress = value;
-    });
-    folder.open();
   }
 
   resize(width: number) {

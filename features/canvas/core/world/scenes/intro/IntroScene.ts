@@ -8,6 +8,7 @@ import IntroRaycaster from "./IntroRaycaster";
 import gsap from "gsap";
 import { useRouterStore, useStore } from "@/store/store";
 import { CustomEase } from "gsap/CustomEase";
+import { setHasMovedGallery } from "@/utils/storage";
 gsap.registerPlugin(CustomEase);
 
 export class IntroScene implements SceneLike {
@@ -63,6 +64,8 @@ export class IntroScene implements SceneLike {
     );
 
     this.setMoveToDetailButton();
+
+    this.registerOnGoToGallery();
   }
 
   private setCamera() {
@@ -109,6 +112,8 @@ export class IntroScene implements SceneLike {
 
   private sceneChange() {
     if (useStore.getState().isTransitioning) return;
+
+    setHasMovedGallery();
 
     const tl = gsap.timeline({
       onStart: () => {
@@ -293,5 +298,32 @@ export class IntroScene implements SceneLike {
     this.particles.reset();
 
     this.setCameraPosition(this.camera);
+  }
+
+  private registerOnGoToGallery() {
+    useRouterStore.getState().setOnGoToGallery(() => {
+      useStore.getState().setActiveSceneId("intro");
+      useStore.getState().setNextSceneId("gallery");
+      useStore.getState().setCursorVariant("default");
+      useStore.getState().setIsTransitioning(true);
+      Experience.getInstance().world?.reset();
+
+      const tmp = { value: 0 };
+      gsap.to(tmp, {
+        value: 1,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: () => {
+          useStore.getState().setPhase("gallery");
+          useStore.getState().setActiveSceneId("gallery");
+          useStore.getState().setNextSceneId(null);
+          useStore.getState().setIsTransitioning(false);
+          useRouterStore.getState().onNavigate?.("/gallery");
+        },
+        onUpdate: () => {
+          useStore.getState().setSceneTransitionProgress(tmp.value);
+        },
+      });
+    });
   }
 }

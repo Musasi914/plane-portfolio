@@ -24,7 +24,6 @@ type FluidSimParams = {
 
 export default class Simulator {
   experience: Experience;
-  gui: Experience["gui"];
 
   private renderer: THREE.WebGLRenderer;
   private width: number;
@@ -58,7 +57,6 @@ export default class Simulator {
 
   constructor(params: FluidSimParams) {
     this.experience = Experience.getInstance();
-    this.gui = this.experience.gui;
 
     this.renderer = params.renderer;
     this.width = params.width;
@@ -127,29 +125,6 @@ export default class Simulator {
     if (error !== null) {
       console.error(error);
     }
-
-    this.createGUI();
-  }
-
-  private createGUI() {
-    const folder = this.gui.addFolder("Fluid");
-    folder.add(this.params, "dt", 0.001, 0.1, 0.001);
-    folder.add(this.params, "iterations", 1, 32, 1);
-    folder
-      .add(this.params, "dissipation", 0.5, 1.0, 0.001)
-      .onChange((value: number) => {
-        this.velocityVar!.material.uniforms.uDissipation.value = value;
-      });
-    folder
-      .add(this.params, "splatRadius", 1, 200, 1)
-      .onChange((value: number) => {
-        this.velocityVar!.material.uniforms.uSplatRadius.value = value;
-      });
-    folder
-      .add(this.params, "forceStrength", 1, 200, 1)
-      .onChange((value: number) => {
-        this.velocityVar!.material.uniforms.uForceStrength.value = value;
-      });
   }
 
   private createComputeRenderer() {

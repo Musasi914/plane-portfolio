@@ -4,7 +4,6 @@ import faceVert from "./shaders/face.vert";
 import faceFrag from "./shaders/face.frag";
 import gsap from "gsap";
 import lerpFactor from "../../../utils/lerpFactor";
-import { useStore } from "@/store/store";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {

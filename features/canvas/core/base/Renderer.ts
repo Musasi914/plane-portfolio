@@ -41,6 +41,8 @@ export class Renderer {
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
     });
+    rt.samples = this.config.pixelRatio === 1 ? 2 : 0;
+
     return rt;
   }
 
