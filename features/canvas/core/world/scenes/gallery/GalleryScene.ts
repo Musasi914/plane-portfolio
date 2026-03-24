@@ -149,7 +149,7 @@ export class GalleryScene implements SceneLike {
 
   update() {
     this.scrollObserver?.update(this.experience.time.delta);
-    this.planes?.update();
+    this.planes?.update(this.camera);
     this.planeRaycaster?.update();
     this.cameraMove();
   }

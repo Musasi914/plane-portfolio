@@ -1,7 +1,10 @@
 uniform float uOpacity;
-uniform float uProgress;
+uniform sampler2D uEndTexture;
+
 varying vec2 vUv;
 
 void main() {
-  gl_FragColor = vec4(0.5, 0.8 , 1.0, uOpacity);
+  gl_FragColor = vec4(texture2D(uEndTexture, vUv).rgb, uOpacity);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }

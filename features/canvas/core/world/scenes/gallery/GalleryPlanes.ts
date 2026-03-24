@@ -132,7 +132,9 @@ export default class GalleryPlanes {
             .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
         }
 
-        target.mesh.material.uniforms.uToDetail.value = 1;
+        if (target instanceof PlaneItem) {
+          target.mesh.material.uniforms.uToDetail.value = 1;
+        }
       },
       onComplete: () => {
         useStore.getState().setIsTransitioning(false);
@@ -220,14 +222,16 @@ export default class GalleryPlanes {
       },
       0
     );
-    tl.fromTo(
-      target.mesh.material.uniforms.uProgress,
-      { value: 0 },
-      {
-        value: 1,
-      },
-      0
-    );
+    if (target instanceof PlaneItem) {
+      tl.fromTo(
+        target.mesh.material.uniforms.uProgress,
+        { value: 0 },
+        {
+          value: 1,
+        },
+        0
+      );
+    }
 
     this.moveToDetailTl = tl;
   }
@@ -258,7 +262,9 @@ export default class GalleryPlanes {
           useRouterStore.getState().onNavigate?.("/gallery");
         }
 
-        target.mesh.material.uniforms.uToDetail.value = 0;
+        if (target instanceof PlaneItem) {
+          target.mesh.material.uniforms.uToDetail.value = 0;
+        }
       },
       onComplete: () => {
         useStore.getState().setIsTransitioning(false);
@@ -322,14 +328,16 @@ export default class GalleryPlanes {
       0
     );
 
-    tl.fromTo(
-      target.mesh.material.uniforms.uProgress,
-      { value: 0 },
-      {
-        value: 1,
-      },
-      0
-    );
+    if (target instanceof PlaneItem) {
+      tl.fromTo(
+        target.mesh.material.uniforms.uProgress,
+        { value: 0 },
+        {
+          value: 1,
+        },
+        0
+      );
+    }
 
     this.backToGalleryTl = tl;
   }
@@ -363,13 +371,19 @@ export default class GalleryPlanes {
 
   private detailScrollContentEl: HTMLElement | null = null;
 
-  update() {
+  update(galleryCamera: THREE.PerspectiveCamera) {
     if (useStore.getState().isTransitioning) return;
 
     const phase = useStore.getState().phase;
 
     if (phase === "gallery") {
       this.updateGallery();
+      if (useStore.getState().currentWorkId === this.planeItems.length - 1) {
+        this.lastPlane?.setIsCurrent(true);
+      } else {
+        this.lastPlane?.setIsCurrent(false);
+      }
+      this.lastPlane?.update(galleryCamera);
     } else if (phase === "detail") {
       // キャッシュがなければ取得を試みる（毎フレーム試行、見つかったらキャッシュ）
       if (!this.detailScrollContentEl) {

@@ -29,6 +29,9 @@ importers:
       three:
         specifier: ^0.183.2
         version: 0.183.2
+      three-custom-shader-material:
+        specifier: ^6.4.0
+        version: 6.4.0(react@19.2.3)(three@0.183.2)
       zustand:
         specifier: ^5.0.11
         version: 5.0.11(@types/react@19.2.14)(react@19.2.3)
@@ -2081,6 +2084,18 @@ packages:
     resolution: {integrity: sha512-jTwoImyr/QbOWFFso3YoU3ik0jBBDJ6JTOQiy/J2YxVJdZCc+5u7skhNwiOR3FQIygFqVUPHl7qbbxtjW2K3Qg==}
     engines: {node: '>=10'}
     hasBin: true
+
+  three-custom-shader-material@6.4.0:
+    resolution: {integrity: sha512-dIbkwX1P4DcHMOZrywW+/TDp5qJhlyU6NP/2kmHw91UqC+TrK4JSBtAV3qGc6UnkqSOmR1i0O+Yz5EnTp2aQ1g==}
+    peerDependencies:
+      '@react-three/fiber': '>=8.0'
+      react: '>=18.0'
+      three: '>=0.159'
+    peerDependenciesMeta:
+      '@react-three/fiber':
+        optional: true
+      react:
+        optional: true
 
   three@0.183.2:
     resolution: {integrity: sha512-di3BsL2FEQ1PA7Hcvn4fyJOlxRRgFYBpMTcyOgkwJIaDOdJMebEFPA+t98EvjuljDx4hNulAGwF6KIjtwI5jgQ==}
@@ -4442,6 +4457,12 @@ snapshots:
       acorn: 8.16.0
       commander: 2.20.3
       source-map-support: 0.5.21
+
+  three-custom-shader-material@6.4.0(react@19.2.3)(three@0.183.2):
+    dependencies:
+      three: 0.183.2
+    optionalDependencies:
+      react: 19.2.3
 
   three@0.183.2: {}
 

@@ -30,6 +30,11 @@ export const sources: Source[] = [
     type: "texture",
     path: "/intro/name/name.webp",
   },
+  {
+    name: "end",
+    type: "texture",
+    path: "/gallery/texture/end.webp",
+  },
 ];
 
 export type GalleryVideoSource = {

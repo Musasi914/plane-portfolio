@@ -1,10 +1,9 @@
 # やること
 
-- lastPlane 実装
-- loading 画面
 - three-monorepo の例を使えないかな
 - 音声再生
 - sp 実装 -アクセシビリティ対応
+- loading 画面
 
 # 工夫点
 
