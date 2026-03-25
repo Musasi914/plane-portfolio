@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { useRouterStore, useStore } from "@/store/store";
 import { CustomEase } from "gsap/CustomEase";
 import { setHasMovedGallery } from "@/utils/storage";
+import { playSfx } from "@/features/audio/sfx";
 gsap.registerPlugin(CustomEase);
 
 export class IntroScene implements SceneLike {
@@ -200,6 +201,7 @@ export class IntroScene implements SceneLike {
       this.raycaster.isHovering &&
       useStore.getState().phase === "introReady"
     ) {
+      playSfx("click");
       this.transitionFire();
     }
   };
@@ -216,7 +218,7 @@ export class IntroScene implements SceneLike {
     ) as HTMLButtonElement;
     this.setButtonWorldPosition(this.isPortrait, this.planeWidth);
     this.moveToDetailButton.addEventListener("click", () => {
-      this.setTransitionFire();
+      this.transitionFire();
     });
   }
   private setButtonWorldPosition(isPortrait: boolean, width: number) {

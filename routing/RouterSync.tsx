@@ -1,5 +1,6 @@
 "use client";
 
+import { playSfx } from "@/features/audio/sfx";
 import Experience from "@/features/canvas/core/Experience";
 import { useRouterStore, useStore } from "@/store/store";
 import { useGSAP } from "@gsap/react";
@@ -75,6 +76,7 @@ export default function RouterSync() {
     // gaallery ⇔ detail
     if (!isIntroToGallery && !isGalleryToIntro) {
       const state = getStateFromPathname(pathname);
+      playSfx("click");
       if (state && state.phase === "gallery") {
         onBackToGallery?.();
       } else if (state && state.phase === "detail") {
@@ -102,6 +104,7 @@ export default function RouterSync() {
     }
     setCursorVariant("default");
     setIsTransitioning(true);
+    playSfx("scratch");
 
     const tmp = {
       value: isIntroToGallery ? 0 : 1,

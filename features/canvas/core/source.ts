@@ -60,7 +60,7 @@ export const galleryVideoSources: GalleryVideoSource[] = [
     slug: "cafe",
   },
   {
-    name: "3d練習サイト",
+    name: "3d練習",
     path: "/gallery/video/3d-practice.webm",
     slug: "3d-practice",
   },

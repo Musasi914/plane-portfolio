@@ -9,6 +9,7 @@ import { useRouterStore, useStore } from "@/store/store";
 import { getSlugByIndex } from "../../../utils/gallery";
 import lerpFactor from "../../../utils/lerpFactor";
 import gsap from "gsap";
+import { playSfx } from "@/features/audio/sfx";
 
 export class GalleryScene implements SceneLike {
   private experience: Experience;
@@ -97,6 +98,8 @@ export class GalleryScene implements SceneLike {
   private transitionToDetail = (workId?: number) => {
     if (!workId && useStore.getState().hoveredWorkId === null) return;
     if (!this.canTransitionToDetail()) return;
+
+    playSfx("click");
 
     useStore.getState().setIsTransitioning(true);
     useStore.getState().setCursorVariant("default");

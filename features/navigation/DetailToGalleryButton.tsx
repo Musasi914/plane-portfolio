@@ -1,11 +1,13 @@
 "use client";
 
 import { useRouterStore } from "@/store/store";
+import { playSfx } from "../audio/sfx";
 
 export default function DetailToGalleryButton() {
   const onBackToGallery = useRouterStore((state) => state.onBackToGallery);
   const onClick = () => {
     onBackToGallery?.();
+    playSfx("click");
   };
   return (
     <button

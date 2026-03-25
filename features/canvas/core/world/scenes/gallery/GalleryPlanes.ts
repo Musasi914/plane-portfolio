@@ -412,6 +412,11 @@ export default class GalleryPlanes {
     this.planesGroup.rotation.x = THREE.MathUtils.lerp(
       this.planesGroup.rotation.x,
       targetRotation,
+      lerpFactor(0.04, this.experience.time.delta)
+    );
+    this.planesGroup.rotation.y = THREE.MathUtils.lerp(
+      this.planesGroup.rotation.y,
+      targetRotation / 8,
       lerpFactor(0.05, this.experience.time.delta)
     );
 

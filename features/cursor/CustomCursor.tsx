@@ -4,6 +4,7 @@ import { useStore } from "@/store/store";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import { playSfx } from "../audio/sfx";
 
 const CURSOR_SELECTOR = "[data-cursor-hover]";
 const CURSOR_TEXT_SELECTOR = "data-cursor-text";
@@ -80,6 +81,10 @@ export default function CustomCursor() {
   useGSAP(
     () => {
       if (isMobile || !cursorRef.current) return;
+
+      if (cursorVariant === "hover") {
+        playSfx("hover");
+      }
 
       opacityTween.current?.kill();
 

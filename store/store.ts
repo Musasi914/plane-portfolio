@@ -48,6 +48,10 @@ export type StoreType = {
   // video
   videoCount: number;
   setVideoCount: (videoCount: number) => void;
+
+  // volume
+  enableSound: boolean;
+  setEnableSound: (enableSound: boolean) => void;
 };
 
 export const useStore = create<StoreType>((set) => ({
@@ -92,6 +96,10 @@ export const useStore = create<StoreType>((set) => ({
   // video
   videoCount: 1,
   setVideoCount: (videoCount) => set({ videoCount }),
+
+  //volume
+  enableSound: false,
+  setEnableSound: (enableSound) => set({ enableSound }),
 }));
 
 type RouterStoreType = {
