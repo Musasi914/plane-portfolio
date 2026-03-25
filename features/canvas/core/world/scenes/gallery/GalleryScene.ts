@@ -193,7 +193,7 @@ export class GalleryScene implements SceneLike {
       useStore.getState().setNextSceneId("intro");
       useStore.getState().setCursorVariant("default");
       useStore.getState().setIsTransitioning(true);
-      Experience.getInstance().world?.reset();
+      gsap.delayedCall(0.2, () => Experience.getInstance().world?.reset());
 
       const tmp = { value: 1 };
       gsap.to(tmp, {

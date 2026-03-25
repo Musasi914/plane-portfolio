@@ -1,3 +1,4 @@
+// 一度galleryに移動したら、introでgallery fast moveボタンを作る
 export const HAS_MOVED_GALLERY = "hasMovedGallery";
 
 export const setHasMovedGallery = () => {

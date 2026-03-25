@@ -6,12 +6,12 @@ import transitionVert from "./shaders/transition.vert";
 import transitionFrag from "./shaders/transition.frag";
 
 export class Renderer {
-  instance: THREE.WebGLRenderer;
-  experience: Experience;
-  canvasWrapper: Experience["canvasWrapper"];
-  config: Experience["config"];
+  private instance: THREE.WebGLRenderer;
+  private experience: Experience;
+  private canvasWrapper: Experience["canvasWrapper"];
+  private config: Experience["config"];
   scene: Experience["scene"];
-  camera: Experience["camera"];
+  private camera: Experience["camera"];
 
   private introRT: THREE.WebGLRenderTarget;
   private galleryRT: THREE.WebGLRenderTarget;
@@ -19,6 +19,8 @@ export class Renderer {
     THREE.PlaneGeometry,
     THREE.ShaderMaterial
   > | null = null;
+
+  planeSize: { width: number; height: number };
 
   constructor() {
     this.experience = Experience.getInstance();
@@ -30,6 +32,7 @@ export class Renderer {
     this.instance = this.setInstance();
     this.introRT = this.createRenderTarget();
     this.galleryRT = this.createRenderTarget();
+    this.planeSize = this.updateRenderTargetSizes();
 
     this.setupCompositePass();
   }
@@ -82,13 +85,19 @@ export class Renderer {
     const h = Math.floor(this.config.height * this.config.pixelRatio);
     this.introRT.setSize(w, h);
     this.galleryRT.setSize(w, h);
+    return { width: w, height: h };
   }
 
   resize() {
     this.config = this.experience.config;
     this.instance.setPixelRatio(this.config.pixelRatio);
     this.instance.setSize(this.config.width, this.config.height);
-    this.updateRenderTargetSizes();
+    this.planeSize = this.updateRenderTargetSizes();
+  }
+
+  loadingUpdate() {
+    this.instance.setRenderTarget(null);
+    this.instance.render(this.scene, this.camera.instance);
   }
 
   update(renderState: RenderState, fluidVelocityTexture: THREE.Texture) {

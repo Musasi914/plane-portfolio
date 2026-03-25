@@ -13,6 +13,7 @@ import Pointer from "./utils/Pointer";
 import Fluid from "./fluid/Fluid";
 import GalleryVideoLoader from "./world/scenes/gallery/GalleryVideoLoader";
 import { getIndexBySlug } from "./utils/gallery";
+import LoadingPlane from "./base/LoadingPlane";
 
 export default class Experience {
   static instance: Experience;
@@ -42,6 +43,8 @@ export default class Experience {
   private onTick = () => this.update();
   private unsubscribeStore: (() => void) | null = null;
 
+  private loadingPlane: LoadingPlane;
+
   constructor(canvasWrapper: HTMLDivElement) {
     Experience.instance = this;
     this.scene = new THREE.Scene();
@@ -63,7 +66,18 @@ export default class Experience {
     this.resource = new Resource(sources);
     this.galleryVideoLoader = new GalleryVideoLoader();
 
+    this.loadingPlane = new LoadingPlane(
+      this.renderer.scene,
+      this.renderer.planeSize
+    );
+
+    useStore.getState().setIsTransitioning(true);
+
     this.resource.on("ready", () => {
+      this.loadingPlane.play().then(() => {
+        useStore.getState().setIsTransitioning(false);
+      });
+
       const initialPathname = useRouterStore.getState().initialPathname;
       if (initialPathname === "/") {
         useStore.getState().setPhase("introReady");
@@ -135,6 +149,7 @@ export default class Experience {
       this.config = this.setConfig();
       this.camera.resize();
       this.renderer.resize();
+      this.loadingPlane.resize(this.renderer.planeSize);
       this.world?.resize();
       this.update();
     });
@@ -143,9 +158,13 @@ export default class Experience {
   private update() {
     this.stats.update();
     this.pointer.update();
-    this.fluid.update();
+    this.loadingPlane.update();
 
-    if (useStore.getState().phase === "loading") return;
+    if (useStore.getState().phase === "loading") {
+      this.renderer.loadingUpdate();
+      return;
+    }
+    this.fluid.update();
     this.world?.update();
     const renderState = this.world?.getRenderState();
     if (renderState) {

@@ -3,7 +3,6 @@ import { useStore, type SceneId } from "@/store/store";
 import { IntroScene } from "./scenes/intro/IntroScene";
 import { GalleryScene } from "./scenes/gallery/GalleryScene";
 import type { RenderState } from "../types/renderState";
-import * as THREE from "three";
 export class World {
   experience: Experience;
   introScene: IntroScene | null = null;
@@ -16,21 +15,19 @@ export class World {
     this.galleryScene = new GalleryScene();
   }
 
-  getRenderState(): RenderState {
+  getRenderState(): RenderState | null {
     const state = useStore.getState();
     const { activeSceneId, nextSceneId, sceneTransitionProgress } = state;
 
-    const getScene = (id: SceneId) => {
-      if (!this.introScene || !this.galleryScene) {
-        return {
-          scene: new THREE.Scene(),
-          camera: new THREE.PerspectiveCamera(),
-        };
-      }
+    if (!this.introScene || !this.galleryScene) return null;
 
+    const getScene = (id: SceneId) => {
       return id === "intro"
-        ? { scene: this.introScene.scene, camera: this.introScene.camera }
-        : { scene: this.galleryScene.scene, camera: this.galleryScene.camera };
+        ? { scene: this.introScene!.scene, camera: this.introScene!.camera }
+        : {
+            scene: this.galleryScene!.scene,
+            camera: this.galleryScene!.camera,
+          };
     };
 
     const active = getScene(activeSceneId);

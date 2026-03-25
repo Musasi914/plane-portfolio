@@ -159,6 +159,7 @@ export class Face {
       this.WIDTH * Face.FACE_SCALE,
       1
     );
+    faceMesh.lookAt(this.camera.position);
     this.scene.add(faceMesh);
 
     return faceMesh;
