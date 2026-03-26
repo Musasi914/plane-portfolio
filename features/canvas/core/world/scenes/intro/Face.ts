@@ -4,6 +4,7 @@ import faceVert from "./shaders/face.vert";
 import faceFrag from "./shaders/face.frag";
 import gsap from "gsap";
 import lerpFactor from "../../../utils/lerpFactor";
+import { useStore } from "@/store/store";
 
 /** faceMesh は frameEdge の FACE_SCALE 倍。Z軸方向に少し奥へ配置する */
 export class Face {
@@ -130,7 +131,8 @@ export class Face {
     } = this.getTexture();
     this.faceTexture = faceTexture;
 
-    const geometry = new THREE.PlaneGeometry(1, 1, 1024, 1024);
+    const planeDivide = useStore.getState().isMobile ? 256 : 1024;
+    const geometry = new THREE.PlaneGeometry(1, 1, planeDivide, planeDivide);
     const material = new THREE.ShaderMaterial({
       vertexShader: faceVert,
       fragmentShader: faceFrag,

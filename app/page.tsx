@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <>
       <div className="w-full h-screen overflow-hidden grid place-items-center">
-        <div className="perspective-near transform-3d w-2xl grid place-items-center">
+        <div className="perspective-near transform-3d max-w-2xl w-3/4 grid place-items-center">
           {introImages.map((img, index) => (
             <figure
               key={index}

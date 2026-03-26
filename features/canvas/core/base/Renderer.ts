@@ -67,7 +67,7 @@ export class Renderer {
 
   private setInstance() {
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: !useStore.getState().isMobile,
       powerPreference: "high-performance",
     });
 

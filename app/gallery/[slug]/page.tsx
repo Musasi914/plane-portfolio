@@ -15,8 +15,11 @@ export default async function page({ params }: { params: { slug: string } }) {
         aria-describedby="page-title"
         className="relative z-0 w-full pointer-events-auto animate-fade-in-soft"
       >
-        <div className="absolute inset-0 grid grid-cols-[1fr_2fr] gap-8 p-4 md:p-8">
-          <div className="fixed inset-0 grid gap-4 content-center p-4 md:p-8 w-1/3">
+        <div
+          id="detail-container"
+          className="sm:absolute sm:inset-0 grid sm:grid-cols-[1fr_2fr] gap-8 p-4 md:p-8"
+        >
+          <div className="sm:fixed sm:inset-0 grid gap-4 content-center p-4 md:p-8 sm:w-1/3">
             <div className="flex items-center gap-2">
               <span>
                 #{post.acf["work-number"].toString().padStart(2, "0")}
@@ -68,11 +71,14 @@ export default async function page({ params }: { params: { slug: string } }) {
               )}
             </div>
           </div>
-          <div id="detail-canvas" className="relative min-h-full col-2">
-            <div className="pt-8 pb-48">
-              <div className="aspect-8/5"></div>
+          <div
+            id="detail-canvas"
+            className="relative contents sm:block sm:min-h-full sm:col-2"
+          >
+            <div className="sm:pt-8 sm:pb-48 contents sm:block">
+              <div className="aspect-8/5 -order-10"></div>
               <article
-                className="prose prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
+                className="prose prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
                 dangerouslySetInnerHTML={{ __html: post.content.rendered }}
               />
             </div>

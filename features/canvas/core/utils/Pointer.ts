@@ -30,7 +30,7 @@ export default class Pointer {
       deltaUv: new THREE.Vector2(0, 0),
       movedSinceLastUpdate: false,
       movedThisFrame: false,
-      ndc: new THREE.Vector2(0, 0),
+      ndc: new THREE.Vector2(0, -1),
     };
 
     this.el.style.touchAction = "none";

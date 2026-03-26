@@ -3,12 +3,12 @@ import noiseGlsl from "./shaders/noise.glsl";
 import particlesVert from "./shaders/particles.vert";
 import particlesFrag from "./shaders/particles.frag";
 import Experience from "../../../Experience";
+import { useStore } from "@/store/store";
 
 export default class Particles {
-  static GRID_COUNT = 50 as const;
-  static LAYER_COUNT = 50 as const;
-  static NUM_PARTICLES =
-    Particles.GRID_COUNT * Particles.GRID_COUNT * Particles.LAYER_COUNT;
+  private GRID_COUNT = useStore.getState().isMobile ? 25 : 50;
+  private LAYER_COUNT = 50 as const;
+  private NUM_PARTICLES = this.GRID_COUNT * this.GRID_COUNT * this.LAYER_COUNT;
 
   private experience: Experience;
   private scene: THREE.Scene;
@@ -42,25 +42,20 @@ export default class Particles {
 
   private createParticles() {
     const geometry = new THREE.BufferGeometry();
-    const gridOffsets = new Float32Array(Particles.NUM_PARTICLES * 3);
-    const randoms = new Float32Array(Particles.NUM_PARTICLES * 3);
+    const gridOffsets = new Float32Array(this.NUM_PARTICLES * 3);
+    const randoms = new Float32Array(this.NUM_PARTICLES * 3);
 
     let particleIndex = 0;
-    for (
-      let depthIndex = Particles.LAYER_COUNT - 1;
-      depthIndex >= 0;
-      depthIndex--
-    ) {
+    for (let depthIndex = this.LAYER_COUNT - 1; depthIndex >= 0; depthIndex--) {
       const depthCenterOffset = -depthIndex;
-      for (let rowIndex = 0; rowIndex < Particles.GRID_COUNT; rowIndex++) {
-        const rowCenterOffset = rowIndex - (Particles.GRID_COUNT - 1) / 2;
+      for (let rowIndex = 0; rowIndex < this.GRID_COUNT; rowIndex++) {
+        const rowCenterOffset = rowIndex - (this.GRID_COUNT - 1) / 2;
         for (
           let columnIndex = 0;
-          columnIndex < Particles.GRID_COUNT;
+          columnIndex < this.GRID_COUNT;
           columnIndex++
         ) {
-          const columnCenterOffset =
-            columnIndex - (Particles.GRID_COUNT - 1) / 2;
+          const columnCenterOffset = columnIndex - (this.GRID_COUNT - 1) / 2;
           gridOffsets[particleIndex * 3] = columnCenterOffset;
           gridOffsets[particleIndex * 3 + 1] = rowCenterOffset;
           gridOffsets[particleIndex * 3 + 2] = depthCenterOffset;
@@ -87,9 +82,7 @@ export default class Particles {
     geometry.computeBoundingSphere = () => {};
 
     const pointSize =
-      (0.9 *
-        (this.WIDTH / Particles.GRID_COUNT) *
-        this.experience.config.height) /
+      (0.9 * (this.WIDTH / this.GRID_COUNT) * this.experience.config.height) /
       (this.WIDTH * Math.tan((this.camera.fov * Math.PI) / 360));
 
     const material = new THREE.ShaderMaterial({
@@ -101,8 +94,8 @@ export default class Particles {
         uPointSize: { value: pointSize },
         uProgress: { value: 0 },
         uMaxDepth: { value: this.MAX_DEPTH },
-        uGridSize: { value: this.WIDTH / Particles.GRID_COUNT },
-        uDepthPerLayer: { value: this.MAX_DEPTH / Particles.LAYER_COUNT },
+        uGridSize: { value: this.WIDTH / this.GRID_COUNT },
+        uDepthPerLayer: { value: this.MAX_DEPTH / this.LAYER_COUNT },
       },
       transparent: true,
       // depthTest: true,
@@ -143,14 +136,14 @@ export default class Particles {
     this.MAX_DEPTH = width * 10;
 
     const pointSize =
-      (0.9 * (width / Particles.GRID_COUNT) * this.experience.config.height) /
+      (0.9 * (width / this.GRID_COUNT) * this.experience.config.height) /
       (width * Math.tan((this.camera.fov * Math.PI) / 360));
     this.points.material.uniforms.uPointSize.value = pointSize;
     this.points.material.uniforms.uMaxDepth.value = this.MAX_DEPTH;
     this.points.material.uniforms.uGridSize.value =
-      this.WIDTH / Particles.GRID_COUNT;
+      this.WIDTH / this.GRID_COUNT;
     this.points.material.uniforms.uDepthPerLayer.value =
-      this.MAX_DEPTH / Particles.LAYER_COUNT;
+      this.MAX_DEPTH / this.LAYER_COUNT;
     this.points.material.uniforms.uResolutionY.value =
       this.experience.config.height;
 

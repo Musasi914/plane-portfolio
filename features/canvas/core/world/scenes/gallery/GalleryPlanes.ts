@@ -10,7 +10,7 @@ import { getSlugByIndex } from "../../../utils/gallery";
 export default class GalleryPlanes {
   static PLANE_ASPECT = 8 / 5;
   static PLANE_DISTANCE = 600;
-  static PLANE_SIZE = 0.7;
+  private PLANE_SIZE = useStore.getState().isMobile ? 0.9 : 0.7;
 
   private experience: Experience;
   private scene: THREE.Scene;
@@ -39,7 +39,7 @@ export default class GalleryPlanes {
     this.scene.add(this.planesWrapper);
     this.planesWrapper.add(this.planesGroup);
 
-    this.planeSize = this.calcPlaneSize(GalleryPlanes.PLANE_SIZE);
+    this.planeSize = this.calcPlaneSize(this.PLANE_SIZE);
   }
 
   private calcPlaneSize(
@@ -344,10 +344,19 @@ export default class GalleryPlanes {
 
   private getDetailCanvasSize() {
     const screenWidth = this.experience.config.width;
-    const padding = this.getPadding(screenWidth);
+    const padding = this.getPadding();
     const gap = 32;
-    const contentWidth = screenWidth - padding * 2 - gap;
-    const width = contentWidth * (2 / 3);
+    let contentWidth;
+    let width;
+
+    if (useStore.getState().isMobile) {
+      contentWidth = screenWidth;
+      width = contentWidth;
+    } else {
+      contentWidth = screenWidth - padding * 2 - gap;
+      width = contentWidth * (2 / 3);
+    }
+
     return {
       width,
       height: width / GalleryPlanes.PLANE_ASPECT,
@@ -357,19 +366,27 @@ export default class GalleryPlanes {
   private getTargetPosition(canvasWidth: number, canvasHeight: number) {
     const screenWidth = this.experience.config.width;
     const screenHeight = this.experience.config.height;
-    const padding = this.getPadding(screenWidth);
+    const padding = this.getPadding();
+
+    if (useStore.getState().isMobile) {
+      return {
+        x: 0,
+        y: screenHeight / 2 - canvasHeight / 2,
+      };
+    }
     return {
       x: screenWidth / 2 - padding - canvasWidth / 2,
       y: screenHeight / 2 - padding - canvasHeight / 2,
     };
   }
 
-  private getPadding(screenWidth: number) {
-    const padding = screenWidth >= 768 ? 32 : 16;
+  private getPadding() {
+    const padding = useStore.getState().isMobile ? 16 : 32;
     return padding;
   }
 
   private detailScrollContentEl: HTMLElement | null = null;
+  private detailContainerEl: HTMLElement | null = null;
 
   update(galleryCamera: THREE.PerspectiveCamera) {
     if (useStore.getState().isTransitioning) return;
@@ -386,14 +403,15 @@ export default class GalleryPlanes {
       this.lastPlane?.update(galleryCamera);
     } else if (phase === "detail") {
       // キャッシュがなければ取得を試みる（毎フレーム試行、見つかったらキャッシュ）
-      if (!this.detailScrollContentEl) {
+      if (!this.detailScrollContentEl || !this.detailContainerEl) {
+        this.detailContainerEl = document.getElementById("detail-container");
         this.detailScrollContentEl = document.getElementById("detail-canvas");
-        if (this.detailScrollContentEl) {
+        if (this.detailContainerEl && this.detailScrollContentEl) {
           this.scrollObserver.setTargetScrollMax(
             Math.max(
               0,
-              (this.detailScrollContentEl.children[0] as HTMLElement)
-                .scrollHeight - this.experience.config.height
+              this.detailContainerEl.scrollHeight -
+                this.experience.config.height
             )
           );
         } else return; // まだ DOM にない → 次フレームで再試行
@@ -477,15 +495,20 @@ export default class GalleryPlanes {
   private updateDetail() {
     const workId = useStore.getState().currentWorkId;
     const target = this.planeItems[workId];
-    if (!target || !this.detailScrollContentEl) return;
+    if (!target || !this.detailScrollContentEl || !this.detailContainerEl)
+      return;
 
     target.mesh.position.y = this.offsetY + this.scrollObserver.currentScroll;
-    this.detailScrollContentEl.style.transform = `translateY(-${this.scrollObserver.currentScroll}px)`;
+    if (useStore.getState().isMobile) {
+      this.detailContainerEl.style.transform = `translateY(-${this.scrollObserver.currentScroll}px)`;
+    } else {
+      this.detailScrollContentEl.style.transform = `translateY(-${this.scrollObserver.currentScroll}px)`;
+    }
   }
 
   resize() {
     this.planeSize = this.calcPlaneSize(
-      GalleryPlanes.PLANE_SIZE,
+      this.PLANE_SIZE,
       this.experience.config.width,
       this.experience.config.height
     );

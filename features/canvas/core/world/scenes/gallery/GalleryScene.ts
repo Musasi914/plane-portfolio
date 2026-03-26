@@ -158,6 +158,8 @@ export class GalleryScene implements SceneLike {
   }
 
   private cameraMove() {
+    if (useStore.getState().isMobile) return;
+
     const pointer = this.experience.pointer;
     this.camera.position.x = THREE.MathUtils.lerp(
       this.camera.position.x,
