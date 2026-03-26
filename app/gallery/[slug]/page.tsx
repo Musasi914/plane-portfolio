@@ -13,10 +13,10 @@ export default async function page({ params }: { params: { slug: string } }) {
     <>
       <section
         aria-describedby="page-title"
-        className="w-full pointer-events-auto animate-fade-in-soft"
+        className="relative z-0 w-full pointer-events-auto animate-fade-in-soft"
       >
         <div className="absolute inset-0 grid grid-cols-[1fr_2fr] gap-8 p-4 md:p-8">
-          <div className="fixed pointer-events-none inset-0 grid gap-4 content-center p-4 md:p-8 w-1/3">
+          <div className="fixed inset-0 grid gap-4 content-center p-4 md:p-8 w-1/3">
             <div className="flex items-center gap-2">
               <span>
                 #{post.acf["work-number"].toString().padStart(2, "0")}

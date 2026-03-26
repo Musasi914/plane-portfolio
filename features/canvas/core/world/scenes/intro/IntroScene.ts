@@ -174,6 +174,13 @@ export class IntroScene implements SceneLike {
       "<0.8"
     );
 
+    tl.add(() => {
+      playSfx("wind");
+    }, 2.7);
+    tl.add(() => {
+      playSfx("scratch");
+    }, 5.6);
+
     const obj = {
       value: 0,
     };

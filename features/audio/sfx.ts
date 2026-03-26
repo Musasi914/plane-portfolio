@@ -1,4 +1,5 @@
 import { useStore } from "@/store/store";
+import gsap from "gsap";
 
 type SfxName = "hover" | "click" | "wind" | "scratch";
 
@@ -27,7 +28,18 @@ export const playSfx = (name: SfxName) => {
   const audio = getAudio(name);
   if (!audio) return;
 
-  audio.playbackRate = name === "scratch" ? 3 : 1;
+  audio.playbackRate = name === "scratch" ? 4 : 1;
+  if (name === "wind") {
+    audio.volume = 0.2;
+    audio.playbackRate = 1;
+    gsap.delayedCall(2.7, () => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+  } else if (name === "click") {
+    audio.volume = 0.6;
+  }
+
   audio.currentTime = 0;
   void audio.play();
 };

@@ -193,7 +193,7 @@ export default function Canvas() {
             playSfx("click");
           }}
           className={`absolute bottom-4 right-12 p-4 pointer-events-auto transition-opacity duration-700 tracking-widest ${
-            phase === "introPlaying" || phase === "detail"
+            phase === "introPlaying" || phase === "detail" || isTransitioning
               ? "opacity-0 pointer-events-none"
               : "opacity-100 cursor-pointer"
           }`}

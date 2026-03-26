@@ -17,7 +17,7 @@ export default function InitialLoading() {
         fadeStartedRef.current = true;
         gsap.to(wrapperRef.current, {
           opacity: 0,
-          duration: 4,
+          duration: 3,
           ease: "power4.inOut",
           onComplete: () => {
             setIsLoading(false);

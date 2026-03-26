@@ -43,7 +43,7 @@ export default class Experience {
   private onTick = () => this.update();
   private unsubscribeStore: (() => void) | null = null;
 
-  private loadingPlane: LoadingPlane;
+  private loadingPlane: LoadingPlane | null = null;
 
   constructor(canvasWrapper: HTMLDivElement) {
     Experience.instance = this;
@@ -66,19 +66,22 @@ export default class Experience {
     this.resource = new Resource(sources);
     this.galleryVideoLoader = new GalleryVideoLoader();
 
-    this.loadingPlane = new LoadingPlane(
-      this.renderer.scene,
-      this.renderer.planeSize
-    );
+    const initialPathname = useRouterStore.getState().initialPathname;
+
+    if (initialPathname === "/gallery" || initialPathname === "/") {
+      this.loadingPlane = new LoadingPlane(
+        this.renderer.scene,
+        this.renderer.planeSize
+      );
+    }
 
     useStore.getState().setIsTransitioning(true);
 
     this.resource.on("ready", () => {
-      this.loadingPlane.play().then(() => {
+      this.loadingPlane?.play().then(() => {
         useStore.getState().setIsTransitioning(false);
       });
 
-      const initialPathname = useRouterStore.getState().initialPathname;
       if (initialPathname === "/") {
         useStore.getState().setPhase("introReady");
         useStore.getState().setActiveSceneId("intro");
@@ -149,7 +152,7 @@ export default class Experience {
       this.config = this.setConfig();
       this.camera.resize();
       this.renderer.resize();
-      this.loadingPlane.resize(this.renderer.planeSize);
+      this.loadingPlane?.resize(this.renderer.planeSize);
       this.world?.resize();
       this.update();
     });
@@ -158,7 +161,7 @@ export default class Experience {
   private update() {
     this.stats.update();
     this.pointer.update();
-    this.loadingPlane.update();
+    this.loadingPlane?.update();
 
     if (useStore.getState().phase === "loading") {
       this.renderer.loadingUpdate();
