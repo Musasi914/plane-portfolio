@@ -36,11 +36,11 @@ void main() {
 
   // line
   float lineDistance = distanceToLineSegment(uv, uPointerPrev, uPointer);
-  nextHeight -= cos(lineDistance) * 0.03;
+  nextHeight -= cos(lineDistance) * 0.05;
 
   // mouse
   float mousePhase = clamp(length(uv - uPointer) * PI * 10.0, 0.0, PI / 2.0);
-  nextHeight -= cos(mousePhase) * 0.03;
+  nextHeight -= cos(mousePhase) * 0.05;
 
   heightmapValue.y = currentHeight;
   heightmapValue.x = nextHeight;

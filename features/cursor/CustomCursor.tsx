@@ -25,8 +25,8 @@ export default function CustomCursor() {
       const el = wrapperRef.current;
       gsap.set(el, { xPercent: -50, yPercent: -50 });
 
-      const xSetter = gsap.quickSetter(el, "x", "px");
-      const ySetter = gsap.quickSetter(el, "y", "px");
+      const xTo = gsap.quickTo(el, "x", { duration: 0.5, ease: "power3" });
+      const yTo = gsap.quickTo(el, "y", { duration: 0.5, ease: "power3" });
 
       let hasMoved = false;
       const onMouseMove = contextSafe((e: MouseEvent) => {
@@ -34,8 +34,8 @@ export default function CustomCursor() {
           hasMoved = true;
           // gsap.set(el, { opacity: 1 });
         }
-        xSetter(e.clientX);
-        ySetter(e.clientY - 8);
+        xTo(e.clientX);
+        yTo(e.clientY);
       });
       const onMouseLeave = contextSafe(() => {
         if (!el) return;

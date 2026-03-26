@@ -6,7 +6,7 @@ import transitionVert from "./shaders/transition.vert";
 import transitionFrag from "./shaders/transition.frag";
 
 export class Renderer {
-  private instance: THREE.WebGLRenderer;
+  instance: THREE.WebGLRenderer;
   private experience: Experience;
   private canvasWrapper: Experience["canvasWrapper"];
   private config: Experience["config"];

@@ -72,7 +72,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             <div className="pt-8 pb-48">
               <div className="aspect-8/5"></div>
               <article
-                className="prose text-foreground max-w-none"
+                className="prose prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
                 dangerouslySetInnerHTML={{ __html: post.content.rendered }}
               />
             </div>
