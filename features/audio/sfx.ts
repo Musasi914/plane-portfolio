@@ -41,5 +41,5 @@ export const playSfx = (name: SfxName) => {
   }
 
   audio.currentTime = 0;
-  void audio.play();
+  void audio.play().catch(() => console.error(`[playSfx] ${name}`));
 };

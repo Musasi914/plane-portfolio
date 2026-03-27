@@ -7,7 +7,6 @@ import Stats from "three/examples/jsm/libs/stats.module.js";
 import { sources } from "./source";
 import { Size } from "./utils/Size";
 import { Time } from "./utils/Time";
-import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { useRouterStore, useStore } from "@/store/store";
 import Pointer from "./utils/Pointer";
 import Fluid from "./fluid/Fluid";
@@ -24,7 +23,6 @@ export default class Experience {
   canvasWrapper: HTMLDivElement;
   size: Size;
   time: Time;
-  gui: GUI;
   stats: Stats;
   scene: THREE.Scene;
   camera: Camera;
@@ -54,7 +52,6 @@ export default class Experience {
     this.size = new Size();
     this.time = new Time();
 
-    this.gui = new GUI();
     this.stats = new Stats();
     this.stats.showPanel(0);
     document.body.appendChild(this.stats.dom);
@@ -98,13 +95,11 @@ export default class Experience {
         useStore.getState().setCurrentWorkId(visitIndex);
       }
       this.world = new World();
-      this.galleryVideoLoader.loadVideos();
+      this.galleryVideoLoader.loadVideos(this.renderer.instance);
     });
 
     this.pointer = new Pointer();
     this.fluid = new Fluid();
-
-    // this.setupTransitionGUI();
 
     this.size.on("resize", this.onResize);
     this.time.on("tick", this.onTick);
@@ -189,7 +184,6 @@ export default class Experience {
     this.camera.destroy();
     this.resource.destroy();
     this.renderer.destroy();
-    this.gui.destroy();
     this.stats.dom.remove();
     this.disposeScene(this.scene);
   }

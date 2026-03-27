@@ -9,6 +9,7 @@ import divergenceFrag from "./glsl/divergence.frag";
 import computePressureFrag from "./glsl/computePressure.frag";
 import computeProjectFrag from "./glsl/computeProject.frag";
 import Experience from "../Experience";
+import { useStore } from "@/store/store";
 
 type FluidSimInput = {
   pointerUv: THREE.Vector2;
@@ -170,6 +171,9 @@ export default class Simulator {
   }
 
   update(input: FluidSimInput) {
+    if (useStore.getState().isMobile) {
+      return;
+    }
     if (
       !this.velocityVar ||
       !this.velocityCompute ||
@@ -245,6 +249,9 @@ export default class Simulator {
   }
 
   resize(width: number, height: number) {
+    if (useStore.getState().isMobile) {
+      return;
+    }
     if (this.width === width && this.height === height) return;
 
     this.disposeComputeRenderer(this.velocityCompute, this.velocityVar);

@@ -7,6 +7,8 @@ uniform float uProgress;
 uniform float uMaxDepth;
 uniform float uGridSize;
 uniform float uDepthPerLayer;
+uniform float uFirstSize;
+uniform float uSecondSize;
 
 varying float vAlpha;
 varying float vSizeProgress;
@@ -37,8 +39,8 @@ void main() {
   float progressTwice = pow(uProgress, 2.0);
 
   // 進行度が進むとノイズではなく時間でアニメーション　中くらいのパーティクルが、たまにサイズが0になるような 
-  float size = mix(1.0, 0.9, uProgress);
-  size = mix(0.7, 0.1, uProgress);
+  float size = mix(uFirstSize, 0.3, uProgress);
+  size = mix(size, uSecondSize, uProgress);
   size = mix(size, 0.0, smoothstep(0.7, 1.0, cos(aRandom.z * 2.0 * PI + uTime) * progressTwice));
 
   // 進行度が進むとxy方向にランダムに移動

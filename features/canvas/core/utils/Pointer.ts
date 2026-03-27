@@ -36,6 +36,8 @@ export default class Pointer {
     this.el.style.touchAction = "none";
 
     this.el.addEventListener("pointermove", this.updateFromEvent);
+    // タップでは move が無いので ndc が更新されず PlaneRaycaster が当たらない → pointerdown でも同期
+    this.el.addEventListener("pointerdown", this.updateFromEvent);
   }
 
   private updateFromEvent = (e: PointerEvent) => {
@@ -57,5 +59,6 @@ export default class Pointer {
 
   destroy() {
     this.el.removeEventListener("pointermove", this.updateFromEvent);
+    this.el.removeEventListener("pointerdown", this.updateFromEvent);
   }
 }

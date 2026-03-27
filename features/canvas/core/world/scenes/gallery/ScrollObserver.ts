@@ -33,8 +33,8 @@ export class ScrollObserver {
 
     this.observer = ScrollTrigger.observe({
       target: window,
-      type: "wheel,touch,scroll",
-      onChange: this.onScrollChange.bind(this),
+      type: "wheel,touch",
+      onChangeY: this.onScrollChange.bind(this),
     });
   }
 
@@ -42,9 +42,14 @@ export class ScrollObserver {
   setTargetScrollMax(max: number) {
     this.targetScrollMax = max;
   }
+  private isTouchEvent(event: Event): boolean {
+    return event.type.startsWith("touch");
+  }
   private onScrollChange(self: Observer) {
     if (this.phase === "gallery") {
-      this.targetScroll += self.deltaY / 2;
+      this.targetScroll += this.isTouchEvent(self.event)
+        ? -self.deltaY * 4
+        : self.deltaY / 2;
       this.targetScroll = Math.max(
         this.SCROLL_MIN,
         Math.min(this.SCROLL_MAX, this.targetScroll)
@@ -57,7 +62,9 @@ export class ScrollObserver {
         useStore.getState().setCurrentWorkId(this.getWorkId());
       });
     } else if (this.phase === "detail") {
-      this.targetScroll += self.deltaY / 2;
+      this.targetScroll += this.isTouchEvent(self.event)
+        ? -self.deltaY * 1.5
+        : self.deltaY / 2;
       this.targetScroll = Math.min(
         Math.max(0, this.targetScroll),
         this.targetScrollMax

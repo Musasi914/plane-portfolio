@@ -41,7 +41,9 @@ export default class PlaneItem {
   }
 
   play() {
-    this.texture.image.play();
+    const video = this.texture.image;
+    if (!video.paused) return;
+    void video.play().catch(() => {});
   }
 
   pause() {

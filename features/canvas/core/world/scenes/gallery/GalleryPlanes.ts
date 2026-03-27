@@ -7,6 +7,7 @@ import lerpFactor from "../../../utils/lerpFactor";
 import { useRouterStore, useStore } from "@/store/store";
 import gsap from "gsap";
 import { getSlugByIndex } from "../../../utils/gallery";
+import { galleryVideoSources } from "../../../source";
 export default class GalleryPlanes {
   static PLANE_ASPECT = 8 / 5;
   static PLANE_DISTANCE = 600;
@@ -62,7 +63,7 @@ export default class GalleryPlanes {
     const geometry = new THREE.PlaneGeometry(1, 1, 20, 20);
 
     for (let i = 0; i < this.PLANE_COUNT; i++) {
-      const key = Object.keys(this.textures)[i];
+      const key = galleryVideoSources[i].name;
       const planeItem = new PlaneItem(
         geometry,
         this.planeSize,
@@ -90,7 +91,51 @@ export default class GalleryPlanes {
     );
     this.planesGroup.add(this.lastPlane.mesh);
     this.planeItems.push(this.lastPlane);
+
+    this.registerGalleryVideoGestureUnlock();
   }
+
+  /** 自動再生ポリシーで初期 play が失敗するため、最初のユーザー操作で再生を試す */
+  private gestureUnlockCleanup: (() => void) | null = null;
+
+  private registerGalleryVideoGestureUnlock() {
+    if (typeof window === "undefined") return;
+
+    const onGesture = () => {
+      this.disposeGestureUnlock();
+      this.previousGalleryWorkId = -1;
+      const workId = this.scrollObserver.getWorkId();
+      const item = this.planeItems[workId];
+      this.planeItems.forEach((item) => {
+        if (item instanceof PlaneItem) {
+          item.play();
+          item.pause();
+        }
+      });
+      if (item instanceof PlaneItem) {
+        item.play();
+      }
+    };
+
+    const opts: AddEventListenerOptions = { passive: true, capture: true };
+    window.addEventListener("pointerdown", onGesture, opts);
+    window.addEventListener("touchstart", onGesture, opts);
+    window.addEventListener("wheel", onGesture, opts);
+
+    this.gestureUnlockCleanup = () => {
+      window.removeEventListener("pointerdown", onGesture, opts);
+      window.removeEventListener("touchstart", onGesture, opts);
+      window.removeEventListener("wheel", onGesture, opts);
+      this.gestureUnlockCleanup = null;
+    };
+  }
+
+  disposeGestureUnlock() {
+    this.gestureUnlockCleanup?.();
+  }
+
+  /** updateGallery 内で毎フレーム play() しない（モバイルの自動再生ポリシーで NotAllowedError になる） */
+  private previousGalleryWorkId = -1;
 
   private offsetY = 0;
 
@@ -267,6 +312,7 @@ export default class GalleryPlanes {
         }
       },
       onComplete: () => {
+        this.previousGalleryWorkId = -1;
         useStore.getState().setIsTransitioning(false);
         useStore.getState().setPhase("gallery");
       },
@@ -423,6 +469,10 @@ export default class GalleryPlanes {
   private updateGallery() {
     const index = this.scrollObserver.getIndex();
     const workId = this.scrollObserver.getWorkId();
+    const workIdChanged = workId !== this.previousGalleryWorkId;
+    if (workIdChanged) {
+      this.previousGalleryWorkId = workId;
+    }
 
     const diff = this.scrollObserver.getDiff();
     const targetRotation =
@@ -472,10 +522,12 @@ export default class GalleryPlanes {
         lerpFactor(0.05, this.experience.time.delta)
       );
 
-      // play/pause
+      // play/pause（play は workId が変わったフレームのみ。毎フレーム play は不可）
       if (item instanceof PlaneItem) {
         if (i === workId) {
-          item.play();
+          if (workIdChanged) {
+            item.play();
+          }
         } else {
           item.pause();
         }
@@ -500,13 +552,16 @@ export default class GalleryPlanes {
 
     target.mesh.position.y = this.offsetY + this.scrollObserver.currentScroll;
     if (useStore.getState().isMobile) {
+      this.detailScrollContentEl.style.transform = `translateY(0px)`;
       this.detailContainerEl.style.transform = `translateY(-${this.scrollObserver.currentScroll}px)`;
     } else {
+      this.detailContainerEl.style.transform = `translateY(0px)`;
       this.detailScrollContentEl.style.transform = `translateY(-${this.scrollObserver.currentScroll}px)`;
     }
   }
 
   resize() {
+    this.PLANE_SIZE = useStore.getState().isMobile ? 0.9 : 0.7;
     this.planeSize = this.calcPlaneSize(
       this.PLANE_SIZE,
       this.experience.config.width,

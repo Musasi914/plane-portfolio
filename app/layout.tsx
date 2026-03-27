@@ -19,6 +19,10 @@ const notoSansJP = Noto_Sans_JP({
 
 export const metadata: Metadata = {
   description: "松田秀隆のポートフォリオサイト",
+  openGraph: {
+    title: "松田秀隆のポートフォリオサイト",
+    description: "松田秀隆のポートフォリオサイト",
+  },
 };
 
 export default function RootLayout({

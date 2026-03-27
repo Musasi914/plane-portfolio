@@ -96,6 +96,8 @@ export default class Particles {
         uMaxDepth: { value: this.MAX_DEPTH },
         uGridSize: { value: this.WIDTH / this.GRID_COUNT },
         uDepthPerLayer: { value: this.MAX_DEPTH / this.LAYER_COUNT },
+        uFirstSize: { value: useStore.getState().isMobile ? 0.3 : 0.5 },
+        uSecondSize: { value: useStore.getState().isMobile ? 0.05 : 0.1 },
       },
       transparent: true,
       // depthTest: true,
@@ -134,6 +136,16 @@ export default class Particles {
   resize(width: number) {
     this.WIDTH = width;
     this.MAX_DEPTH = width * 10;
+
+    this.GRID_COUNT = useStore.getState().isMobile ? 25 : 50;
+    this.points.material.uniforms.uFirstSize.value = useStore.getState()
+      .isMobile
+      ? 0.3
+      : 0.5;
+    this.points.material.uniforms.uSecondSize.value = useStore.getState()
+      .isMobile
+      ? 0.05
+      : 0.1;
 
     const pointSize =
       (0.9 * (width / this.GRID_COUNT) * this.experience.config.height) /

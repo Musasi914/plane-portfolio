@@ -240,7 +240,6 @@ export class IntroScene implements SceneLike {
   }
 
   resize() {
-    if (useStore.getState().phase !== "introReady") return;
     this.planeWidth = this.calcPlaneWidth();
 
     this.isPortrait =
@@ -249,11 +248,16 @@ export class IntroScene implements SceneLike {
     this.camera.aspect =
       this.experience.config.width / this.experience.config.height;
     this.camera.updateProjectionMatrix();
-    this.camera.position.set(
-      this.isPortrait ? 0 : this.planeWidth * 0.5,
-      this.isPortrait ? -this.planeWidth * 0.5 : 0,
-      this.camera.position.z
-    );
+
+    // ギャラリー等で非表示のあいだも解像度・レイアウトは追従させる（遷移直前の reset で古い値のままにならないように）
+    // カメラ XY は introReady 時のみ。introPlaying 中の GSAP と競合しないようにする
+    if (useStore.getState().phase === "introReady") {
+      this.camera.position.set(
+        this.isPortrait ? 0 : this.planeWidth * 0.5,
+        this.isPortrait ? -this.planeWidth * 0.5 : 0,
+        this.camera.position.z
+      );
+    }
 
     this.face.resize(this.planeWidth, this.isPortrait);
     this.namePlane.resize(this.planeWidth);

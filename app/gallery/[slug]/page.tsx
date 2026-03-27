@@ -19,21 +19,21 @@ export default async function page({ params }: { params: { slug: string } }) {
           id="detail-container"
           className="sm:absolute sm:inset-0 grid sm:grid-cols-[1fr_2fr] gap-8 p-4 md:p-8"
         >
-          <div className="sm:fixed sm:inset-0 grid gap-4 content-center p-4 md:p-8 sm:w-1/3">
+          <div className="sm:fixed sm:inset-0 sm:min-h-screen grid gap-4 content-center p-4 md:p-8 sm:w-1/3">
             <div className="flex items-center gap-2">
               <span>
                 #{post.acf["work-number"].toString().padStart(2, "0")}
               </span>
-              <span className="w-px h-[1.5em] rotate-12 bg-gray-700 block"></span>
+              <span className="w-px h-[1em] sm:h-[1.5em] rotate-12 bg-gray-700 block"></span>
               <span className="text-sm">{post.acf["work-type"]} work</span>
             </div>
             <div>
-              <h1 id="page-title" className="text-4xl">
+              <h1 id="page-title" className="text-3xl sm:text-4xl">
                 {post.title.rendered}
               </h1>
               <span>{post.acf.work_period}</span>
             </div>
-            <div className="flex gap-x-2 gap-y-1 flex-wrap max-w-full text-xs tracking-wide">
+            <div className="flex gap-x-1 sm:gap-x-2 gap-y-1 flex-wrap max-w-full text-xs tracking-wide">
               {post.acf.tec.map((tec) => (
                 <span key={tec} className="text-background bg-foreground p-1">
                   {tec}
@@ -75,10 +75,10 @@ export default async function page({ params }: { params: { slug: string } }) {
             id="detail-canvas"
             className="relative contents sm:block sm:min-h-full sm:col-2"
           >
-            <div className="sm:pt-8 sm:pb-48 contents sm:block">
+            <div className="sm:pt-8 pb-48 contents sm:block">
               <div className="aspect-8/5 -order-10"></div>
               <article
-                className="prose prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
+                className="pb-20 sm:pb-0 pt-8 sm:pt-0 prose prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
                 dangerouslySetInnerHTML={{ __html: post.content.rendered }}
               />
             </div>

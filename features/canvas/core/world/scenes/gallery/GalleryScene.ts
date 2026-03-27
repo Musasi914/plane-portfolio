@@ -90,8 +90,18 @@ export class GalleryScene implements SceneLike {
     );
   }
 
-  // 引数のため、こういう形に
-  private transitionToDetailClickHandler = () => {
+  /**
+   * click は同一フレーム内で update() より先に届くことがあり、
+   * その時点では hoveredWorkId が未設定のまま。イベント座標で ndc を同期してからレイキャストする。
+   */
+  private transitionToDetailClickHandler = (e: MouseEvent) => {
+    const rect = this.experience.canvasWrapper.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = 1.0 - (e.clientY - rect.top) / rect.height;
+    const { pointer } = this.experience;
+    pointer.state.ndc.set(x * 2 - 1, y * 2 - 1);
+    pointer.state.uv.set(x, y);
+    this.planeRaycaster?.update();
     this.transitionToDetail();
   };
 
@@ -136,17 +146,10 @@ export class GalleryScene implements SceneLike {
   }
 
   resize() {
-    if (
-      !(
-        useStore.getState().phase === "gallery" ||
-        useStore.getState().phase === "detail" ||
-        useStore.getState().phase === "galleryDetail"
-      )
-    )
-      return;
     this.camera.aspect =
       this.experience.config.width / this.experience.config.height;
     this.camera.updateProjectionMatrix();
+    // イントロ表示中も解像度・プレーン寸法を追従（クイック遷移時にリセット前の幅のまま残さない）
     this.planes?.resize();
   }
 
@@ -175,6 +178,7 @@ export class GalleryScene implements SceneLike {
 
   destroy() {
     this.scrollObserver?.destroy();
+    this.planes?.disposeGestureUnlock();
     this.scene.clear();
     this.experience.canvasWrapper.removeEventListener(
       "click",

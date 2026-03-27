@@ -1,5 +1,6 @@
 # やること
 
+- ローディングから初めた時の loadingplane
 - sp 実装 -アクセシビリティ対応
 
 # 工夫点
@@ -118,3 +119,4 @@ high: それ以外 (dpr1 の PC モニター)
 - Canvas 全体から import していないか確認
 - Environment.ts 必要か
 - gui, stats を消す
+- 使われていないジオメトリの uv, normal 消す

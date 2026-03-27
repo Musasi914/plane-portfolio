@@ -41,8 +41,9 @@ export class Renderer {
     const w = Math.floor(this.config.width * this.config.pixelRatio);
     const h = Math.floor(this.config.height * this.config.pixelRatio);
     const rt = new THREE.WebGLRenderTarget(w, h, {
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
+      minFilter: THREE.NearestFilter,
+      magFilter: THREE.NearestFilter,
+      generateMipmaps: false,
     });
     rt.samples = this.config.pixelRatio === 1 ? 2 : 0;
 
