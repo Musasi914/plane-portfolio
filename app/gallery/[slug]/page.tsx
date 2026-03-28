@@ -12,7 +12,7 @@ export default async function page({ params }: { params: { slug: string } }) {
   return (
     <>
       <section
-        aria-describedby="page-title"
+        aria-labelledby="page-title"
         className="relative z-0 w-full pointer-events-auto animate-fade-in-soft"
       >
         <div
@@ -33,7 +33,7 @@ export default async function page({ params }: { params: { slug: string } }) {
               </h1>
               <span>{post.acf.work_period}</span>
             </div>
-            <div className="flex gap-x-1 sm:gap-x-2 gap-y-1 flex-wrap max-w-full text-xs tracking-wide">
+            <div className="flex gap-1 flex-wrap max-w-full text-xs tracking-wide">
               {post.acf.tec.map((tec) => (
                 <span key={tec} className="text-background bg-foreground p-1">
                   {tec}
@@ -44,17 +44,33 @@ export default async function page({ params }: { params: { slug: string } }) {
               className="text-xs"
               dangerouslySetInnerHTML={{ __html: post.acf.summary }}
             />
-            <div className="grid grid-cols-2 gap-2 text-sm">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-2 text-sm">
               {post.acf.site_url && (
                 <a
                   href={post.acf.site_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border p-2 cursor-pointer text-center pointer-events-auto"
+                  className="relative border p-2 cursor-pointer text-center pointer-events-auto"
                   data-cursor-hover
                   data-cursor-text="open tab"
                 >
                   visit site
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 size-4"
+                  >
+                    <path d="M15 3h6v6" />
+                    <path d="M10 14 21 3" />
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  </svg>
                 </a>
               )}
               {post.acf.github_url && (
@@ -62,17 +78,34 @@ export default async function page({ params }: { params: { slug: string } }) {
                   href={post.acf.github_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border p-2 cursor-pointer text-center pointer-events-auto"
+                  className="relative border p-2 cursor-pointer text-center pointer-events-auto"
                   data-cursor-hover
                   data-cursor-text="open tab"
                 >
                   view github
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 size-4"
+                  >
+                    <path d="M15 3h6v6" />
+                    <path d="M10 14 21 3" />
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  </svg>
                 </a>
               )}
             </div>
           </div>
           <div
             id="detail-canvas"
+            tabIndex={0}
             className="relative contents sm:block sm:min-h-full sm:col-2"
           >
             <div className="sm:pt-8 pb-48 contents sm:block">

@@ -36,6 +36,10 @@ export type StoreType = {
   isMobile: boolean;
   setIsMobile: (isMobile: boolean) => void;
 
+  /** OS「視覚効果を減らす」が有効（prefers-reduced-motion: reduce） */
+  prefersReducedMotion: boolean;
+  setPrefersReducedMotion: (prefersReducedMotion: boolean) => void;
+
   qualityTier: "low" | "medium" | "high";
   setQualityTier: (qualityTier: StoreType["qualityTier"]) => void;
 
@@ -52,6 +56,11 @@ export type StoreType = {
   // volume
   enableSound: boolean;
   setEnableSound: (enableSound: boolean) => void;
+
+  // focus
+  isUseFocusTab: boolean;
+  setIsUseFocusTab: (isUseFocusTab: boolean) => void;
+  onKeyDown: (e: Pick<KeyboardEvent, "key">) => void;
 };
 
 export const useStore = create<StoreType>((set) => ({
@@ -83,6 +92,10 @@ export const useStore = create<StoreType>((set) => ({
   isMobile: false,
   setIsMobile: (isMobile) => set({ isMobile }),
 
+  prefersReducedMotion: false,
+  setPrefersReducedMotion: (prefersReducedMotion) =>
+    set({ prefersReducedMotion }),
+
   qualityTier: "high",
   setQualityTier: (qualityTier) => set({ qualityTier }),
 
@@ -100,6 +113,15 @@ export const useStore = create<StoreType>((set) => ({
   //volume
   enableSound: false,
   setEnableSound: (enableSound) => set({ enableSound }),
+
+  // focus
+  isUseFocusTab: false,
+  setIsUseFocusTab: (isUseFocusTab) => set({ isUseFocusTab }),
+  onKeyDown: (e: Pick<KeyboardEvent, "key">) => {
+    if (e.key === "Enter" || e.key === " ") {
+      set({ isUseFocusTab: true });
+    }
+  },
 }));
 
 type RouterStoreType = {

@@ -133,23 +133,27 @@ export default class Particles {
     return lineSegments;
   }
 
+  private prevIsMobile = useStore.getState().isMobile;
   resize(width: number) {
     this.WIDTH = width;
     this.MAX_DEPTH = width * 10;
 
-    this.GRID_COUNT = useStore.getState().isMobile ? 25 : 50;
-    this.points.material.uniforms.uFirstSize.value = useStore.getState()
-      .isMobile
-      ? 0.3
-      : 0.5;
-    this.points.material.uniforms.uSecondSize.value = useStore.getState()
-      .isMobile
-      ? 0.05
-      : 0.1;
-
     const pointSize =
       (0.9 * (width / this.GRID_COUNT) * this.experience.config.height) /
       (width * Math.tan((this.camera.fov * Math.PI) / 360));
+
+    const isMobile = useStore.getState().isMobile;
+    if (isMobile !== this.prevIsMobile) {
+      this.GRID_COUNT = isMobile ? 25 : 50;
+      this.NUM_PARTICLES = this.GRID_COUNT * this.GRID_COUNT * this.LAYER_COUNT;
+      this.points.geometry.dispose();
+      this.points.material.dispose();
+      this.scene.remove(this.points);
+      this.points = this.createParticles();
+      this.points.material.uniforms.uFirstSize.value = isMobile ? 0.3 : 0.5;
+      this.points.material.uniforms.uSecondSize.value = isMobile ? 0.05 : 0.1;
+      this.prevIsMobile = isMobile;
+    }
     this.points.material.uniforms.uPointSize.value = pointSize;
     this.points.material.uniforms.uMaxDepth.value = this.MAX_DEPTH;
     this.points.material.uniforms.uGridSize.value =

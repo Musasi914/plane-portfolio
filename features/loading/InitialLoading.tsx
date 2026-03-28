@@ -32,6 +32,8 @@ export default function InitialLoading() {
     <div
       ref={wrapperRef}
       className="fixed inset-0 z-40 flex items-center justify-center"
+      role="status"
+      aria-live="polite"
     >
       <h1 className="text-xl relative z-10">loading</h1>
     </div>

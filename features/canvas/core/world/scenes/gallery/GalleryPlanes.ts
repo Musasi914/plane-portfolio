@@ -9,6 +9,11 @@ import gsap from "gsap";
 import { getSlugByIndex } from "../../../utils/gallery";
 import { galleryVideoSources } from "../../../source";
 export default class GalleryPlanes {
+  static instance: GalleryPlanes;
+  static getInstance(): GalleryPlanes {
+    return this.instance;
+  }
+
   static PLANE_ASPECT = 8 / 5;
   static PLANE_DISTANCE = 600;
   private PLANE_SIZE = useStore.getState().isMobile ? 0.9 : 0.7;
@@ -29,6 +34,10 @@ export default class GalleryPlanes {
   raycasterTargets: THREE.Object3D[] = [];
 
   constructor(scene: THREE.Scene, scrollObserver: ScrollObserver) {
+    if (!GalleryPlanes.instance) {
+      GalleryPlanes.instance = this;
+    }
+
     this.scene = scene;
     this.scrollObserver = scrollObserver;
     this.experience = Experience.getInstance();

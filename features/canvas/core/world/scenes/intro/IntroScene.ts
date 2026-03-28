@@ -179,7 +179,7 @@ export class IntroScene implements SceneLike {
     }, 2.7);
     tl.add(() => {
       playSfx("scratch");
-    }, 5.6);
+    }, 5.8);
 
     const obj = {
       value: 0,

@@ -6,6 +6,7 @@ import InitialLoading from "@/features/loading/InitialLoading";
 import CustomCursor from "@/features/cursor/CustomCursor";
 import RouterSync from "@/routing/RouterSync";
 import TitleSync from "@/features/title/TitleSync";
+import ClientDeviceSync from "@/features/client-device/ClientDeviceSync";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body className={`${sora.variable} ${notoSansJP.variable} antialiased`}>
         <RouterSync />
         <TitleSync />
+        <ClientDeviceSync />
         <CustomCursor />
         <InitialLoading />
         <div className="fixed inset-0 z-0 bg-background">

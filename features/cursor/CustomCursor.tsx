@@ -102,10 +102,10 @@ export default function CustomCursor() {
         gsap.fromTo(
           cursorRef.current,
           {
-            boxShadow: "inset 0px 0px 5px 2px #ffffff",
+            boxShadow: "inset 0rem 0rem 0.3125rem 0.125rem #ffffff",
           },
           {
-            boxShadow: "inset 0px 0px 7px 4px #ffffff",
+            boxShadow: "inset 0rem 0rem 0.4375rem 0.25rem #ffffff",
             duration: 1,
             repeat: -1,
             yoyo: true,
@@ -139,7 +139,7 @@ export default function CustomCursor() {
         ref={cursorRef}
         className="w-full h-full rounded-full origin-center bg-black/50 grid place-items-center"
       >
-        <span className="text-white text-[4px] tracking-wide text-center p-1">
+        <span className="text-white text-[0.25rem] tracking-wide text-center p-1">
           {cursorText}
         </span>
       </div>

@@ -30,7 +30,7 @@ export const playSfx = (name: SfxName) => {
 
   audio.playbackRate = name === "scratch" ? 4 : 1;
   if (name === "wind") {
-    audio.volume = 0.2;
+    audio.volume = 0.3;
     audio.playbackRate = 1;
     gsap.delayedCall(2.7, () => {
       audio.pause();

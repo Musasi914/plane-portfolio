@@ -44,7 +44,9 @@ export default class Experience {
   private loadingPlane: LoadingPlane | null = null;
 
   constructor(canvasWrapper: HTMLDivElement) {
-    Experience.instance = this;
+    if (!Experience.instance) {
+      Experience.instance = this;
+    }
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xffffff);
     this.canvasWrapper = canvasWrapper;

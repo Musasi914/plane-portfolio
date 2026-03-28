@@ -8,6 +8,11 @@ import lerpFactor from "../../../utils/lerpFactor";
 gsap.registerPlugin(ScrollTrigger);
 
 export class ScrollObserver {
+  static instance: ScrollObserver;
+  static getInstance(): ScrollObserver {
+    return this.instance;
+  }
+
   private SCROLL_MIN = 0;
   private SCROLL_MAX;
   private SCROLL_SNAP;
@@ -21,6 +26,10 @@ export class ScrollObserver {
   unsubscribeStore: (() => void) | null = null;
 
   constructor() {
+    if (!ScrollObserver.instance) {
+      ScrollObserver.instance = this;
+    }
+
     this.phase = useStore.getState().phase;
     this.unsubscribeStore = useStore.subscribe((state) => {
       this.phase = state.phase;
@@ -36,6 +45,8 @@ export class ScrollObserver {
       type: "wheel,touch",
       onChangeY: this.onScrollChange.bind(this),
     });
+
+    window.addEventListener("keydown", this.onKeyDown);
   }
 
   targetScrollMax = 1000;
@@ -97,6 +108,33 @@ export class ScrollObserver {
     useStore.getState().setCurrentWorkId(0);
   }
 
+  private onKeyDown = (event: KeyboardEvent) => {
+    if (useStore.getState().phase !== "detail") return;
+    const isFocusOnDetailCanvas =
+      document.activeElement?.closest("#detail-canvas");
+    if (!isFocusOnDetailCanvas) return;
+
+    if (
+      event.key === "ArrowDown" ||
+      event.key === "ArrowRight" ||
+      (event.key === " " && !event.shiftKey) ||
+      (event.key === "Enter" && !event.shiftKey)
+    ) {
+      this.targetScroll += 150;
+    } else if (
+      event.key === "ArrowUp" ||
+      event.key === "ArrowLeft" ||
+      (event.key === "Enter" && event.shiftKey) ||
+      (event.key === " " && event.shiftKey)
+    ) {
+      this.targetScroll -= 150;
+    }
+    this.targetScroll = Math.min(
+      Math.max(0, this.targetScroll),
+      this.targetScrollMax
+    );
+  };
+
   reset() {
     this.targetScroll = 0;
     this.currentScroll = 0;
@@ -115,5 +153,6 @@ export class ScrollObserver {
     this.observer = null;
     this.unsubscribeStore?.();
     this.unsubscribeStore = null;
+    window.removeEventListener("keydown", this.onKeyDown);
   }
 }
