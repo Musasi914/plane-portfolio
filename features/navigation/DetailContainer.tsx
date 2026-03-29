@@ -23,7 +23,7 @@ export default function DetailContainer({
   }, [phase, isTransitioning]);
   return (
     <div
-      className={`transition-opacity duration-700 opacity-0 ${
+      className={`transition-opacity duration-300 opacity-0 ${
         isVisible ? "opacity-100" : ""
       }`}
     >
