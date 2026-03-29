@@ -2,6 +2,13 @@
 
 - パフォーマンス
 
+-prefers-reduced-motion: reduce に対応
+
+- 流体のストップ
+- パーティクルのストップ
+- 遷移の瞬時化
+- gallery の 3dcanvas の停止
+
 # 工夫点
 
 - intro にて　
@@ -117,7 +124,6 @@ high: それ以外 (dpr1 の PC モニター)
 - Resource.ts の余計な記述を削除
 - Canvas 全体から import していないか確認
 - Environment.ts 必要か
-- gui, stats を消す
 - 使われていないジオメトリの uv, normal 消す
 
 # 次回の課題

@@ -3,7 +3,6 @@ import { Renderer } from "./base/Renderer";
 import { Resource } from "./base/Resource";
 import * as THREE from "three";
 import { World } from "./world/World";
-import Stats from "three/examples/jsm/libs/stats.module.js";
 import { sources } from "./source";
 import { Size } from "./utils/Size";
 import { Time } from "./utils/Time";
@@ -23,7 +22,6 @@ export default class Experience {
   canvasWrapper: HTMLDivElement;
   size: Size;
   time: Time;
-  stats: Stats;
   scene: THREE.Scene;
   camera: Camera;
   renderer: Renderer;
@@ -53,10 +51,6 @@ export default class Experience {
 
     this.size = new Size();
     this.time = new Time();
-
-    this.stats = new Stats();
-    this.stats.showPanel(0);
-    document.body.appendChild(this.stats.dom);
 
     this.config = this.setConfig();
 
@@ -154,7 +148,6 @@ export default class Experience {
   }
 
   private update() {
-    this.stats.update();
     this.pointer.update();
     this.loadingPlane?.update();
 
@@ -184,7 +177,6 @@ export default class Experience {
     this.camera.destroy();
     this.resource.destroy();
     this.renderer.destroy();
-    this.stats.dom.remove();
     this.disposeScene(this.scene);
   }
 

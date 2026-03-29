@@ -56,6 +56,7 @@ export class ScrollObserver {
   private isTouchEvent(event: Event): boolean {
     return event.type.startsWith("touch");
   }
+  private delayedCall: gsap.core.Tween | null = null;
   private onScrollChange(self: Observer) {
     if (this.phase === "gallery") {
       this.targetScroll += this.isTouchEvent(self.event)
@@ -65,7 +66,8 @@ export class ScrollObserver {
         this.SCROLL_MIN,
         Math.min(this.SCROLL_MAX, this.targetScroll)
       );
-      gsap.delayedCall(0.5, () => {
+      this.delayedCall?.kill();
+      this.delayedCall = gsap.delayedCall(0.2, () => {
         this.targetScroll = gsap.utils.snap(
           this.SCROLL_SNAP,
           this.targetScroll

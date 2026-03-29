@@ -2,7 +2,6 @@
 
 import { useStore } from "@/store/store";
 import { useEffect } from "react";
-import Experience from "../canvas/core/Experience";
 
 export default function ClientDeviceSync() {
   const setIsMobile = useStore((state) => state.setIsMobile);
@@ -11,8 +10,6 @@ export default function ClientDeviceSync() {
   );
 
   const setQualityTier = useStore((state) => state.setQualityTier);
-  const setNextSceneId = useStore((state) => state.setNextSceneId);
-  const setActiveSceneId = useStore((state) => state.setActiveSceneId);
 
   useEffect(() => {
     const updateDeviceState = () => {
@@ -42,7 +39,7 @@ export default function ClientDeviceSync() {
     return () => {
       window.removeEventListener("resize", updateDeviceState);
     };
-  }, [setIsMobile, setQualityTier, setNextSceneId, setActiveSceneId]);
+  }, [setIsMobile, setQualityTier]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");

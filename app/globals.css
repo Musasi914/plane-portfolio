@@ -32,7 +32,7 @@
     cursor: none;
   } */
 
-  @keyframes fade-in-soft {
+  /* @keyframes fade-in-soft {
     from {
       opacity: 0;
     }
@@ -42,5 +42,5 @@
   }
   .animate-fade-in-soft {
     animation: fade-in-soft 0.2s ease-out forwards;
-  }
+  } */
 }

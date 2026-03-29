@@ -120,8 +120,8 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </section>
+        <DetailToGalleryButton />
       </DetailContainer>
-      <DetailToGalleryButton />
     </>
   );
 }

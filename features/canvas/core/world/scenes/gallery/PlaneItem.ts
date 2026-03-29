@@ -30,7 +30,8 @@ export default class PlaneItem {
         uTexture: { value: this.texture },
         uProgress: { value: 0 },
         uOpacity: { value: 1 },
-        uToDetail: { value: 1 },
+        uSign: { value: 1 },
+        uOffset: { value: new THREE.Vector2(0, 0) },
       },
       transparent: true,
     });

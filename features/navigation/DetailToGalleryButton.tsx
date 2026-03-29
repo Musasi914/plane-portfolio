@@ -7,11 +7,13 @@ import { useRef } from "react";
 export default function DetailToGalleryButton() {
   const onBackToGallery = useRouterStore((state) => state.onBackToGallery);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
   const onClick = () => {
     onBackToGallery?.();
     playSfx("click");
   };
   const onKeyDown = useStore((state) => state.onKeyDown);
+
   return (
     <button
       ref={buttonRef}

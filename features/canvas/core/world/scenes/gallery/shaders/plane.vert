@@ -1,27 +1,20 @@
 uniform float uProgress;
-uniform float uToDetail;
+// -1 or 1
+uniform float uSign;
+uniform vec2 uOffset;
 
 varying vec2 vUv;
-
-vec2 random2(vec2 p) {
-  return fract(sin(vec2(
-    dot(p, vec2(127.1, 311.7)),
-    dot(p, vec2(269.5, 183.3))
-  )) * 43758.5453);
-}
 
 void main() {
   float progress = sin(uProgress * 3.14159265);
   
   vec3 newPosition = position;
-  // vec2 transition = -vec2(position.x * 0.5, position.y * 0.2);
-  // newPosition.xy += transition * progress;
 
-  vec2 bulgePosition = uv - (uToDetail - 0.2);
+  vec2 bulgePosition = uv - uOffset;
   float bulge = progress * (1.0 - length(bulgePosition.xy));
   newPosition.z += bulge * 5.0;
-  newPosition.y += bulge * 0.1 * (uToDetail * 2.0 - 1.0);
-  newPosition.x += bulge * 0.1 * (uToDetail * 2.0 - 1.0);
+  newPosition.y += bulge * 0.1 * uSign;
+  newPosition.x += bulge * 0.1 * uSign;
 
   vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;

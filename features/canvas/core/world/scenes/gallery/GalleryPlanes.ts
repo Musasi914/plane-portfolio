@@ -17,6 +17,7 @@ export default class GalleryPlanes {
   static PLANE_ASPECT = 8 / 5;
   static PLANE_DISTANCE = 600;
   private PLANE_SIZE = useStore.getState().isMobile ? 0.9 : 0.7;
+  private PLANE_SEGMENTS = useStore.getState().isMobile ? 7 : 10;
 
   private experience: Experience;
   private scene: THREE.Scene;
@@ -69,7 +70,12 @@ export default class GalleryPlanes {
   }
 
   createPlanes(workId?: number) {
-    const geometry = new THREE.PlaneGeometry(1, 1, 20, 20);
+    const geometry = new THREE.PlaneGeometry(
+      1,
+      1,
+      this.PLANE_SEGMENTS,
+      this.PLANE_SEGMENTS
+    );
 
     for (let i = 0; i < this.PLANE_COUNT; i++) {
       const key = galleryVideoSources[i].name;
@@ -187,7 +193,13 @@ export default class GalleryPlanes {
         }
 
         if (target instanceof PlaneItem) {
-          target.mesh.material.uniforms.uToDetail.value = 1;
+          target.mesh.material.uniforms.uSign.value = 1;
+          const isMobile = useStore.getState().isMobile;
+          console.log(isMobile);
+          target.mesh.material.uniforms.uOffset.value = new THREE.Vector2(
+            isMobile ? 0.2 : 0.8,
+            isMobile ? 1.0 : 0.8
+          );
         }
       },
       onComplete: () => {
@@ -317,7 +329,12 @@ export default class GalleryPlanes {
         }
 
         if (target instanceof PlaneItem) {
-          target.mesh.material.uniforms.uToDetail.value = 0;
+          target.mesh.material.uniforms.uSign.value = -1;
+          const isMobile = useStore.getState().isMobile;
+          target.mesh.material.uniforms.uOffset.value = new THREE.Vector2(
+            isMobile ? 0.5 : 0.2,
+            isMobile ? 0.0 : 0.2
+          );
         }
       },
       onComplete: () => {
