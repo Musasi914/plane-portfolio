@@ -129,16 +129,16 @@ export default function Home() {
         <h1 id="site-title">松田秀隆のポートフォリオサイト</h1>
         <p>
           フロントエンド開発者の松田秀隆です。Web上のインタラクティブ表現や海外のアワード受賞サイトに触れ、同様の表現を自ら実装できるよう学習してきました。
-          <br />
           Three.js・シェーダー（GLSL）を中心に、ブラウザ上のビジュアル表現を勉強中です。他にも貪欲に技術の幅を広げたいと思っています。
-          <br />
           カーソル移動で顔の回転。顔の周りをカーソル移動すると、顔が笑顔になります。
-          <br />
           名前の書かれた板か、「move to
           gallery」ボタンをクリックすると、作品ギャラリーへ遷移します。
         </p>
       </section>
-      <div className="w-full h-screen overflow-hidden grid place-items-center">
+      <div
+        aria-hidden="true"
+        className="w-full h-screen overflow-hidden grid place-items-center"
+      >
         <div className="perspective-near transform-3d max-w-2xl w-3/4 grid place-items-center">
           {introImages.map((img, index) => (
             <figure

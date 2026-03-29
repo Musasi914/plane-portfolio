@@ -47,15 +47,15 @@ float fbm (in vec2 _st) {
 
 void main() {
   vec2 st = gl_FragCoord.xy / uResolution.xy;
-  st *= 4.0;
+  st *= 3.0;
 
   vec2 q = vec2(0.);
   q.x = fbm(st + 0.1 * uTime);
   q.y = fbm(st + vec2(1.0));
 
   vec2 r = vec2(0.);
-  r.x = fbm(st + 1.0 * q + vec2(9.2,1.6) + 0.15 * uTime);
-  r.y = fbm(st + 1.0 * q + vec2(8.3,2.8) + 0.126 * uTime);
+  r.x = fbm(st + 1.0 * q + vec2(1.2,7.6) + 0.15 * uTime);
+  r.y = fbm(st + 1.0 * q + vec2(3.3,8.8) + 0.4 * uTime);
 
   float f = fbm(st+r);
 

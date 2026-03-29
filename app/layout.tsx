@@ -39,12 +39,12 @@ export default function RootLayout({
         <ClientDeviceSync />
         <CustomCursor />
         <InitialLoading />
-        <div className="fixed inset-0 z-0 bg-background">
-          <Canvas />
-        </div>
         <main className="relative z-10 min-h-screen pointer-events-none">
           {children}
         </main>
+        <div className="fixed inset-0 z-0 bg-background">
+          <Canvas />
+        </div>
       </body>
     </html>
   );

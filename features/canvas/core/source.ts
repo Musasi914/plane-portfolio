@@ -71,7 +71,7 @@ export const galleryVideoSources: GalleryVideoSource[] = [
   },
   {
     name: "当サイト",
-    path: "/gallery/video/diary.webm",
+    path: "/gallery/video/this-site.webm",
     slug: "this-site",
   },
 ];

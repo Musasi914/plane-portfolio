@@ -43,11 +43,12 @@ export default class LoadingPlane {
   async play() {
     await gsap.to(this.mesh.material.uniforms.uProgress, {
       value: 1,
-      duration: 2,
-      delay: 0.5,
+      duration: 3,
+      delay: 0,
       ease: "power4.in",
       onComplete: () => {
         this.disposed = true;
+        this.destroy();
       },
     });
   }

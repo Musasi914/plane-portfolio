@@ -28,6 +28,7 @@ const TabButton = ({
       aria-label={title}
       onClick={onClick}
       tabIndex={isActive ? 0 : -1}
+      aria-current={isActive ? "true" : undefined}
       className={`size-4 rounded-full border border-foreground/10 ${
         isActive ? "bg-foreground border-2 border-white size-6" : "bg-white"
       }`}
@@ -58,6 +59,7 @@ export default function GalleryFocusPanel() {
       )?.focus();
     }
   };
+  const phase = useStore((state) => state.phase);
 
   useEffect(() => {
     if (focusedIndex === null) return;
@@ -73,6 +75,7 @@ export default function GalleryFocusPanel() {
   const currentWorkId = useStore((state) => state.currentWorkId);
   const setIsUseFocusTab = useStore((state) => state.setIsUseFocusTab);
 
+  // detailから戻った時
   useEffect(() => {
     if (!isUseFocusTab) return;
     startTransition(() => {
@@ -100,8 +103,27 @@ export default function GalleryFocusPanel() {
     useRouterStore.getState().setPrevWorkId(index);
   };
 
+  // gallery でキーボード操作で focusedIndex を更新する
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (phase !== "gallery" || !e.key.startsWith("Arrow") || isVisible)
+        return;
+
+      setFocusedIndex(currentWorkId);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [phase, currentWorkId, focusedIndex, isVisible]);
+
   return (
-    <div className="w-full h-screen grid justify-start items-center content-center grid-cols-[auto_auto] p-2 md:p-4">
+    <nav
+      aria-label="作品一覧"
+      role="toolbar"
+      className="w-full h-screen grid justify-start items-center content-center grid-cols-[auto_auto] p-2 md:p-4"
+    >
       <ul
         tabIndex={1}
         onFocus={() => {
@@ -117,10 +139,7 @@ export default function GalleryFocusPanel() {
       >
         {Array.from({ length: videoCount + 1 }).map((_, index) => (
           <li key={galleryVideoSources[index]?.slug ?? `work-${index}`}>
-            <section
-              aria-current={index === focusedIndex ? "page" : undefined}
-              aria-labelledby={`work-${index}-title`}
-            >
+            <section aria-labelledby={`work-${index}-title`}>
               <h2 id={`work-${index}-title`} className="sr-only">
                 {galleryVideoSources[index]?.name ??
                   "最後まで見ていただきありがとうございました"}
@@ -150,6 +169,6 @@ export default function GalleryFocusPanel() {
       >
         矢印キーで移動
       </p>
-    </div>
+    </nav>
   );
 }

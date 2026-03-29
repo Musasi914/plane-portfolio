@@ -67,12 +67,10 @@ export default class Experience {
 
     const initialPathname = useRouterStore.getState().initialPathname;
 
-    if (initialPathname === "/gallery" || initialPathname === "/") {
-      this.loadingPlane = new LoadingPlane(
-        this.renderer.scene,
-        this.renderer.planeSize
-      );
-    }
+    this.loadingPlane = new LoadingPlane(
+      this.renderer.scene,
+      this.renderer.planeSize
+    );
 
     useStore.getState().setIsTransitioning(true);
 
