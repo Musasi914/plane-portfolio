@@ -6,8 +6,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=42"
     },
-    "modified": "2026-03-21T21:04:21",
-    "modified_gmt": "2026-03-21T12:04:21",
+    "modified": "2026-03-29T16:14:34",
+    "modified_gmt": "2026-03-29T07:14:34",
     "slug": "this-site",
     "status": "publish",
     "type": "page",
@@ -16,7 +16,7 @@
       "rendered": "当サイト"
     },
     "content": {
-      "rendered": "\n<h2 class=\"wp-block-heading\">背景</h2>\n\n\n\n<p>旧ポートフォリオの続きとして、技術的にいくつか挑戦したいことがあり、このサイトを制作しました。その中心にあるのが、R3F に頼らない生の Three.js での実装、URL と 3D シーンの共存、そして RenderTarget と流体表現の活用です。</p>\n\n\n\n<h2 class=\"wp-block-heading\">実装方針：生の Three.js</h2>\n\n\n\n<p>Next.js はページ部分に使いつつ、3D 描画には React Three Fiber（R3F）を使わず、生の Three.js で実装しました。抽象化されたライブラリに頼らず、挙動を丁寧に理解することを目標にしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">URL ルーティングとシーンの維持</h2>\n\n\n\n<p>作品ごとに URL を切り替えつつ、3D シーンは破棄せずにそのまま使い続ける構成にしました。遷移時は Canvas を再生成せず、ページ部分だけをロードして差し替えることで、シーンが途切れないようにしています。ブラウザ履歴や直接 URLでのアクセスも想定し、Next.js のルーティングと Three.js のライフサイクルをどう組み合わせるかを意識しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">表現の工夫</h2>\n\n\n\n<p>RenderTarget の切り替えで、描画先を切り替えてレイヤーを分離しています。</p>\n\n\n\n<p>流体シェーダーで、色をずらしたりテクスチャの見え方を変えたりする表現を試しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">レイアウトとレスポンシブ</h2>\n\n\n\n<p>intro シーンでは、縦長と横長でオブジェクトの配置や動きを変えています。デバイス性能に応じて low / medium / high の 3 段階で描画負荷を調整し、スマホでも動作するようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">コンテンツ管理</h2>\n\n\n\n<p>作品の詳細テキストは WordPress で管理しています。ACF でカスタムフィールドを追加し、作品番号・カテゴリ・制作期間・説明文・URL などを REST API 経由で取得する構成にしています。</p>\n\n\n\n<p></p>\n",
+      "rendered": "\n<h2 class=\"wp-block-heading\">背景</h2>\n\n\n\n<p>旧ポートフォリオの続きとして、技術的にいくつか挑戦したいことがあり、このサイトを制作しました。その中心にあるのが、R3F に頼らない生の Three.js での実装、URL と 3D シーンの共存、そして RenderTarget と流体表現の活用です。</p>\n\n\n\n<h2 class=\"wp-block-heading\">実装方針：生の Three.js</h2>\n\n\n\n<p>Next.js はページ部分に使いつつ、3D 描画には React Three Fiber（R3F）を使わず、生の Three.js で実装しました。抽象化されたライブラリに頼らず、挙動を丁寧に理解することを目標にしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">URL ルーティングとシーンの維持</h2>\n\n\n\n<p>作品ごとに URL を切り替えつつ、3D シーンは破棄せずにそのまま使い続ける構成にしました。遷移時は Canvas を再生成せず、ページ部分だけをロードして差し替えることで、シーンが途切れないようにしています。ブラウザ履歴や直接 URLでのアクセスも想定し、Next.js のルーティングと Three.js のライフサイクルをどう組み合わせるかを意識しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">表現の工夫</h2>\n\n\n\n<p>RenderTarget の切り替えで、描画先を切り替えてレイヤーを分離しています。</p>\n\n\n\n<p>流体シェーダーで、色をずらしたりテクスチャの見え方を変えたりする表現を試しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">レイアウトとレスポンシブ</h2>\n\n\n\n<p>intro シーンで、縦長と横長でオブジェクトの配置や動きを変えたり、横幅やデバイスによってレイアウトを変えています。デバイス性能に応じて low / medium / high の 3 段階で描画負荷を調整し、スマホでも動作するようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">コンテンツ管理</h2>\n\n\n\n<p>作品の詳細テキストは WordPress で管理しています。ACF でカスタムフィールドを追加し、作品番号・カテゴリ・制作期間・説明文・URL などを REST API 経由で取得する構成にしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">アクセシビリティ対応</h2>\n\n\n\n<p>技術力をアピールするためのポートフォリオなので軽めにしていますが、キーボード操作のみ、VOICEOVER操作で最後まで操作できることを確認しています。</p>\n\n\n\n<p>ギャラリーはタブ移動で作品移動・作品名ラベル・（戻る時の）フォーカス連携、detail 本文もタブに当たっているときに上下左右でスクロール可能にしました。</p>\n\n\n\n<p>prefer-reduced-motion検知もしています。</p>\n",
       "protected": false
     },
     "excerpt": {
@@ -38,10 +38,10 @@
     "acf": {
       "work-number": 6,
       "work-type": "personal",
-      "work_period": "2026/3/11 ~",
+      "work_period": "2026/3/11 ~ 3/29",
       "summary": "これまで実装できずにいた要素をまとめて形にしたく、就職活動用ポートフォリオとして制作しました。\r\n\r\n3D シーンを維持したまま URL 遷移する構成、流体による表現など、高度な表現と Next.js・生の Three.js の連携に挑戦しています。",
       "site_url": "",
-      "github_url": "",
+      "github_url": "https://github.com/Musasi914/plane-portfolio",
       "tec": [
         "Next.js",
         "React",
@@ -85,14 +85,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 8,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 86,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/86"
+          "id": 106,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/106"
         }
       ],
       "wp:attachment": [
@@ -116,8 +116,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=40"
     },
-    "modified": "2026-03-22T09:17:44",
-    "modified_gmt": "2026-03-22T00:17:44",
+    "modified": "2026-03-29T16:13:50",
+    "modified_gmt": "2026-03-29T07:13:50",
     "slug": "diary",
     "status": "publish",
     "type": "page",
@@ -126,7 +126,7 @@
       "rendered": "日記帳"
     },
     "content": {
-      "rendered": "\n<p>最初はSSGサイトでしたが、無限スクロールを一度自分で実装してみたかったため、途中で体験として取り入れました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">無限スクロール</h2>\n\n\n\n<p>記事一覧は初回をサーバー側で描画し、<code class=\"\">Observer</code>で一覧末尾の監視要素がビューポートに入ったら Server Action 経由で microCMS から次のページ（limit/offset）を取得して結合。重複を防ぐため ID でユニーク化し、読み込み中はスピナー を表示しています。</p>\n\n\n\n<p>記事に遷移して一覧に戻ると初期表示（10件）に戻ってしまうので、sessionStorage&nbsp;に一覧とスクロール位置を一定時間保持し、戻ってきたときの体験を補助しています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">ISR</h2>\n\n\n\n<p>データ取得については、<code class=\"\">revalidate</code>&nbsp;による ISR（Incremental Static Regeneration）を指定し、ビルドごとのフル再デプロイなしに、一定間隔でキャッシュを再検証して記事更新を反映できるようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">PWA(簡易)</h2>\n\n\n\n<p>Manifest で&nbsp;standalone&nbsp;指定し、アプリのような見た目にしてスマホで復習しやすいようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"228\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-1024x228.png\" alt=\"\" class=\"wp-image-60\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-1024x228.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-300x67.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-768x171.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2.png 1076w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"244\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-1024x244.png\" alt=\"\" class=\"wp-image-62\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-1024x244.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-300x71.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-768x183.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4.png 1050w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">モバイル</figcaption></figure>\n\n\n\n<p>記事詳細は&nbsp;<code>generateStaticParams</code>&nbsp;で全 ID を事前生成&nbsp;しており、ビルド時にルートを広げつつ、更新は ISR で吸収する形なので高速。</p>\n\n\n\n<p>自分が見返す際にストレスがないよう、何度か作り直ししました。</p>\n",
+      "rendered": "\n<p>最初はSSGサイトでしたが、無限スクロールを一度自分で実装してみたかったため、途中で体験として取り入れました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">無限スクロール</h2>\n\n\n\n<p>記事一覧は初回をサーバー側で描画し、<code class=\"\">Observer</code>で一覧末尾の監視要素がビューポートに入ったら&nbsp;Server Action 経由で microCMS から次のページ（limit/offset）を取得して結合。重複を防ぐため&nbsp;ID でユニーク化し、読み込み中はスピナー&nbsp;を表示しています。</p>\n\n\n\n<p>記事に遷移して一覧に戻ると初期表示（10件）に戻ってしまうので、sessionStorage&nbsp;に一覧とスクロール位置を一定時間保持し、戻ってきたときの体験を補助しています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">ISR</h2>\n\n\n\n<p>データ取得については、<code class=\"\">revalidate</code>&nbsp;による ISR（Incremental Static Regeneration）を指定し、ビルドごとのフル再デプロイなしに、一定間隔でキャッシュを再検証して記事更新を反映できるようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">PWA(簡易)</h2>\n\n\n\n<p>Manifest で&nbsp;standalone&nbsp;指定し、アプリのような見た目にしてスマホで復習しやすいようにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"228\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-2-1024x228.png\" alt=\"\" class=\"wp-image-60\"/><figcaption class=\"wp-element-caption\">PC</figcaption></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"244\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-4-1024x244.png\" alt=\"\" class=\"wp-image-62\"/><figcaption class=\"wp-element-caption\">モバイル</figcaption></figure>\n\n\n\n<p>記事詳細は&nbsp;<code>generateStaticParams</code>&nbsp;で全 ID を事前生成&nbsp;しており、ビルド時にルートを広げつつ、更新は ISR で吸収する形なので高速。</p>\n\n\n\n<p>自分が見返す際にストレスがないよう、何度か作り直ししました。</p>\n",
       "protected": false
     },
     "excerpt": {
@@ -187,14 +187,14 @@
       ],
       "version-history": [
         {
-          "count": 7,
+          "count": 10,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 93,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/93"
+          "id": 105,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/105"
         }
       ],
       "wp:attachment": [
@@ -524,8 +524,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=9"
     },
-    "modified": "2026-03-22T10:52:07",
-    "modified_gmt": "2026-03-22T01:52:07",
+    "modified": "2026-03-24T08:16:21",
+    "modified_gmt": "2026-03-23T23:16:21",
     "slug": "portfolio",
     "status": "publish",
     "type": "page",
@@ -534,7 +534,7 @@
       "rendered": "福沢コウ Portfolio"
     },
     "content": {
-      "rendered": "\n<h2 class=\"wp-block-heading\">工夫点</h2>\n\n\n\n<p>複数のシーンをRenderTextureを用いて、各シーンをテクスチャとしてレンダリングしています。<br>条件をつけてアクティブなシーン（テクスチャ）だけ描画し、非アクティブシーンは完全に停止させているのでメモリ効率が良いです。</p>\n\n\n\n<p>アクセシビリティを徹底してみました。VoiceOver読み上げでのスクリーンリーダー対応チェックや、Tabフォーカストラップを実装し、キーボード操作でも問題ないようにしました。</p>\n\n\n\n<p>コードを通して、モダンなWeb開発のベストプラクティスを追求したつもりです。</p>\n\n\n\n<h2 class=\"wp-block-heading\">モデル部分</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"649\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png\" alt=\"\" class=\"wp-image-27\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png 1024w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-300x190.png 300w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-768x487.png 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image.png 1257w\" sizes=\"auto, (max-width: 1024px) 100vw, 1024px\" /></figure>\n\n\n\n<p>コード全体を触っている時間と同じくらい、blenderでこの3dシーンを手作り・手直しする時間がありました。<br>軽量化のためベイクを用い、モデル自体の容量は54kbに抑えました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-full\"><img loading=\"lazy\" decoding=\"async\" width=\"465\" height=\"121\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png\" alt=\"\" class=\"wp-image-28\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png 465w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1-300x78.png 300w\" sizes=\"auto, (max-width: 465px) 100vw, 465px\" /></figure>\n\n\n\n<p>様々なパフォーマンス対策を講じました。特にGPU・メモリ負荷の抑制、読み込みの段階化、およびスマートフォンでのモデル読み込みとアニメーションの抑制に重点を置いています。</p>\n\n\n\n<p>GLB やテクスチャの数が多いセクションでは、SPでは3Dを読み込まず、軽量な画像で内容を説明しています。</p>\n\n\n\n<p>また、シーンの進行度を状態管理で保持し、スクロールに応じてオフスクリーンシーンの更新と重い3Dのマウントを段階的に行うことで、初期表示から前半までの負荷を抑えています。</p>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"723\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-723x1024.jpg\" alt=\"\" class=\"wp-image-94\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-723x1024.jpg 723w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-212x300.jpg 212w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-768x1088.jpg 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-1085x1536.jpg 1085w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001.jpg 1240w\" sizes=\"auto, (max-width: 723px) 100vw, 723px\" /></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"725\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-725x1024.jpg\" alt=\"\" class=\"wp-image-96\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-725x1024.jpg 725w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-212x300.jpg 212w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-768x1085.jpg 768w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-1087x1536.jpg 1087w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001.jpg 1241w\" sizes=\"auto, (max-width: 725px) 100vw, 725px\" /></figure>\n",
+      "rendered": "\n<h2 class=\"wp-block-heading\">工夫点</h2>\n\n\n\n<p>複数のシーンをRenderTextureを用いて、各シーンをテクスチャとしてレンダリングしています。<br>条件をつけてアクティブなシーン（テクスチャ）だけ描画し、非アクティブシーンは完全に停止させているのでメモリ効率が良いです。</p>\n\n\n\n<p>アクセシビリティを徹底してみました。VoiceOver読み上げでのスクリーンリーダー対応チェックや、Tabフォーカストラップを実装し、キーボード操作でも問題ないようにしました。</p>\n\n\n\n<p>コードを通して、モダンなWeb開発のベストプラクティスを追求したつもりです。</p>\n\n\n\n<h2 class=\"wp-block-heading\">モデル部分</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"649\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png\" alt=\"\" class=\"wp-image-27\"/></figure>\n\n\n\n<p>コード全体を触っている時間と同じくらい、blenderでこの3dシーンを手作り・手直しする時間がありました。<br>軽量化のためベイクを用い、モデル自体の容量は54kbに抑えました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-full\"><img loading=\"lazy\" decoding=\"async\" width=\"465\" height=\"121\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png\" alt=\"\" class=\"wp-image-28\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png 465w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1-300x78.png 300w\" sizes=\"auto, (max-width: 465px) 100vw, 465px\" /></figure>\n\n\n\n<p>様々なパフォーマンス対策を講じました。特にGPU・メモリ負荷の抑制、読み込みの段階化、およびスマートフォンでのモデル読み込みとアニメーションの抑制に重点を置いています。</p>\n\n\n\n<p>GLB やテクスチャの数が多いセクションでは、SPでは3Dを読み込まず、軽量な画像で内容を説明しています。</p>\n\n\n\n<p>また、シーンの進行度を状態管理で保持し、スクロールに応じてオフスクリーンシーンの更新と重い3Dのマウントを段階的に行うことで、初期表示から前半までの負荷を抑えています。</p>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"723\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-723x1024.jpg\" alt=\"\" class=\"wp-image-94\"/></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"725\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-725x1024.jpg\" alt=\"\" class=\"wp-image-96\"/></figure>\n",
       "protected": false
     },
     "excerpt": {
@@ -557,7 +557,7 @@
       "work-number": 1,
       "work-type": "personal",
       "work_period": "2025/08/15 ~ 10/01",
-      "summary": "Three.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\n\r\nCSS Design Awards で <strong>Special Kudos・Best UI Design・Best UX Design・Best Innovation</strong> を、\r\nCSS Winner で <strong>Site Of The Day</strong> を受賞しました。",
+      "summary": "Three.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\n\r\nCSS Design Awards で <strong>Special Kudos・Best UI Design・Best UX Design・Best Innovation</strong> を、\r\nCSS Winner で <strong>Site Of The Day</strong> を受賞しました。\r\n\r\nまた、自分がよく見ていたサイト<a href=\"https://responsive-jp.com/16434.html\" target=\"_blank\" rel=\"noopener\">「Responsive Web Design JP」</a>に掲載されたことも嬉しかったです。",
       "site_url": "https://koh-fukuzawa.com/",
       "github_url": "https://github.com/Musasi914/koh-fukuzawa-portfolio",
       "tec": [
@@ -603,14 +603,14 @@
       ],
       "version-history": [
         {
-          "count": 9,
+          "count": 10,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 97,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/97"
+          "id": 100,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/100"
         }
       ],
       "wp:attachment": [
