@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { useRouterStore, useStore } from "@/store/store";
 import { getHasMovedGallery } from "@/utils/storage";
 import { playSfx } from "../audio/sfx";
@@ -10,12 +11,30 @@ export default function Canvas() {
   const canvasWrapper = useRef<HTMLDivElement>(null);
   const experience = useRef<Experience | null>(null);
 
-  const phase = useStore((state) => state.phase);
-  const isMobile = useStore((state) => state.isMobile);
-  const isTransitioning = useStore((state) => state.isTransitioning);
+  const {
+    phase,
+    isMobile,
+    isTransitioning,
+    enableSound,
+    setEnableSound,
+    onKeyDown,
+  } = useStore(
+    useShallow((s) => ({
+      phase: s.phase,
+      isMobile: s.isMobile,
+      isTransitioning: s.isTransitioning,
+      enableSound: s.enableSound,
+      setEnableSound: s.setEnableSound,
+      onKeyDown: s.onKeyDown,
+    }))
+  );
 
-  const onGoToIntro = useRouterStore((state) => state.onGoToIntro);
-  const onGoToGallery = useRouterStore((state) => state.onGoToGallery);
+  const { onGoToIntro, onGoToGallery } = useRouterStore(
+    useShallow((s) => ({
+      onGoToIntro: s.onGoToIntro,
+      onGoToGallery: s.onGoToGallery,
+    }))
+  );
 
   const onClickToTop = useCallback(() => {
     onGoToIntro?.();
@@ -30,13 +49,8 @@ export default function Canvas() {
     playSfx("click");
   }, []);
 
-  const enableSound = useStore((state) => state.enableSound);
-  const setEnableSound = useStore((state) => state.setEnableSound);
-
   const hasMovedGallery =
     typeof window !== "undefined" ? getHasMovedGallery() : false;
-
-  const onKeyDown = useStore((state) => state.onKeyDown);
 
   useEffect(() => {
     const wrapper = canvasWrapper.current;

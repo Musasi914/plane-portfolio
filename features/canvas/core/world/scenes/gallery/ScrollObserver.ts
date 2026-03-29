@@ -67,7 +67,7 @@ export class ScrollObserver {
         Math.min(this.SCROLL_MAX, this.targetScroll)
       );
       this.delayedCall?.kill();
-      this.delayedCall = gsap.delayedCall(0.2, () => {
+      this.delayedCall = gsap.delayedCall(0.4, () => {
         this.targetScroll = gsap.utils.snap(
           this.SCROLL_SNAP,
           this.targetScroll
@@ -155,6 +155,7 @@ export class ScrollObserver {
     this.observer = null;
     this.unsubscribeStore?.();
     this.unsubscribeStore = null;
+    this.delayedCall?.kill();
     window.removeEventListener("keydown", this.onKeyDown);
   }
 }

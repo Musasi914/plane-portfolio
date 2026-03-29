@@ -7,29 +7,48 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 export default function RouterSync() {
-  const setInitialPathname = useRouterStore(
-    (state) => state.setInitialPathname
-  );
   const isFirstMount = useRef(true);
 
-  const setOnNavigate = useRouterStore((state) => state.setOnNavigate);
-  const setPhase = useStore((state) => state.setPhase);
-  const setNextSceneId = useStore((state) => state.setNextSceneId);
-  const setActiveSceneId = useStore((state) => state.setActiveSceneId);
-  const setIsTransitioning = useStore((state) => state.setIsTransitioning);
-  const setCursorVariant = useStore((state) => state.setCursorVariant);
-  const setHoveredWorkId = useStore((state) => state.setHoveredWorkId);
-  const setSceneTransitionProgress = useStore(
-    (state) => state.setSceneTransitionProgress
+  const {
+    setPhase,
+    setNextSceneId,
+    setActiveSceneId,
+    setIsTransitioning,
+    setCursorVariant,
+    setHoveredWorkId,
+    setSceneTransitionProgress,
+  } = useStore(
+    useShallow((s) => ({
+      setPhase: s.setPhase,
+      setNextSceneId: s.setNextSceneId,
+      setActiveSceneId: s.setActiveSceneId,
+      setIsTransitioning: s.setIsTransitioning,
+      setCursorVariant: s.setCursorVariant,
+      setHoveredWorkId: s.setHoveredWorkId,
+      setSceneTransitionProgress: s.setSceneTransitionProgress,
+    }))
   );
-  const setIsAppNavigation = useRouterStore(
-    (state) => state.setIsAppNavigation
+
+  const {
+    setInitialPathname,
+    setOnNavigate,
+    setIsAppNavigation,
+    isAppNavigation,
+    onBackToGallery,
+    onBackToDetail,
+  } = useRouterStore(
+    useShallow((s) => ({
+      setInitialPathname: s.setInitialPathname,
+      setOnNavigate: s.setOnNavigate,
+      setIsAppNavigation: s.setIsAppNavigation,
+      isAppNavigation: s.isAppNavigation,
+      onBackToGallery: s.onBackToGallery,
+      onBackToDetail: s.onBackToDetail,
+    }))
   );
-  const isAppNavigation = useRouterStore((state) => state.isAppNavigation);
-  const onBackToGallery = useRouterStore((state) => state.onBackToGallery);
-  const onBackToDetail = useRouterStore((state) => state.onBackToDetail);
 
   const pathname = usePathname();
   const router = useRouter();

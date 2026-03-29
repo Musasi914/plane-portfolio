@@ -174,38 +174,9 @@ export default class Experience {
     this.fluid.destroy();
     this.pointer.destroy();
     this.world?.destroy();
+    this.galleryVideoLoader.destroy();
     this.camera.destroy();
     this.resource.destroy();
     this.renderer.destroy();
-    this.disposeScene(this.scene);
-  }
-
-  private disposeMaterial(material: THREE.Material | THREE.Material[]) {
-    if (Array.isArray(material)) {
-      material.forEach((mat) => mat.dispose());
-      return;
-    }
-
-    material.dispose();
-  }
-
-  private disposeScene(scene: THREE.Scene) {
-    const objectsToRemove: THREE.Object3D[] = [];
-
-    scene.traverse((child) => {
-      if (!(child instanceof THREE.Mesh || child instanceof THREE.Points)) {
-        return;
-      }
-
-      child.geometry?.dispose();
-      this.disposeMaterial(child.material);
-      objectsToRemove.push(child);
-    });
-
-    objectsToRemove.forEach((object3D) => {
-      object3D.parent?.remove(object3D);
-    });
-
-    scene.clear();
   }
 }

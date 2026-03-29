@@ -1,9 +1,20 @@
 import DetailContainer from "@/features/navigation/DetailContainer";
 import DetailToGalleryButton from "@/features/navigation/DetailToGalleryButton";
-import { getPostBySlug } from "@/lib/wp";
+import { getPostBySlug, getPosts } from "@/lib/wp";
 import { notFound } from "next/navigation";
 
-export default async function page({ params }: { params: { slug: string } }) {
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
+export default async function page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);

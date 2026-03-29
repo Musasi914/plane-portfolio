@@ -1,7 +1,5 @@
 # やること
 
-- パフォーマンス
-
 -prefers-reduced-motion: reduce に対応
 
 - 流体のストップ

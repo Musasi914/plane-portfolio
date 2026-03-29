@@ -4,6 +4,7 @@ import { useStore } from "@/store/store";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { playSfx } from "../audio/sfx";
 
 const CURSOR_SELECTOR = "[data-cursor-hover]";
@@ -12,11 +13,21 @@ const CURSOR_TEXT_SELECTOR = "data-cursor-text";
 export default function CustomCursor() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
-  const isMobile = useStore((state) => state.isMobile);
-  const cursorVariant = useStore((state) => state.cursorVariant);
-  const setCursorVariant = useStore((state) => state.setCursorVariant);
-  const cursorText = useStore((state) => state.cursorText);
-  const setCursorText = useStore((state) => state.setCursorText);
+  const {
+    isMobile,
+    cursorVariant,
+    setCursorVariant,
+    cursorText,
+    setCursorText,
+  } = useStore(
+    useShallow((s) => ({
+      isMobile: s.isMobile,
+      cursorVariant: s.cursorVariant,
+      setCursorVariant: s.setCursorVariant,
+      cursorText: s.cursorText,
+      setCursorText: s.setCursorText,
+    }))
+  );
 
   useGSAP(
     (_, contextSafe) => {

@@ -1,32 +1,48 @@
 "use client";
 
 import { useRouterStore, useStore } from "@/store/store";
-import { startTransition, useEffect, useRef, useState } from "react";
+import {
+  memo,
+  startTransition,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useShallow } from "zustand/react/shallow";
 import { galleryVideoSources } from "../canvas/core/source";
 import { ScrollObserver } from "../canvas/core/world/scenes/gallery/ScrollObserver";
 import GalleryPlanes from "../canvas/core/world/scenes/gallery/GalleryPlanes";
 import { playSfx } from "../audio/sfx";
 
-const TabButton = ({
+const TabButton = memo(function TabButton({
   isActive,
-  onClick,
+  index,
+  onActivate,
   title,
 }: {
   isActive: boolean;
-  onClick: () => void;
+  index: number;
+  onActivate: (index: number) => void;
   title: string;
-}) => {
+}) {
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleClick = useCallback(() => {
+    onActivate(index);
+  }, [index, onActivate]);
+
   useEffect(() => {
     if (isActive) {
       buttonRef.current?.focus();
     }
   }, [isActive]);
+
   return (
     <button
       ref={buttonRef}
       aria-label={title}
-      onClick={onClick}
+      onClick={handleClick}
       tabIndex={isActive ? 0 : -1}
       aria-current={isActive ? "true" : undefined}
       className={`size-4 rounded-full border border-foreground/10 ${
@@ -34,32 +50,66 @@ const TabButton = ({
       }`}
     ></button>
   );
-};
+});
 
 export default function GalleryFocusPanel() {
   const [isVisible, setIsVisible] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-  const videoCount = useStore((state) => state.videoCount);
-  const setCurrentWorkId = useStore((state) => state.setCurrentWorkId);
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLUListElement>) => {
-    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-      setFocusedIndex(
-        (prev) => (prev === null ? 0 : prev + 1) % (videoCount + 1)
-      );
-    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-      setFocusedIndex((prev) =>
-        prev === null ? videoCount : prev - 1 < 0 ? videoCount : prev - 1
-      );
-    } else if (e.key === "Tab" && !e.shiftKey) {
-      e.preventDefault();
-      (
-        document.querySelector(
-          'button[data-cursor-text="< top"]'
-        ) as HTMLButtonElement
-      )?.focus();
-    }
-  };
-  const phase = useStore((state) => state.phase);
+
+  const {
+    videoCount,
+    setCurrentWorkId,
+    phase,
+    isUseFocusTab,
+    currentWorkId,
+    setIsUseFocusTab,
+  } = useStore(
+    useShallow((s) => ({
+      videoCount: s.videoCount,
+      setCurrentWorkId: s.setCurrentWorkId,
+      phase: s.phase,
+      isUseFocusTab: s.isUseFocusTab,
+      currentWorkId: s.currentWorkId,
+      setIsUseFocusTab: s.setIsUseFocusTab,
+    }))
+  );
+
+  const phaseRef = useRef(phase);
+  const currentWorkIdRef = useRef(currentWorkId);
+  const isVisibleRef = useRef(isVisible);
+  phaseRef.current = phase;
+  currentWorkIdRef.current = currentWorkId;
+  isVisibleRef.current = isVisible;
+
+  const handleToolbarKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLUListElement>) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        setFocusedIndex(
+          (prev) => (prev === null ? 0 : prev + 1) % (videoCount + 1)
+        );
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        setFocusedIndex((prev) =>
+          prev === null ? videoCount : prev - 1 < 0 ? videoCount : prev - 1
+        );
+      } else if (e.key === "Tab" && !e.shiftKey) {
+        e.preventDefault();
+        (
+          document.querySelector(
+            'button[data-cursor-text="< top"]'
+          ) as HTMLButtonElement
+        )?.focus();
+      }
+    },
+    [videoCount]
+  );
+
+  const handleToolbarFocus = useCallback(() => {
+    setIsVisible(true);
+  }, []);
+
+  const handleToolbarBlur = useCallback(() => {
+    setIsVisible(false);
+  }, []);
 
   useEffect(() => {
     if (focusedIndex === null) return;
@@ -71,10 +121,6 @@ export default function GalleryFocusPanel() {
     }
   }, [focusedIndex, setCurrentWorkId]);
 
-  const isUseFocusTab = useStore((state) => state.isUseFocusTab);
-  const currentWorkId = useStore((state) => state.currentWorkId);
-  const setIsUseFocusTab = useStore((state) => state.setIsUseFocusTab);
-
   // detailから戻った時
   useEffect(() => {
     if (!isUseFocusTab) return;
@@ -85,38 +131,43 @@ export default function GalleryFocusPanel() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUseFocusTab]);
 
-  const onClick = (index: number) => {
-    if (index === videoCount) return;
-    const scrollObserver = ScrollObserver.getInstance();
-    const galleryPlanes = GalleryPlanes.getInstance();
+  const handleTabActivate = useCallback(
+    (index: number) => {
+      if (index === videoCount) return;
+      const scrollObserver = ScrollObserver.getInstance();
+      const galleryPlanes = GalleryPlanes.getInstance();
 
-    if (!scrollObserver || !galleryPlanes) return;
+      if (!scrollObserver || !galleryPlanes) return;
 
-    playSfx("click");
+      playSfx("click");
 
-    useStore.getState().setIsTransitioning(true);
-    useStore.getState().setCursorVariant("default");
-    //サイト遷移
-    scrollObserver.saveGalleryScroll();
-    useStore.getState().setPhase("galleryDetail");
-    galleryPlanes.moveToDetail(index);
-    useRouterStore.getState().setPrevWorkId(index);
-  };
+      useStore.getState().setIsTransitioning(true);
+      useStore.getState().setCursorVariant("default");
+      scrollObserver.saveGalleryScroll();
+      useStore.getState().setPhase("galleryDetail");
+      galleryPlanes.moveToDetail(index);
+      useRouterStore.getState().setPrevWorkId(index);
+    },
+    [videoCount]
+  );
 
-  // gallery でキーボード操作で focusedIndex を更新する
+  // gallery でキーボード操作で focusedIndex を更新する（リスナーは1回だけ）
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (phase !== "gallery" || !e.key.startsWith("Arrow") || isVisible)
+    const handleWindowKeyDown = (e: KeyboardEvent) => {
+      if (
+        phaseRef.current !== "gallery" ||
+        !e.key.startsWith("Arrow") ||
+        isVisibleRef.current
+      ) {
         return;
-
-      setFocusedIndex(currentWorkId);
+      }
+      setFocusedIndex(currentWorkIdRef.current);
     };
-    window.addEventListener("keydown", handleKeyDown);
-
+    window.addEventListener("keydown", handleWindowKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleWindowKeyDown);
     };
-  }, [phase, currentWorkId, focusedIndex, isVisible]);
+  }, []);
 
   return (
     <nav
@@ -126,13 +177,9 @@ export default function GalleryFocusPanel() {
     >
       <ul
         tabIndex={1}
-        onFocus={() => {
-          setIsVisible(true);
-        }}
-        onBlur={() => {
-          setIsVisible(false);
-        }}
-        onKeyDown={handleKeyDown}
+        onFocus={handleToolbarFocus}
+        onBlur={handleToolbarBlur}
+        onKeyDown={handleToolbarKeyDown}
         className={`h-full pointer-events-auto grid justify-center justify-items-center gap-2 p-2 transition-opacity duration-700 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
@@ -145,12 +192,13 @@ export default function GalleryFocusPanel() {
                   "最後まで見ていただきありがとうございました"}
               </h2>
               <TabButton
+                index={index}
                 title={
                   galleryVideoSources[index]?.name ??
                   "最後まで見ていただきありがとうございました"
                 }
                 isActive={index === focusedIndex}
-                onClick={() => onClick(index)}
+                onActivate={handleTabActivate}
               />
             </section>
           </li>

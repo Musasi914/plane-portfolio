@@ -70,6 +70,9 @@ const introImages = [
   },
 ];
 
+/** introPlaying に入ってから画像タイムラインを再生するまで（canvas 側の導線と揃える） */
+const INTRO_IMAGES_TL_DELAY_MS = 4400;
+
 export default function Home() {
   const imgsRef = useRef<Map<number, HTMLImageElement>>(new Map());
   const tlRef = useRef<GSAPTimeline | null>(null);
@@ -113,14 +116,31 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const unsub = useStore.subscribe((state) => {
-      if (state.phase === "introPlaying") {
-        setTimeout(() => {
-          tlRef.current?.play();
-        }, 4400);
+    let playTimeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const unsub = useStore.subscribe((state, previousState) => {
+      if (
+        state.phase !== "introPlaying" ||
+        previousState.phase === "introPlaying"
+      ) {
+        return;
       }
+
+      if (playTimeoutId !== undefined) {
+        clearTimeout(playTimeoutId);
+      }
+      playTimeoutId = setTimeout(() => {
+        playTimeoutId = undefined;
+        tlRef.current?.play();
+      }, INTRO_IMAGES_TL_DELAY_MS);
     });
-    return unsub;
+
+    return () => {
+      unsub();
+      if (playTimeoutId !== undefined) {
+        clearTimeout(playTimeoutId);
+      }
+    };
   }, []);
 
   return (
@@ -149,7 +169,7 @@ export default function Home() {
             >
               <Image
                 src={img.src}
-                alt={`cosm${index + 1}`}
+                alt=""
                 className="w-full h-full object-cover"
                 width={762}
                 height={500}

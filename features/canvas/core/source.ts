@@ -1,6 +1,6 @@
 export type Source = {
   name: string;
-  type: "cubeTexture" | "model" | "texture" | "font";
+  type: "texture";
   path: string[] | string;
 };
 

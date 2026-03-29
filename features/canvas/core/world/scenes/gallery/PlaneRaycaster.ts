@@ -46,10 +46,10 @@ export default class PlaneRaycaster {
       }
       if (cursorVariant !== "hover") {
         useStore.getState().setCursorVariant("hover");
-        useStore
-          .getState()
-          .setCursorText(`${galleryVideoSources[currentWorkId].name} >`);
       }
+      useStore
+        .getState()
+        .setCursorText(`${galleryVideoSources[currentWorkId].name} >`);
     } else {
       this.isIntersecting = false;
       if (useStore.getState().hoveredWorkId !== null) {

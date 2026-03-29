@@ -2,13 +2,18 @@
 
 import { useStore } from "@/store/store";
 import { useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { galleryVideoSources } from "../canvas/core/source";
 
 export default function TitleSync() {
-  const phase = useStore((state) => state.phase);
-  const nextSceneId = useStore((state) => state.nextSceneId);
-  const isTransitioning = useStore((state) => state.isTransitioning);
-  const currentWorkId = useStore((state) => state.currentWorkId);
+  const { phase, nextSceneId, isTransitioning, currentWorkId } = useStore(
+    useShallow((s) => ({
+      phase: s.phase,
+      nextSceneId: s.nextSceneId,
+      isTransitioning: s.isTransitioning,
+      currentWorkId: s.currentWorkId,
+    }))
+  );
 
   useEffect(() => {
     if (phase === "loading") {

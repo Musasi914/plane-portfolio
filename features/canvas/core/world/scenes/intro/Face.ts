@@ -133,6 +133,7 @@ export class Face {
 
     const planeDivide = useStore.getState().isMobile ? 256 : 1024;
     const geometry = new THREE.PlaneGeometry(1, 1, planeDivide, planeDivide);
+    // geometry.deleteAttribute("normal");
     const material = new THREE.ShaderMaterial({
       vertexShader: faceVert,
       fragmentShader: faceFrag,
@@ -201,7 +202,11 @@ export class Face {
 
   private createFrameEdge() {
     const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+    boxGeometry.deleteAttribute("normal");
+    boxGeometry.deleteAttribute("uv");
     const geometry = new THREE.EdgesGeometry(boxGeometry);
+    geometry.deleteAttribute("normal");
+    geometry.deleteAttribute("uv");
     const material = new THREE.LineBasicMaterial({ color: 0x000000 });
     const lineSegments = new THREE.LineSegments(geometry, material);
     lineSegments.scale.set(this.WIDTH, this.WIDTH, 0);

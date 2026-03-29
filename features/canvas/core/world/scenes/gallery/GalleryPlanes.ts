@@ -76,6 +76,7 @@ export default class GalleryPlanes {
       this.PLANE_SEGMENTS,
       this.PLANE_SEGMENTS
     );
+    geometry.deleteAttribute("normal");
 
     for (let i = 0; i < this.PLANE_COUNT; i++) {
       const key = galleryVideoSources[i].name;
@@ -195,7 +196,6 @@ export default class GalleryPlanes {
         if (target instanceof PlaneItem) {
           target.mesh.material.uniforms.uSign.value = 1;
           const isMobile = useStore.getState().isMobile;
-          console.log(isMobile);
           target.mesh.material.uniforms.uOffset.value = new THREE.Vector2(
             isMobile ? 0.2 : 0.8,
             isMobile ? 1.0 : 0.8

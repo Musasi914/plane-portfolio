@@ -11,8 +11,9 @@
 //   return (await res.json()) as Post;
 // };
 
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import path from "path";
+import { cache } from "react";
 import { Post } from "@/types/wp-post";
 
 const POSTS_JSON_PATH = path.join(
@@ -22,8 +23,16 @@ const POSTS_JSON_PATH = path.join(
   "posts.json"
 );
 
-export const getPostBySlug = (slug: string): Post | null => {
-  const json = readFileSync(POSTS_JSON_PATH, "utf-8");
-  const posts = JSON.parse(json) as Post[];
+const loadPosts = cache(async (): Promise<Post[]> => {
+  const json = await readFile(POSTS_JSON_PATH, "utf-8");
+  return JSON.parse(json) as Post[];
+});
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const posts = await loadPosts();
   return posts.find((p) => p.slug === slug) ?? null;
-};
+}
+
+export async function getPosts(): Promise<Post[]> {
+  return loadPosts();
+}

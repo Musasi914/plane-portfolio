@@ -26,6 +26,7 @@ export default class NamePlane {
   private createNamePlane() {
     const texture = this.getTexture();
     const geometry = new THREE.PlaneGeometry(1, 1);
+    geometry.deleteAttribute("normal");
     const material = new THREE.ShaderMaterial({
       vertexShader: nameVert,
       fragmentShader: noiseGlsl + nameFrag,

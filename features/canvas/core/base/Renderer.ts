@@ -45,7 +45,9 @@ export class Renderer {
       magFilter: THREE.NearestFilter,
       generateMipmaps: false,
     });
-    rt.samples = this.config.pixelRatio === 1 ? 2 : 0;
+
+    const quality = useStore.getState().qualityTier;
+    rt.samples = quality === "low" ? 0 : quality === "medium" ? 0 : 2;
 
     return rt;
   }

@@ -9,6 +9,8 @@ import { createVideoTextureFromSrc } from "./createVideoTexture";
 export default class GalleryVideoLoader extends EventEmitter {
   private videoSources: GalleryVideoSource[];
 
+  private disposed = false;
+
   textures: { [key: string]: THREE.VideoTexture<HTMLVideoElement> } = {};
 
   constructor() {
@@ -19,9 +21,12 @@ export default class GalleryVideoLoader extends EventEmitter {
   }
 
   loadVideos(renderer: THREE.WebGLRenderer) {
+    if (this.disposed) return;
+
     const outputColorSpace = renderer.outputColorSpace;
 
     const loadPromises = this.videoSources.map(async (source) => {
+      if (this.disposed) return;
       try {
         const { texture, video } = await createVideoTextureFromSrc(
           source.path,
@@ -31,6 +36,10 @@ export default class GalleryVideoLoader extends EventEmitter {
             outputColorSpace: outputColorSpace as THREE.ColorSpace,
           }
         );
+        if (this.disposed) {
+          this.disposeVideoTexturePair(texture, video);
+          return;
+        }
         this.textures[source.name] = texture;
         void video.play().catch(() => {});
       } catch (e) {
@@ -38,8 +47,32 @@ export default class GalleryVideoLoader extends EventEmitter {
       }
     });
 
-    Promise.all(loadPromises).then(() => {
+    void Promise.all(loadPromises).then(() => {
+      if (this.disposed) return;
       this.trigger("videoLoaded");
     });
+  }
+
+  private disposeVideoTexturePair(
+    texture: THREE.VideoTexture<HTMLVideoElement>,
+    video: HTMLVideoElement
+  ) {
+    video.pause();
+    video.removeAttribute("src");
+    video.load();
+    texture.dispose();
+  }
+
+  destroy() {
+    if (this.disposed) return;
+    this.disposed = true;
+
+    this.off("videoLoaded");
+
+    for (const texture of Object.values(this.textures)) {
+      const video = texture.image as HTMLVideoElement;
+      this.disposeVideoTexturePair(texture, video);
+    }
+    this.textures = {};
   }
 }

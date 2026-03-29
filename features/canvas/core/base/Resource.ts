@@ -1,22 +1,12 @@
-import {
-  GLTFLoader,
-  type GLTF,
-} from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { CubeTexture, CubeTextureLoader, Texture, TextureLoader } from "three";
+import { Texture, TextureLoader } from "three";
 import type { Source } from "../source";
-import { Font, FontLoader } from "three/examples/jsm/Addons.js";
 import EventEmitter from "../utils/EventEmitter";
 
 export class Resource extends EventEmitter {
   loaders: {
-    gltfLoader: GLTFLoader;
-    dracoLoader: DRACOLoader;
     textureLoader: TextureLoader;
-    cubeTextureLoader: CubeTextureLoader;
-    fontLoader: FontLoader;
   };
-  items: Record<string, GLTF | Texture | CubeTexture | Font>;
+  items: Record<string, Texture>;
   sources: Source[];
   loaded: number;
   allSources: number;
@@ -34,36 +24,14 @@ export class Resource extends EventEmitter {
   }
 
   private setLoaders() {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/draco/");
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.setDRACOLoader(dracoLoader);
-
     return {
-      gltfLoader,
-      dracoLoader,
       textureLoader: new TextureLoader(),
-      cubeTextureLoader: new CubeTextureLoader(),
-      fontLoader: new FontLoader(),
     };
   }
 
   private startLoading() {
     for (const source of this.sources) {
       switch (source.type) {
-        case "model":
-          if (typeof source.path === "string") {
-            this.loaders.gltfLoader.load(source.path, (file) => {
-              this.sourceLoaded(source, file);
-            });
-          } else {
-            console.error(
-              `Invalid path for model source "${source.name}": expected string, got`,
-              source.path
-            );
-          }
-          break;
-
         case "texture":
           if (typeof source.path === "string") {
             this.loaders.textureLoader.load(source.path, (file) => {
@@ -77,42 +45,13 @@ export class Resource extends EventEmitter {
           }
           break;
 
-        case "cubeTexture":
-          if (Array.isArray(source.path)) {
-            this.loaders.cubeTextureLoader.load(source.path, (file) => {
-              this.sourceLoaded(source, file);
-            });
-          } else {
-            console.error(
-              `Invalid path for cubeTexture source "${source.name}": expected array, got`,
-              source.path
-            );
-          }
-          break;
-
-        case "font":
-          if (typeof source.path === "string") {
-            this.loaders.fontLoader.load(source.path, (file) => {
-              this.sourceLoaded(source, file);
-            });
-          } else {
-            console.error(
-              `Invalid path for font source "${source.name}": expected string, got`,
-              source.path
-            );
-          }
-          break;
-
         default:
           break;
       }
     }
   }
 
-  private sourceLoaded(
-    source: Source,
-    item: GLTF | Texture | CubeTexture | Font
-  ) {
+  private sourceLoaded(source: Source, item: Texture) {
     this.items[source.name] = item;
     this.loaded++;
     if (this.loaded === this.allSources) {
@@ -122,7 +61,9 @@ export class Resource extends EventEmitter {
 
   destroy() {
     this.off("ready");
-    this.loaders.dracoLoader.dispose();
+    for(const item of Object.values(this.items)) {
+      item.dispose();
+    }
     this.items = {};
   }
 }

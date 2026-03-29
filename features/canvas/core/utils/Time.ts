@@ -33,10 +33,19 @@ export class Time extends EventEmitter {
   private handleVisibilityChange = () => {
     if (document.hidden) {
       this.isActive = false;
+      if (this.rafId !== null) {
+        window.cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
     } else {
       this.isActive = true;
       // 再開時に現在時刻を更新して、大きなdeltaを防ぐ
       this.current = Date.now();
+      // 同期的に tick() すると delta≈0 になり fluid の dt が壊れる（divergence 等）。
+      // 次の描画フレームまで待ってから tick する。
+      if (this.rafId === null && !this.isDestroyed) {
+        this.rafId = window.requestAnimationFrame(this.tick);
+      }
     }
   };
 
