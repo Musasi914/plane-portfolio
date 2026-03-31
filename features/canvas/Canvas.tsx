@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { useRouterStore, useStore } from "@/store/store";
+import { useClientDeviceStore, useRouterStore, useStore } from "@/store/store";
 import { getHasMovedGallery } from "@/utils/storage";
 import { playSfx } from "../audio/sfx";
 import Experience from "./core/Experience";
@@ -11,23 +11,16 @@ export default function Canvas() {
   const canvasWrapper = useRef<HTMLDivElement>(null);
   const experience = useRef<Experience | null>(null);
 
-  const {
-    phase,
-    isMobile,
-    isTransitioning,
-    enableSound,
-    setEnableSound,
-    onKeyDown,
-  } = useStore(
-    useShallow((s) => ({
-      phase: s.phase,
-      isMobile: s.isMobile,
-      isTransitioning: s.isTransitioning,
-      enableSound: s.enableSound,
-      setEnableSound: s.setEnableSound,
-      onKeyDown: s.onKeyDown,
-    }))
-  );
+  const { phase, isTransitioning, enableSound, setEnableSound, onKeyDown } =
+    useStore(
+      useShallow((s) => ({
+        phase: s.phase,
+        isTransitioning: s.isTransitioning,
+        enableSound: s.enableSound,
+        setEnableSound: s.setEnableSound,
+        onKeyDown: s.onKeyDown,
+      }))
+    );
 
   const { onGoToIntro, onGoToGallery } = useRouterStore(
     useShallow((s) => ({
@@ -63,6 +56,8 @@ export default function Canvas() {
       experience.current = null;
     };
   }, []);
+
+  const device = useClientDeviceStore((state) => state.device);
 
   return (
     <div ref={canvasWrapper} className="w-full h-full contain-strict">
@@ -187,7 +182,7 @@ export default function Canvas() {
           </button>
         </div>
 
-        {!isMobile && (
+        {device !== "safari" && (
           <button
             onKeyDown={(e) => onKeyDown(e)}
             data-cursor-hover

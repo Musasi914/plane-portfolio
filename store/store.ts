@@ -179,3 +179,13 @@ export const useRouterStore = create<RouterStoreType>((set) => ({
   prevWorkId: null,
   setPrevWorkId: (prevWorkId) => set({ prevWorkId }),
 }));
+
+type ClientDeviceStoreType = {
+  device: "chrome" | "safari" | "firefox" | "edge" | "other";
+  setDevice: (device: ClientDeviceStoreType["device"]) => void;
+};
+
+export const useClientDeviceStore = create<ClientDeviceStoreType>((set) => ({
+  device: "chrome",
+  setDevice: (device) => set({ device }),
+}));

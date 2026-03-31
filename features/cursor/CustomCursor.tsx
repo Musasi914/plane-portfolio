@@ -1,6 +1,6 @@
 "use client";
 
-import { useStore } from "@/store/store";
+import { useClientDeviceStore, useStore } from "@/store/store";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
@@ -48,11 +48,6 @@ export default function CustomCursor() {
         xTo(e.clientX);
         yTo(e.clientY);
       });
-      const onMouseLeave = contextSafe(() => {
-        if (!el) return;
-        gsap.set(el, { opacity: 0 });
-        hasMoved = false;
-      });
 
       const onMouseOver = contextSafe((e: MouseEvent) => {
         const target = (e.target as Element)?.closest?.(CURSOR_SELECTOR);
@@ -71,16 +66,11 @@ export default function CustomCursor() {
       });
 
       window.addEventListener("mousemove", onMouseMove);
-      document.documentElement.addEventListener("mouseleave", onMouseLeave);
       document.addEventListener("mouseover", onMouseOver);
       document.addEventListener("mouseout", onMouseOut);
 
       return () => {
         window.removeEventListener("mousemove", onMouseMove);
-        document.documentElement.removeEventListener(
-          "mouseleave",
-          onMouseLeave
-        );
         document.removeEventListener("mouseover", onMouseOver);
         document.removeEventListener("mouseout", onMouseOut);
       };
@@ -89,6 +79,7 @@ export default function CustomCursor() {
   );
 
   const opacityTween = useRef<GSAPTween | null>(null);
+  const device = useClientDeviceStore((state) => state.device);
   useGSAP(
     () => {
       if (isMobile || !cursorRef.current) return;
@@ -104,33 +95,32 @@ export default function CustomCursor() {
 
       gsap.to(cursorRef.current, {
         scale: cursorVariant === "hover" ? 3 : 1,
-        // backgroundColor: cursorVariant === "hover" ? "#ffffff" : "#000000",
         duration: 0.8,
         ease: "elastic.out",
       });
 
       if (cursorVariant === "hover") {
-        gsap.fromTo(
-          cursorRef.current,
-          {
-            boxShadow: "inset 0rem 0rem 0.3125rem 0.125rem #ffffff",
-          },
-          {
-            boxShadow: "inset 0rem 0rem 0.4375rem 0.25rem #ffffff",
-            duration: 1,
-            repeat: -1,
-            yoyo: true,
-            ease: "none",
-          }
-        );
+        if (!(device === "safari" || device === "firefox")) {
+          gsap.fromTo(
+            cursorRef.current,
+            {
+              boxShadow: "inset 0rem 0rem 0.3125rem 0.125rem #ffffff",
+            },
+            {
+              boxShadow: "inset 0rem 0rem 0.4375rem 0.25rem #ffffff",
+              duration: 1,
+              repeat: -1,
+              yoyo: true,
+              ease: "none",
+            }
+          );
+        }
 
         gsap.set(wrapperRef.current, {
-          // mixBlendMode: cursorVariant === "hover" ? "difference" : "normal",
           opacity: 1,
         });
       } else {
         opacityTween.current = gsap.to(wrapperRef.current, {
-          // mixBlendMode: cursorVariant === "hover" ? "difference" : "normal",
           opacity: 0,
           duration: 0.2,
         });
