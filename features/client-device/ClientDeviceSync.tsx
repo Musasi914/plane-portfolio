@@ -9,7 +9,6 @@ export default function ClientDeviceSync() {
   const setDevice = useClientDeviceStore((state) => state.setDevice);
   useEffect(() => {
     const ua = navigator.userAgent;
-    console.log(ua);
     if (ua.includes("Edg")) return setDevice("edge");
     if (ua.includes("Firefox")) return setDevice("firefox");
     if (ua.includes("Chrome")) return setDevice("chrome");

@@ -12,6 +12,26 @@
   --font-sora: var(--font-sora);
 }
 
+@keyframes intro-face-drag-hint {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-30px, -20px);
+  }
+  50% {
+    transform: translate(20px, 30px);
+  }
+  75% {
+    transform: translate(-20px, 30px);
+  }
+}
+
+.intro-face-drag-hint-icon {
+  animation: intro-face-drag-hint 1.5s ease-in-out infinite;
+}
+
 @layer base {
   html,
   body {

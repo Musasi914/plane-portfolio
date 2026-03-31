@@ -10,6 +10,7 @@ import { useStore } from "@/store/store";
 export class Face {
   static FACE_SCALE = 0.7;
   static FACE_Z_MULTIPLIER = 0.2;
+  static FACE_DRAG_HINT_NDC_MARGIN = 0.7;
 
   private experience: Experience;
   private scene: THREE.Scene;
@@ -36,9 +37,13 @@ export class Face {
     smileButton: document.getElementById("face-smile") as HTMLButtonElement,
     rotateWorldPosition: new THREE.Vector3(),
     smileWorldPosition: new THREE.Vector3(),
+    dragHintIconPosition: new THREE.Vector3(),
     rotateEnabled: true,
     smileEnabled: false,
   };
+
+  /** #face-drag-hint は React が後からマウントするため、都度解決する */
+  private dragHintEl: HTMLDivElement | null = null;
 
   constructor(
     scene: THREE.Scene,
@@ -82,6 +87,11 @@ export class Face {
     this.faceControls.smileWorldPosition.set(
       isPortrait ? width * 0.5 : width * 1.5,
       isPortrait ? -width * 0.5 : width * 0.5,
+      0
+    );
+    this.faceControls.dragHintIconPosition.set(
+      isPortrait ? 0 : width,
+      isPortrait ? -width * 1 : 0,
       0
     );
   }
@@ -263,6 +273,25 @@ export class Face {
     this.updateFaceLooking();
 
     this.updateControlsPosition();
+
+    this.updateIntroFaceDragHintDismissed();
+  }
+
+  /** NDC 中央付近（顔がいるエリアのざっくり近似）にポインタが来たらヒントを閉じる */
+  private updateIntroFaceDragHintDismissed() {
+    const store = useStore.getState();
+    if (
+      store.phase !== "introReady" ||
+      store.isMobile ||
+      store.introFaceDragHintDismissed
+    ) {
+      return;
+    }
+    const m = Face.FACE_DRAG_HINT_NDC_MARGIN;
+    const { x, y } = this.experience.pointer.state.ndc;
+    if (Math.abs(x) <= m && Math.abs(y) <= m) {
+      store.setIntroFaceDragHintDismissed(true);
+    }
   }
 
   private targetTilt = new THREE.Vector2(0, 0);
@@ -291,11 +320,25 @@ export class Face {
     const rx = (this.tmpV.x * 0.5 + 0.5) * this.experience.config.width;
     const ry = (this.tmpV.y * -0.5 + 0.5) * this.experience.config.height;
     this.faceControls.rotateButton.style.transform = `translate(${rx}px, ${ry}px)`;
+
     this.tmpV.copy(this.faceControls.smileWorldPosition);
     this.tmpV.project(this.camera);
     const sx = (this.tmpV.x * 0.5 + 0.5) * this.experience.config.width;
     const sy = (this.tmpV.y * -0.5 + 0.5) * this.experience.config.height;
     this.faceControls.smileButton.style.transform = `translate(${sx}px, ${sy}px)`;
+
+    if (!this.dragHintEl || !this.dragHintEl.isConnected) {
+      this.dragHintEl = document.getElementById(
+        "face-drag-hint"
+      ) as HTMLDivElement | null;
+    }
+    if (this.dragHintEl) {
+      this.tmpV.copy(this.faceControls.dragHintIconPosition);
+      this.tmpV.project(this.camera);
+      const dx = (this.tmpV.x * 0.5 + 0.5) * this.experience.config.width;
+      const dy = (this.tmpV.y * -0.5 + 0.5) * this.experience.config.height;
+      this.dragHintEl.style.transform = `translate(${dx}px, ${dy}px)`;
+    }
   }
 
   destroy() {
@@ -330,5 +373,6 @@ export class Face {
     this.faceControls.rotateButton.querySelector("span")!.textContent = "ON";
     this.faceControls.smileButton.querySelector("span")!.textContent = "OFF";
     this.faceMesh.material.uniforms.uSwitchProgress.value = 0;
+    useStore.getState().setIntroFaceDragHintDismissed(false);
   }
 }

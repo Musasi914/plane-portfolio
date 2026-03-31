@@ -40,6 +40,9 @@ export type StoreType = {
   prefersReducedMotion: boolean;
   setPrefersReducedMotion: (prefersReducedMotion: boolean) => void;
 
+  introFaceDragHintDismissed: boolean;
+  setIntroFaceDragHintDismissed: (introFaceDragHintDismissed: boolean) => void;
+
   qualityTier: "low" | "medium" | "high";
   setQualityTier: (qualityTier: StoreType["qualityTier"]) => void;
 
@@ -95,6 +98,10 @@ export const useStore = create<StoreType>((set) => ({
   prefersReducedMotion: false,
   setPrefersReducedMotion: (prefersReducedMotion) =>
     set({ prefersReducedMotion }),
+
+  introFaceDragHintDismissed: false,
+  setIntroFaceDragHintDismissed: (introFaceDragHintDismissed) =>
+    set({ introFaceDragHintDismissed }),
 
   qualityTier: "high",
   setQualityTier: (qualityTier) => set({ qualityTier }),

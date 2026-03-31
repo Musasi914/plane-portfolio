@@ -6,6 +6,7 @@ import { useClientDeviceStore, useRouterStore, useStore } from "@/store/store";
 import { getHasMovedGallery } from "@/utils/storage";
 import { playSfx } from "../audio/sfx";
 import Experience from "./core/Experience";
+import IntroFaceDragHint from "./IntroFaceDragHint";
 
 export default function Canvas() {
   const canvasWrapper = useRef<HTMLDivElement>(null);
@@ -139,6 +140,8 @@ export default function Canvas() {
               <path d="M2 6a2 2 0 0 1 3.414-1.414l6 6a2 2 0 0 1 0 2.828l-6 6A2 2 0 0 1 2 18z" />
             </svg>
           </button>
+
+          <IntroFaceDragHint />
         </div>
 
         <div className="w-full h-full">
