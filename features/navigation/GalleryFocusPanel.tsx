@@ -44,7 +44,6 @@ const TabButton = memo(function TabButton({
       aria-label={title}
       onClick={handleClick}
       tabIndex={isActive ? 0 : -1}
-      aria-current={isActive ? "true" : undefined}
       className={`size-4 rounded-full border border-foreground/10 ${
         isActive ? "bg-foreground border-2 border-white size-6" : "bg-white"
       }`}
