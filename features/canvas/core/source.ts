@@ -55,9 +55,9 @@ export const galleryVideoSources: GalleryVideoSource[] = [
     slug: "kgrit",
   },
   {
-    name: "cafe",
-    path: "/gallery/video/cafe.webm",
-    slug: "cafe",
+    name: "日記帳",
+    path: "/gallery/video/diary.webm",
+    slug: "diary",
   },
   {
     name: "3d練習",
@@ -65,13 +65,13 @@ export const galleryVideoSources: GalleryVideoSource[] = [
     slug: "3d-practice",
   },
   {
-    name: "日記帳",
-    path: "/gallery/video/diary.webm",
-    slug: "diary",
-  },
-  {
     name: "当サイト",
     path: "/gallery/video/this-site.webm",
     slug: "this-site",
+  },
+  {
+    name: "cafe",
+    path: "/gallery/video/cafe.webm",
+    slug: "cafe",
   },
 ];

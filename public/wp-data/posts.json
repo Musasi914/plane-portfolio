@@ -6,8 +6,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=42"
     },
-    "modified": "2026-03-29T16:14:34",
-    "modified_gmt": "2026-03-29T07:14:34",
+    "modified": "2026-04-02T19:43:57",
+    "modified_gmt": "2026-04-02T10:43:57",
     "slug": "this-site",
     "status": "publish",
     "type": "page",
@@ -36,7 +36,7 @@
     },
     "class_list": ["post-42", "page", "type-page", "status-publish", "hentry"],
     "acf": {
-      "work-number": 6,
+      "work-number": 5,
       "work-type": "personal",
       "work_period": "2026/3/11 ~ 3/29",
       "summary": "これまで実装できずにいた要素をまとめて形にしたく、就職活動用ポートフォリオとして制作しました。\r\n\r\n3D シーンを維持したまま URL 遷移する構成、流体による表現など、高度な表現と Next.js・生の Three.js の連携に挑戦しています。",
@@ -85,14 +85,14 @@
       ],
       "version-history": [
         {
-          "count": 8,
+          "count": 9,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 106,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/106"
+          "id": 110,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/110"
         }
       ],
       "wp:attachment": [
@@ -116,8 +116,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=40"
     },
-    "modified": "2026-03-29T16:13:50",
-    "modified_gmt": "2026-03-29T07:13:50",
+    "modified": "2026-04-02T17:34:59",
+    "modified_gmt": "2026-04-02T08:34:59",
     "slug": "diary",
     "status": "publish",
     "type": "page",
@@ -146,7 +146,7 @@
     },
     "class_list": ["post-40", "page", "type-page", "status-publish", "hentry"],
     "acf": {
-      "work-number": 5,
+      "work-number": 3,
       "work-type": "personal",
       "work_period": "2024/11/30 ~",
       "summary": "学習内容と備忘録をまとめ、見返すためのブログです。\r\n覚えておきたいことを記事化し、日記にも学びを書き留める習慣を続けています。\r\n\r\n毎週土曜に一週間分を見返し、理解の定着と振り返りを行っています。",
@@ -193,8 +193,8 @@
       ],
       "predecessor-version": [
         {
-          "id": 105,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/105"
+          "id": 109,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/40/revisions/109"
         }
       ],
       "wp:attachment": [
@@ -320,8 +320,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=36"
     },
-    "modified": "2026-03-22T09:09:22",
-    "modified_gmt": "2026-03-22T00:09:22",
+    "modified": "2026-04-02T19:49:54",
+    "modified_gmt": "2026-04-02T10:49:54",
     "slug": "cafe",
     "status": "publish",
     "type": "page",
@@ -350,10 +350,10 @@
     },
     "class_list": ["post-36", "page", "type-page", "status-publish", "hentry"],
     "acf": {
-      "work-number": 3,
+      "work-number": 6,
       "work-type": "personal",
       "work_period": "2026/02/18 ~ 2026/03/11",
-      "summary": "近所のカフェの公式サイトを想定し、「素敵な店内の雰囲気を、画面越しでも体験として伝えるには？」ということを考えデザインから検討したデモサイトです。",
+      "summary": "デザインの練習として制作したデモサイトです。",
       "site_url": "https://cafe-moku.vercel.app/",
       "github_url": "https://github.com/Musasi914/cafe-moku",
       "tec": ["Next.js", "React", "Tailwind", "GSAP", "TypeScript"]
@@ -391,14 +391,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 7,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 92,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/92"
+          "id": 111,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/111"
         }
       ],
       "wp:attachment": [
