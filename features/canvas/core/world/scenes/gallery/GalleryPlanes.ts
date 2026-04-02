@@ -167,6 +167,10 @@ export default class GalleryPlanes {
       target.play();
     }
 
+    useStore.getState().setCurrentWorkId(workId);
+    this.scrollObserver.targetScroll = workId * GalleryPlanes.PLANE_DISTANCE;
+    this.scrollObserver?.saveGalleryScroll();
+
     const index =
       this.scrollObserver.targetScroll / GalleryPlanes.PLANE_DISTANCE;
 
@@ -192,11 +196,6 @@ export default class GalleryPlanes {
           useRouterStore
             .getState()
             .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
-        } else {
-          useStore.getState().setCurrentWorkId(workId);
-          this.scrollObserver.targetScroll =
-            workId * GalleryPlanes.PLANE_DISTANCE;
-          this.scrollObserver?.saveGalleryScroll();
         }
 
         if (target instanceof PlaneItem) {
