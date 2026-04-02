@@ -5,6 +5,7 @@ import Experience from "@/features/canvas/core/Experience";
 import { useRouterStore, useStore } from "@/store/store";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { getIndexBySlug } from "@/features/canvas/core/utils/gallery";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
@@ -99,7 +100,9 @@ export default function RouterSync() {
       if (state && state.phase === "gallery") {
         onBackToGallery?.();
       } else if (state && state.phase === "detail") {
-        onBackToDetail?.();
+        const slug = pathname.match(/^\/gallery\/([^/]+)/)?.[1];
+        const workIdFromUrl = slug !== undefined ? getIndexBySlug(slug) : -1;
+        onBackToDetail?.(workIdFromUrl >= 0 ? workIdFromUrl : undefined);
       } else if (state) {
         setPhase(state.phase);
         setActiveSceneId(state.activeSceneId);

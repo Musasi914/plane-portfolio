@@ -67,9 +67,10 @@ export class GalleryScene implements SceneLike {
     useRouterStore.getState().setOnBackToGallery(() => {
       this.backToGallery();
     });
-    useRouterStore.getState().setOnBackToDetail(() => {
+    useRouterStore.getState().setOnBackToDetail((workIdFromUrl?: number) => {
       const prevWorkId = useRouterStore.getState().prevWorkId;
-      this.transitionToDetail(prevWorkId ?? undefined);
+      const workId = workIdFromUrl ?? prevWorkId ?? undefined;
+      this.transitionToDetail(workId);
     });
 
     // 直接 /gallery/[slug] でアクセスした場合
@@ -106,14 +107,21 @@ export class GalleryScene implements SceneLike {
   };
 
   private transitionToDetail = (workId?: number) => {
-    if (!workId && useStore.getState().hoveredWorkId === null) return;
-    if (!this.canTransitionToDetail()) return;
+    if (workId === undefined && useStore.getState().hoveredWorkId === null)
+      return;
+
+    const fromHistory = typeof workId === "number";
+    if (fromHistory) {
+      if (getSlugByIndex(workId) === null) return;
+    } else if (!this.canTransitionToDetail()) {
+      return;
+    }
 
     playSfx("click");
 
     useStore.getState().setIsTransitioning(true);
     useStore.getState().setCursorVariant("default");
-    if (!workId) {
+    if (workId === undefined) {
       //サイト遷移
       this.scrollObserver?.saveGalleryScroll();
       useStore.getState().setPhase("galleryDetail");
@@ -121,9 +129,9 @@ export class GalleryScene implements SceneLike {
       this.planes?.moveToDetail(currentWorkId);
       useRouterStore.getState().setPrevWorkId(currentWorkId);
     } else {
-      // 戻るボタンから遷移
+      // ブラウザ履歴で detail URL に戻ったとき（URL は既に正しい。onNavigate は不要）
       useStore.getState().setPhase("detail");
-      this.planes?.moveToDetail(workId);
+      this.planes?.moveToDetail(workId, { skipUrlSync: true });
       useStore.getState().setCurrentWorkId(workId);
     }
   };

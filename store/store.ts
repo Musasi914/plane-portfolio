@@ -146,7 +146,8 @@ type RouterStoreType = {
     onBackToGallery: RouterStoreType["onBackToGallery"]
   ) => void;
 
-  onBackToDetail: (() => void) | null;
+  /** ブラウザ履歴で detail URL になったとき。pathname から解いた workId を渡す */
+  onBackToDetail: ((workIdFromUrl?: number) => void) | null;
   setOnBackToDetail: (
     onBackToDetail: RouterStoreType["onBackToDetail"]
   ) => void;

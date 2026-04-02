@@ -156,7 +156,7 @@ export default class GalleryPlanes {
   private offsetY = 0;
 
   private moveToDetailTl: gsap.core.Timeline | null = null;
-  moveToDetail(workId: number) {
+  moveToDetail(workId: number, options?: { skipUrlSync?: boolean }) {
     this.moveToDetailTl?.kill();
     this.backToGalleryTl?.kill();
 
@@ -185,12 +185,18 @@ export default class GalleryPlanes {
       },
       onStart: () => {
         if (
+          !options?.skipUrlSync &&
           typeof window !== "undefined" &&
           window.location.pathname !== `/gallery/${getSlugByIndex(workId)}`
         ) {
           useRouterStore
             .getState()
             .onNavigate?.(`/gallery/${getSlugByIndex(workId)}`);
+        } else {
+          useStore.getState().setCurrentWorkId(workId);
+          this.scrollObserver.targetScroll =
+            workId * GalleryPlanes.PLANE_DISTANCE;
+          this.scrollObserver?.saveGalleryScroll();
         }
 
         if (target instanceof PlaneItem) {
