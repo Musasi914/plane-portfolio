@@ -10,7 +10,7 @@ import { useStore } from "@/store/store";
 export class Face {
   static FACE_SCALE = 0.7;
   static FACE_Z_MULTIPLIER = 0.2;
-  static FACE_DRAG_HINT_NDC_MARGIN = 0.7;
+  static FACE_DRAG_HINT_NDC_MARGIN = 0.3;
 
   private experience: Experience;
   private scene: THREE.Scene;
@@ -289,8 +289,14 @@ export class Face {
     }
     const m = Face.FACE_DRAG_HINT_NDC_MARGIN;
     const { x, y } = this.experience.pointer.state.ndc;
-    if (Math.abs(x) <= m && Math.abs(y) <= m) {
-      store.setIntroFaceDragHintDismissed(true);
+    if (this.isPortrait) {
+      if (Math.abs(x) <= m && y <= 0 && y >= -0.7) {
+        store.setIntroFaceDragHintDismissed(true);
+      }
+    } else {
+      if (x >= 0 && x <= 0.7 && Math.abs(y) <= m) {
+        store.setIntroFaceDragHintDismissed(true);
+      }
     }
   }
 

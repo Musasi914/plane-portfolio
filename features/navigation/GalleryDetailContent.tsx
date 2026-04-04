@@ -31,9 +31,7 @@ export default function GalleryDetailContent({ post }: Props) {
           }
         >
           <div className="flex items-center gap-2">
-            <span>
-              #{post.acf["work-number"].toString().padStart(2, "0")}
-            </span>
+            <span>#{post.acf["work-number"].toString().padStart(2, "0")}</span>
             <span
               className={`w-px rotate-12 bg-gray-700 block ${
                 isMobile ? "h-[1em]" : "h-[1.5em]"
@@ -42,23 +40,20 @@ export default function GalleryDetailContent({ post }: Props) {
             <span className="text-sm">{post.acf["work-type"]} work</span>
           </div>
           <div>
-            <h1
-              id="page-title"
-              className={isMobile ? "text-3xl" : "text-4xl"}
-            >
+            <h1 id="page-title" className={isMobile ? "text-3xl" : "text-4xl"}>
               {post.title.rendered}
             </h1>
             <span>{post.acf.work_period}</span>
           </div>
           <div className="flex gap-1 flex-wrap max-w-full text-xs tracking-wide">
             {post.acf.tec.map((tec) => (
-              <span key={tec} className="text-background bg-foreground p-1">
+              <span key={tec} className="text-background bg-foreground/80 p-1">
                 {tec}
               </span>
             ))}
           </div>
           <div
-            className="text-xs"
+            className="leading-snug tracking-wide"
             dangerouslySetInnerHTML={{ __html: post.acf.summary }}
           />
           <div className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-2 text-sm">
@@ -124,22 +119,16 @@ export default function GalleryDetailContent({ post }: Props) {
           id="detail-canvas"
           tabIndex={0}
           className={
-            isMobile
-              ? "relative contents"
-              : "relative block min-h-full col-2"
+            isMobile ? "relative contents" : "relative block min-h-full col-2"
           }
         >
-          <div
-            className={
-              isMobile ? "pb-24 contents" : "pt-8 pb-24 block"
-            }
-          >
+          <div className={isMobile ? "pb-24 contents" : "pt-8 pb-24 block"}>
             <div className="aspect-8/5 -order-10" />
             <article
               className={
                 isMobile
-                  ? "pb-20 pt-8 prose prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
-                  : "pb-0 pt-0 prose prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
+                  ? "pb-20 pt-8 prose-sm prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none border-t-2 border-foreground/20"
+                  : "pb-0 pt-0 prose-sm prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
               }
               dangerouslySetInnerHTML={{ __html: post.content.rendered }}
             />

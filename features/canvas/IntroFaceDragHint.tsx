@@ -25,7 +25,7 @@ export default function IntroFaceDragHint() {
       id="face-drag-hint"
       className={`absolute flex -translate-x-1/2 flex-col items-center gap-2 text-center pointer-events-none transition-[opacity,visibility] ${
         visible ? "opacity-100 visible" : "opacity-0 invisible"
-      } duration-700`}
+      } duration-700 delay-300`}
     >
       <div className="intro-face-drag-hint-icon">
         <svg
