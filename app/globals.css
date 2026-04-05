@@ -64,3 +64,10 @@
     animation: fade-in-soft 0.2s ease-out forwards;
   } */
 }
+
+@layer components {
+  .is-layout-flex {
+    display: flex;
+    gap: 1rem;
+  }
+}

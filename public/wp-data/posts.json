@@ -524,8 +524,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=9"
     },
-    "modified": "2026-03-24T08:16:21",
-    "modified_gmt": "2026-03-23T23:16:21",
+    "modified": "2026-04-04T14:27:22",
+    "modified_gmt": "2026-04-04T05:27:22",
     "slug": "portfolio",
     "status": "publish",
     "type": "page",
@@ -534,7 +534,7 @@
       "rendered": "福沢コウ Portfolio"
     },
     "content": {
-      "rendered": "\n<h2 class=\"wp-block-heading\">工夫点</h2>\n\n\n\n<p>複数のシーンをRenderTextureを用いて、各シーンをテクスチャとしてレンダリングしています。<br>条件をつけてアクティブなシーン（テクスチャ）だけ描画し、非アクティブシーンは完全に停止させているのでメモリ効率が良いです。</p>\n\n\n\n<p>アクセシビリティを徹底してみました。VoiceOver読み上げでのスクリーンリーダー対応チェックや、Tabフォーカストラップを実装し、キーボード操作でも問題ないようにしました。</p>\n\n\n\n<p>コードを通して、モダンなWeb開発のベストプラクティスを追求したつもりです。</p>\n\n\n\n<h2 class=\"wp-block-heading\">モデル部分</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"649\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png\" alt=\"\" class=\"wp-image-27\"/></figure>\n\n\n\n<p>コード全体を触っている時間と同じくらい、blenderでこの3dシーンを手作り・手直しする時間がありました。<br>軽量化のためベイクを用い、モデル自体の容量は54kbに抑えました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-full\"><img loading=\"lazy\" decoding=\"async\" width=\"465\" height=\"121\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png\" alt=\"\" class=\"wp-image-28\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png 465w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1-300x78.png 300w\" sizes=\"auto, (max-width: 465px) 100vw, 465px\" /></figure>\n\n\n\n<p>様々なパフォーマンス対策を講じました。特にGPU・メモリ負荷の抑制、読み込みの段階化、およびスマートフォンでのモデル読み込みとアニメーションの抑制に重点を置いています。</p>\n\n\n\n<p>GLB やテクスチャの数が多いセクションでは、SPでは3Dを読み込まず、軽量な画像で内容を説明しています。</p>\n\n\n\n<p>また、シーンの進行度を状態管理で保持し、スクロールに応じてオフスクリーンシーンの更新と重い3Dのマウントを段階的に行うことで、初期表示から前半までの負荷を抑えています。</p>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"723\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-723x1024.jpg\" alt=\"\" class=\"wp-image-94\"/></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"725\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-725x1024.jpg\" alt=\"\" class=\"wp-image-96\"/></figure>\n",
+      "rendered": "\n<h2 class=\"wp-block-heading\">工夫点</h2>\n\n\n\n<p>複数のシーンをRenderTextureを用いて、各シーンをテクスチャとしてレンダリングしています。<br>条件をつけてアクティブなシーン（テクスチャ）だけ描画し、非アクティブシーンは完全に停止させているのでメモリ効率が良いです。</p>\n\n\n\n<p>アクセシビリティを徹底してみました。VoiceOver読み上げでのスクリーンリーダー対応チェックや、Tabフォーカストラップを実装し、キーボード操作でも問題ないようにしました。</p>\n\n\n\n<p>コードを通して、モダンなWeb開発のベストプラクティスを追求したつもりです。</p>\n\n\n\n<h2 class=\"wp-block-heading\">モデル部分</h2>\n\n\n\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"649\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1024x649.png\" alt=\"\" class=\"wp-image-27\"/></figure>\n\n\n\n<p>コード全体を触っている時間と同じくらい、blenderでこの3dシーンを手作り・手直しする時間がありました。<br>軽量化のためベイクを用い、モデル自体の容量は54kbに抑えました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">パフォーマンス</h2>\n\n\n\n<figure class=\"wp-block-image size-full\"><img loading=\"lazy\" decoding=\"async\" width=\"465\" height=\"121\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png\" alt=\"\" class=\"wp-image-28\" srcset=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1.png 465w, https://freeportfolio.page.gd/wp-content/uploads/2026/03/image-1-300x78.png 300w\" sizes=\"auto, (max-width: 465px) 100vw, 465px\" /></figure>\n\n\n\n<p>様々なパフォーマンス対策を講じました。特にGPU・メモリ負荷の抑制、読み込みの段階化、およびスマートフォンでのモデル読み込みとアニメーションの抑制に重点を置いています。</p>\n\n\n\n<p>GLB やテクスチャの数が多いセクションでは、SPでは3Dを読み込まず、軽量な画像で内容を説明しています。</p>\n\n\n\n<p>また、シーンの進行度を状態管理で保持し、スクロールに応じてオフスクリーンシーンの更新と重い3Dのマウントを段階的に行うことで、初期表示から前半までの負荷を抑えています。</p>\n\n\n\n<div class=\"wp-block-columns is-layout-flex wp-container-core-columns-is-layout-28f84493 wp-block-columns-is-layout-flex\">\n<div class=\"wp-block-column is-layout-flow wp-block-column-is-layout-flow\" style=\"flex-basis:50%\">\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"723\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/SOTD18886_page-0001-723x1024.jpg\" alt=\"\" class=\"wp-image-94\"/></figure>\n</div>\n\n\n\n<div class=\"wp-block-column is-layout-flow wp-block-column-is-layout-flow\" style=\"flex-basis:50%\">\n<figure class=\"wp-block-image size-large\"><img loading=\"lazy\" decoding=\"async\" width=\"725\" height=\"1024\" src=\"https://freeportfolio.page.gd/wp-content/uploads/2026/03/cssda-special-kudos_page-0001-725x1024.jpg\" alt=\"\" class=\"wp-image-96\"/></figure>\n</div>\n</div>\n",
       "protected": false
     },
     "excerpt": {
@@ -603,14 +603,14 @@
       ],
       "version-history": [
         {
-          "count": 10,
+          "count": 11,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 100,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/100"
+          "id": 112,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/112"
         }
       ],
       "wp:attachment": [
