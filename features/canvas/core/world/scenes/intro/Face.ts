@@ -97,17 +97,9 @@ export class Face {
   }
   private onRotateClick = () => {
     this.faceControls.rotateEnabled = !this.faceControls.rotateEnabled;
-    this.faceControls.rotateButton.querySelector("span")!.textContent = this
-      .faceControls.rotateEnabled
-      ? "ON"
-      : "OFF";
   };
   private onSmileClick = () => {
     this.faceControls.smileEnabled = !this.faceControls.smileEnabled;
-    this.faceControls.smileButton.querySelector("span")!.textContent = this
-      .faceControls.smileEnabled
-      ? "ON"
-      : "OFF";
 
     gsap.to(this.faceMesh.material.uniforms.uSwitchProgress, {
       value: this.faceControls.smileEnabled ? 1 : 0,
@@ -374,11 +366,6 @@ export class Face {
   }
 
   reset() {
-    this.faceControls.rotateEnabled = true;
-    this.faceControls.smileEnabled = false;
-    this.faceControls.rotateButton.querySelector("span")!.textContent = "ON";
-    this.faceControls.smileButton.querySelector("span")!.textContent = "OFF";
-    this.faceMesh.material.uniforms.uSwitchProgress.value = 0;
     useStore.getState().setIntroFaceDragHintDismissed(false);
   }
 }

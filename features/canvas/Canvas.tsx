@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useClientDeviceStore, useRouterStore, useStore } from "@/store/store";
 import { getHasMovedGallery } from "@/utils/storage";
@@ -9,6 +9,9 @@ import Experience from "./core/Experience";
 import IntroFaceDragHint from "./IntroFaceDragHint";
 
 export default function Canvas() {
+  const [isFaceRotated, setIsFaceRotated] = useState(true);
+  const [isFaceSmiled, setIsFaceSmiled] = useState(false);
+
   const canvasWrapper = useRef<HTMLDivElement>(null);
   const experience = useRef<Experience | null>(null);
 
@@ -69,8 +72,13 @@ export default function Canvas() {
         <div className="w-full h-full">
           <button
             id="face-rotate"
+            role="switch"
+            aria-checked={isFaceRotated}
             data-cursor-hover
-            onClick={makeClickSound}
+            onClick={() => {
+              setIsFaceRotated(!isFaceRotated);
+              makeClickSound();
+            }}
             onKeyDown={(e) => onKeyDown(e)}
             data-cursor-text="click"
             className={`absolute -translate-x-full -translate-y-full pointer-events-auto p-4 text-xs md:text-base transition-[opacity,visibility] duration-700 tracking-widest ${
@@ -80,12 +88,17 @@ export default function Canvas() {
             } `}
             aria-label="顔の回転のオンオフを切り替える"
           >
-            rotate: <span>ON</span>
+            rotate: <span>{isFaceRotated ? "ON" : "OFF"}</span>
           </button>
           <button
             id="face-smile"
+            role="switch"
+            aria-checked={isFaceSmiled}
             data-cursor-hover
-            onClick={makeClickSound}
+            onClick={() => {
+              setIsFaceSmiled(!isFaceSmiled);
+              makeClickSound();
+            }}
             onKeyDown={(e) => onKeyDown(e)}
             data-cursor-text="click"
             className={`absolute -translate-x-full pointer-events-auto p-4 text-xs md:text-base transition-[opacity,visibility] duration-700 tracking-widest ${
@@ -95,7 +108,7 @@ export default function Canvas() {
             } `}
             aria-label="顔の種類を切り替える"
           >
-            smile: <span>OFF</span>
+            smile: <span>{isFaceSmiled ? "ON" : "OFF"}</span>
           </button>
           <button
             id="move-to-detail"
@@ -194,6 +207,8 @@ export default function Canvas() {
               setEnableSound(!enableSound);
               playSfx("click");
             }}
+            role="switch"
+            aria-checked={enableSound}
             className={`absolute bottom-4 right-12 p-2 md:p-4 pointer-events-auto transition-[opacity,visibility] duration-700 tracking-widest ${
               phase === "introPlaying" || phase === "detail" || isTransitioning
                 ? "opacity-0 pointer-events-none invisible"
