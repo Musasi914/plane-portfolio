@@ -74,6 +74,7 @@ export default function Canvas() {
             id="face-rotate"
             role="switch"
             aria-checked={isFaceRotated}
+            type="button"
             data-cursor-hover
             onClick={() => {
               setIsFaceRotated(!isFaceRotated);
@@ -94,6 +95,7 @@ export default function Canvas() {
             id="face-smile"
             role="switch"
             aria-checked={isFaceSmiled}
+            type="button"
             data-cursor-hover
             onClick={() => {
               setIsFaceSmiled(!isFaceSmiled);
@@ -209,6 +211,7 @@ export default function Canvas() {
             }}
             role="switch"
             aria-checked={enableSound}
+            type="button"
             className={`absolute bottom-4 right-12 p-2 md:p-4 pointer-events-auto transition-[opacity,visibility] duration-700 tracking-widest ${
               phase === "introPlaying" || phase === "detail" || isTransitioning
                 ? "opacity-0 pointer-events-none invisible"
