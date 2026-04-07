@@ -127,8 +127,8 @@ export default function GalleryDetailContent({ post }: Props) {
             <article
               className={
                 isMobile
-                  ? "pb-20 pt-8 prose-sm prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none border-t-2 border-foreground/20"
-                  : "pb-0 pt-0 prose-sm prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
+                  ? "pb-20 pt-8 prose-sm prose-ul:list-disc prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none border-t-2 border-foreground/20"
+                  : "pb-0 pt-0 prose-sm prose-ul:list-disc prose-figure:h-auto prose-h2:font-medium prose-strong:font-medium text-foreground max-w-none"
               }
               dangerouslySetInnerHTML={{ __html: post.content.rendered }}
             />
