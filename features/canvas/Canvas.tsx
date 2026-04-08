@@ -15,16 +15,23 @@ export default function Canvas() {
   const canvasWrapper = useRef<HTMLDivElement>(null);
   const experience = useRef<Experience | null>(null);
 
-  const { phase, isTransitioning, enableSound, setEnableSound, onKeyDown } =
-    useStore(
-      useShallow((s) => ({
-        phase: s.phase,
-        isTransitioning: s.isTransitioning,
-        enableSound: s.enableSound,
-        setEnableSound: s.setEnableSound,
-        onKeyDown: s.onKeyDown,
-      }))
-    );
+  const {
+    phase,
+    isTransitioning,
+    enableSound,
+    setEnableSound,
+    onKeyDown,
+    isMobile,
+  } = useStore(
+    useShallow((s) => ({
+      phase: s.phase,
+      isTransitioning: s.isTransitioning,
+      enableSound: s.enableSound,
+      setEnableSound: s.setEnableSound,
+      onKeyDown: s.onKeyDown,
+      isMobile: s.isMobile,
+    }))
+  );
 
   const { onGoToIntro, onGoToGallery } = useRouterStore(
     useShallow((s) => ({
@@ -200,7 +207,7 @@ export default function Canvas() {
           </button>
         </div>
 
-        {device !== "safari" && (
+        {device !== "safari" && !isMobile && (
           <button
             onKeyDown={(e) => onKeyDown(e)}
             data-cursor-hover

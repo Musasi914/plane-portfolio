@@ -1,5 +1,6 @@
 "use client";
 
+import { preloadSfx } from "@/features/audio/sfx";
 import { useClientDeviceStore, useStore } from "@/store/store";
 import { useEffect } from "react";
 import { useShallow } from "zustand/shallow";
@@ -37,15 +38,18 @@ export default function ClientDeviceSync() {
 
       if (isMobile || dpr >= 3) {
         setQualityTier("low");
-        return;
-      }
-
-      if (dpr >= 2) {
+      } else if (dpr >= 2) {
         setQualityTier("medium");
-        return;
+      } else {
+        setQualityTier("high");
       }
 
-      setQualityTier("high");
+      if (
+        !isMobile &&
+        useClientDeviceStore.getState().device !== "safari"
+      ) {
+        preloadSfx();
+      }
     };
 
     updateDeviceState();
