@@ -35,8 +35,8 @@ export class IntroScene implements SceneLike {
   constructor() {
     this.experience = Experience.getInstance();
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xeeeeee);
-    this.scene.fog = new THREE.Fog(0xeeeeee, 100, 2000);
+    this.scene.background = new THREE.Color(0xf0f0f0);
+    this.scene.fog = new THREE.Fog(0xf0f0f0, 100, 2000);
     this.isPortrait =
       this.experience.config.width < this.experience.config.height;
 

@@ -77,7 +77,7 @@ export class Renderer {
     this.canvasWrapper.appendChild(renderer.domElement);
     renderer.setPixelRatio(this.config.pixelRatio);
     renderer.setSize(this.config.width, this.config.height);
-    renderer.setClearColor(0xffffff);
+    renderer.setClearColor(0xf0f0f0);
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
     return renderer;
