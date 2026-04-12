@@ -207,7 +207,7 @@ export default function Canvas() {
           </button>
         </div>
 
-        {device !== "safari" && !isMobile && (
+        {device !== "safari" && !isMobile && phase !== "loading" && (
           <button
             onKeyDown={(e) => onKeyDown(e)}
             data-cursor-hover
