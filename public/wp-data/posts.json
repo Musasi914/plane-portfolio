@@ -6,8 +6,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=42"
     },
-    "modified": "2026-04-02T19:43:57",
-    "modified_gmt": "2026-04-02T10:43:57",
+    "modified": "2026-04-07T17:37:14",
+    "modified_gmt": "2026-04-07T08:37:14",
     "slug": "this-site",
     "status": "publish",
     "type": "page",
@@ -20,7 +20,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>背景 旧ポートフォリオの続きとして、技術的にいくつか挑戦したいことがあり、このサイトを制作しました。その中心にあるのが、R3F に頼らない生の Three.js での実装、URL と 3D シーンの共存、そして Rend [&hellip;]</p>\n",
+      "rendered": "<p>目的：すぐに伝わる 3分で「この人が何者か」が伝わり、作品にすぐ辿り着けることを優先しつつ、WebGLの表現を随所に加え、技術力もアピールすることを考えました。 具体的には以下を意識しました。 背景 旧ポートフォリオの続 [&hellip;]</p>\n",
       "protected": false
     },
     "author": 1,
@@ -85,14 +85,14 @@
       ],
       "version-history": [
         {
-          "count": 9,
+          "count": 10,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 110,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/110"
+          "id": 114,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/42/revisions/114"
         }
       ],
       "wp:attachment": [
@@ -320,8 +320,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=36"
     },
-    "modified": "2026-04-02T19:49:54",
-    "modified_gmt": "2026-04-02T10:49:54",
+    "modified": "2026-04-13T15:20:47",
+    "modified_gmt": "2026-04-13T06:20:47",
     "slug": "cafe",
     "status": "publish",
     "type": "page",
@@ -330,7 +330,7 @@
       "rendered": "cafe-moku"
     },
     "content": {
-      "rendered": "\n<p>これまで学んできた GSAP によるアニメーションや 3D を使った表現を、近所のカフェのようなサイトにそのまま当てはめると、どこかしら違和感があると感じました。</p>\n\n\n\n<p><strong>「表示が速く、情報にすぐたどり着け、余計な動きのないサイトこそがよいサイトではないだろうか？」</strong></p>\n\n\n\n<p>この考えを単純に否定するのではなく、「動きのないサイトでは伝えきれない空気感」を体験として表現できるかを検証するために本作を制作しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">世界観</h2>\n\n\n\n<p>スクロールで店内画像が全画面にスケールさせることで入店時の「世界に入っていく」感じを表現しました。</p>\n\n\n\n<p>内装は、まずテラス席1枚で空間全体の印象を見せ、スクロールに合わせて&nbsp;<code class=\"\">clip-path</code>&nbsp;とスケールで中心に寄せます。クリップの終点は固定値ではなく、レイアウト上の2点の座標差から算出し、リサイズにも対応しています。左右4枚の内装カットは CSS 変数&nbsp;<code class=\"\">--progress</code>&nbsp;と&nbsp;<code>translate3d</code>&nbsp;でインデックスごとにタイミングをずらし、店内を順に見せる動きにしています。</p>\n",
+      "rendered": "\n<p>これまで学んできた GSAP によるアニメーションや 3D を使った表現を、近所のカフェのようなサイトにそのまま当てはめると、どこかしら違和感があると感じました。</p>\n\n\n\n<p><strong>「表示が速く、情報にすぐたどり着け、余計な動きのないサイトこそがよいサイトではないだろうか？」</strong></p>\n\n\n\n<p>この考えを単純に否定するのではなく、「動きのないサイトでは伝えきれない空気感」を体験として表現できるかを検証しました。</p>\n\n\n\n<h2 class=\"wp-block-heading\">目的</h2>\n\n\n\n<p>住宅街の一角で、木の香りとゆったりした時間を味わえるカフェ<br>（昔、家具職人だった店主が「木に囲まれて過ごしたい」という想いから開業）。<br>お店の雰囲気を伝え、お客様に興味を持ってもらう。</p>\n\n\n\n<h2 class=\"wp-block-heading\">ターゲット</h2>\n\n\n\n<p>20~50代男女問わず</p>\n\n\n\n<h3 class=\"wp-block-heading\">想定シーン</h3>\n\n\n\n<ul class=\"wp-block-list\">\n<li>近隣でのんびりランチ・ティータイム</li>\n\n\n\n<li>一人でも落ち着いて過ごしたい人</li>\n\n\n\n<li>駐車で立ち寄れる層（近郊ドライブ含む）</li>\n</ul>\n\n\n\n<h2 class=\"wp-block-heading\">事業内容</h2>\n\n\n\n<p>昔家具職人だった店主が木の香りの中でゆったりした時間を過ごしたくて初めたカフェ。</p>\n\n\n\n<p>地元の旬の食材を使った軽食やきまぐれランチ（日替わり）</p>\n\n\n\n<h2 class=\"wp-block-heading\">Webサイトに期待する効果</h2>\n\n\n\n<ul class=\"wp-block-list\">\n<li>店内の雰囲気の宣伝</li>\n\n\n\n<li>初回来店の不安解消</li>\n\n\n\n<li>リピーター</li>\n</ul>\n\n\n\n<h2 class=\"wp-block-heading\">事業の特徴・長所分析</h2>\n\n\n\n<p>「木」と職人背景のストーリー：木の香り、空間へのこだわりと自然につながる。</p>\n\n\n\n<p>気まぐれランチ：その日しかない期待感と、地元の食材の親しみやすさ。</p>\n\n\n\n<p>滞在型のカフェ</p>\n\n\n\n<p>店内の雰囲気を重視しており、テラス席あり。</p>\n\n\n\n<h2 class=\"wp-block-heading\">世界観</h2>\n\n\n\n<p>スクロールで店内画像が全画面にスケールさせることで入店時の「世界に入っていく」感じを表現しました。</p>\n\n\n\n<p>内装は、まずテラス席1枚で空間全体の印象を見せ、スクロールに合わせて&nbsp;<code class=\"\">clip-path</code>&nbsp;とスケールで中心に寄せます。クリップの終点は固定値ではなく、レイアウト上の2点の座標差から算出し、リサイズにも対応しています。左右4枚の内装カットは CSS 変数&nbsp;<code class=\"\">--progress</code>&nbsp;と&nbsp;<code>translate3d</code>&nbsp;でインデックスごとにタイミングをずらし、店内を順に見せる動きにしています。</p>\n\n\n\n<h2 class=\"wp-block-heading\">反省点</h2>\n\n\n\n<p>雰囲気の伝達はできているが、来店導線（地図・連絡）や情報の伝達が弱い。</p>\n\n\n\n<p>コーディングは速度優先で進めたため、スマートフォン向けのレイアウト・挙動・深いアクセシビリティ（アクセシビリティ、セマンティクス）はあまり手を付けていない。本サイトは実サービス公開を前提とした完成品ではなく、デザイン・ビジュアル表現を検証する目的のものであり、上記の未対応はその前提のもとでの割り切りである。今後、実運用を想定する場合は、SP対応とアクセシビリティを最優先の課題として扱う必要がある。</p>\n\n\n\n<p></p>\n",
       "protected": false
     },
     "excerpt": {
@@ -391,14 +391,14 @@
       ],
       "version-history": [
         {
-          "count": 7,
+          "count": 11,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 111,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/111"
+          "id": 119,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/36/revisions/119"
         }
       ],
       "wp:attachment": [
