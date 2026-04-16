@@ -524,8 +524,8 @@
     "guid": {
       "rendered": "https://freeportfolio.page.gd/?page_id=9"
     },
-    "modified": "2026-04-14T13:25:37",
-    "modified_gmt": "2026-04-14T04:25:37",
+    "modified": "2026-04-16T14:27:30",
+    "modified_gmt": "2026-04-16T05:27:30",
     "slug": "portfolio",
     "status": "publish",
     "type": "page",
@@ -557,7 +557,7 @@
       "work-number": 1,
       "work-type": "personal",
       "work_period": "2025/08/15 ~ 10/01",
-      "summary": "Three.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\n\r\nCSS Design Awards で <strong>Special Kudos・Best UI Design・Best UX Design・Best Innovation</strong> を、\r\nCSS Winner で <strong>Site Of The Day</strong> を受賞しました。\r\n\r\nまた、自分がよく見ていたサイト<a href=\"https://responsive-jp.com/16434.html\" target=\"_blank\" rel=\"noopener\">「Responsive Web Design JP」</a>に掲載されたことも嬉しかったです。",
+      "summary": "福沢コウというのは私の活動名です。好きなアニメからとりました。\r\n\r\nThree.js を学び始めて3ヶ月、一通り基礎が身についたタイミングで制作したポートフォリオです。\r\n\r\nCSS Design Awards で <strong>Special Kudos・Best UI Design・Best UX Design・Best Innovation</strong> を、\r\nCSS Winner で <strong>Site Of The Day</strong> を受賞しました。\r\n\r\nまた、自分がよく見ていたサイト<a href=\"https://responsive-jp.com/16434.html\" target=\"_blank\" rel=\"noopener\">「Responsive Web Design JP」</a>に掲載されたことも嬉しかったです。",
       "site_url": "https://koh-fukuzawa.com/",
       "github_url": "https://github.com/Musasi914/koh-fukuzawa-portfolio",
       "tec": [
@@ -603,14 +603,14 @@
       ],
       "version-history": [
         {
-          "count": 12,
+          "count": 13,
           "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 121,
-          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/121"
+          "id": 123,
+          "href": "https://freeportfolio.page.gd/wp-json/wp/v2/pages/9/revisions/123"
         }
       ],
       "wp:attachment": [
